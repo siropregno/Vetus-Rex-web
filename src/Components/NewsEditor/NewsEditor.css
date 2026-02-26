@@ -1,0 +1,169 @@
+.news-editor {
+  border: 1px solid rgba(255, 140, 33, 0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 140, 33, 0.03);
+}
+
+/* Toolbar */
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(255, 140, 33, 0.06);
+  border-bottom: 1px solid rgba(255, 140, 33, 0.15);
+  flex-wrap: wrap;
+}
+
+.toolbar-group {
+  display: flex;
+  gap: 2px;
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 4px;
+}
+
+.toolbar-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--wht);
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: var(--font-ui);
+  transition: all 0.15s ease;
+  min-width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toolbar-btn:hover {
+  background: rgba(255, 140, 33, 0.15);
+  border-color: rgba(255, 140, 33, 0.2);
+}
+
+.toolbar-btn.active {
+  background: var(--accent);
+  color: white;
+}
+
+/* Editor content area */
+.editor-content {
+  min-height: 300px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.editor-content .tiptap {
+  padding: 16px;
+  min-height: 300px;
+  color: var(--wht);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  outline: none;
+}
+
+.editor-content .tiptap:focus {
+  outline: none;
+}
+
+/* Placeholder */
+.editor-content .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  height: 0;
+}
+
+/* Content styles within editor */
+.editor-content .tiptap h2 {
+  font-family: var(--font-ui);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--wht);
+}
+
+.editor-content .tiptap h3 {
+  font-family: var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+  color: var(--wht);
+}
+
+.editor-content .tiptap p {
+  margin: 0.5rem 0;
+}
+
+.editor-content .tiptap ul,
+.editor-content .tiptap ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.editor-content .tiptap li {
+  margin: 0.25rem 0;
+}
+
+.editor-content .tiptap blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--light-grey);
+  font-style: italic;
+}
+
+.editor-content .tiptap hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1.5rem 0;
+}
+
+.editor-content .tiptap a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.editor-content .tiptap img.editor-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.editor-content .tiptap strong {
+  font-weight: 700;
+}
+
+.editor-content .tiptap s {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .editor-toolbar {
+    padding: 6px 8px;
+  }
+
+  .toolbar-btn {
+    padding: 4px 6px;
+    font-size: 0.8rem;
+    min-width: 28px;
+  }
+
+  .editor-content .tiptap {
+    padding: 12px;
+    min-height: 200px;
+  }
+}

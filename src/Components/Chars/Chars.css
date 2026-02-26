@@ -1,0 +1,283 @@
+/* Contenedor principal */
+.chars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.chars-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Estados vacío y carga */
+.empty-state, .loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  color: var(--text-secondary, #8b949e);
+}
+
+.empty-state {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.empty-state p {
+  margin: 0 0 2rem 0;
+  color: var(--light-grey);
+  font-size: 14px;
+}
+
+/* Grid de personajes */
+.characters-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.character-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--dark-grey);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.character-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.character-info {
+  text-align: left;
+}
+
+.character-info h3 {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  margin: 0;
+  color: var(--wht);
+  font-size: 18px;
+}
+
+.character-level {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.character-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Botones de acción compartidos */
+.edit-btn, .delete-btn, .close-btn {
+  background: none;
+  border: 1px solid var(--dark-grey);
+  border-radius: 6px;
+  padding: 0.5rem;
+  color: var(--wht);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.edit-btn:hover {
+  background: var(--accent);
+  color: var(--wht);
+}
+
+.delete-btn:hover, .close-btn:hover {
+  background: var(--danger);
+  color: var(--wht);
+}
+
+/* Sección agregar personaje */
+.add-character-section {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.character-form-modal {
+  background: var(--surface-color, #1a1a1a);
+  border: 1px solid var(--border-color, #333);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color, #333);
+}
+
+.form-header h3 {
+  margin: 0;
+  color: var(--text-primary, #fff);
+  font-size: 1.3rem;
+}
+
+/* Formulario */
+.character-form {
+  padding: 1.5rem;
+}
+
+.form-error {
+  background: rgba(218, 54, 51, 0.1);
+  border: 1px solid #da3633;
+  color: #da3633;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary, #fff);
+  font-weight: 500;
+}
+
+/* Inputs compartidos */
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(255, 140, 33, 0.06);
+  border: 1px solid rgba(255, 140, 33, 0.15);
+  border-radius: 6px;
+  color: var(--wht);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 140, 33, 0.1);
+  box-shadow: 0 0 0 2px rgba(255, 140, 33, 0.15);
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group select option {
+  background: var(--dark-grey);
+  color: var(--wht);
+  padding: 0.5rem;
+}
+
+/* Acciones del formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.cancel-btn, .submit-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid;
+}
+
+.cancel-btn {
+  background: none;
+  color: var(--text-secondary, #8b949e);
+  border-color: var(--border-color, #333);
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background: var(--border-color, #333);
+  color: var(--text-primary, #fff);
+}
+
+.submit-btn {
+  background: var(--accent-color, #58a6ff);
+  color: white;
+  border-color: var(--accent-color, #58a6ff);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: var(--accent-hover, #4a90e2);
+  border-color: var(--accent-hover, #4a90e2);
+}
+
+.cancel-btn:disabled, .submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .chars-container {
+    gap: 1rem;
+  }
+
+  .characters-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .character-form-modal {
+    margin: 0;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .cancel-btn, .submit-btn {
+    width: 100%;
+  }
+}
