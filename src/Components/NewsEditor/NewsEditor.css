@@ -64,7 +64,8 @@
 .editor-content .tiptap {
   padding: 16px;
   min-height: 300px;
-  color: var(--wht);
+  color: rgb(230, 217, 199);
+  caret-color: rgb(230, 92, 56);
   font-family: var(--font-body);
   font-size: 0.95rem;
   line-height: 1.7;
@@ -73,13 +74,18 @@
 
 .editor-content .tiptap:focus {
   outline: none;
+  background-color: rgb(36, 28, 23);
+}
+
+.editor-content .tiptap ::selection {
+  background-color: rgba(230, 92, 56, 0.3);
 }
 
 /* Placeholder */
 .editor-content .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgb(128, 112, 97);
   pointer-events: none;
   height: 0;
 }

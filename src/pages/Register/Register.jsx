@@ -117,10 +117,10 @@ const Register = () => {
               placeholder="Password"
               required
               disabled={loading}
-              minLength={6}
+              minLength={8}
             />
             <small className="form-help">
-              Minimum 6 characters
+              Minimum 8 characters
             </small>
           </div>
 

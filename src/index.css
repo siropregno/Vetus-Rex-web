@@ -161,52 +161,33 @@ body {
 .input-field {
     width: 100%;
     padding: 0.75rem 1rem;
-    background: rgba(255, 140, 33, 0.06);
-    border: 1px solid rgba(255, 140, 33, 0.15);
-    border-radius: 6px;
-    color: var(--wht);
+    background-color: rgb(31, 23, 18);
+    border: 1px solid rgb(77, 61, 46);
+    border-radius: 4px;
+    color: rgb(230, 217, 199);
+    caret-color: rgb(230, 92, 56);
     font-size: 14px;
     transition: all 0.3s ease;
 }
 
 .input-field:focus {
     outline: none;
-    border-color: var(--accent);
-    background: rgba(255, 140, 33, 0.1);
-    box-shadow: 0 0 0 2px rgba(255, 140, 33, 0.15);
+    background-color: rgb(36, 28, 23);
+    border-color: rgb(230, 92, 56);
 }
 
 .input-field:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    background: rgba(255, 140, 33, 0.03);
+    background-color: rgb(31, 23, 18);
 }
 
 .input-field::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgb(128, 112, 97);
 }
 
-/* Light mode styles para input-field */
-@media (prefers-color-scheme: light) {
-    .input-field {
-        background: rgba(255, 140, 33, 0.04);
-        border: 1px solid rgba(255, 140, 33, 0.15);
-        color: #213547;
-    }
-
-    .input-field:focus {
-        border-color: var(--accent);
-        background: rgba(255, 140, 33, 0.08);
-        box-shadow: 0 0 0 2px rgba(255, 140, 33, 0.15);
-    }
-
-    .input-field:disabled {
-        background: rgba(255, 140, 33, 0.02);
-    }
-
-    .input-field::placeholder {
-        color: rgba(33, 53, 71, 0.4);
-    }
+.input-field::selection {
+    background-color: rgba(230, 92, 56, 0.3);
 }
 
 .button-a {
