@@ -17,6 +17,9 @@ dist-ssr
 .env.local
 .env.production
 
+# Database
+*.sql
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
