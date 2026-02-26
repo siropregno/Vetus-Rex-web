@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /news/create
+Disallow: /news/edit/
+
+Sitemap: https://vetusrex.online/sitemap.xml
