@@ -208,6 +208,18 @@ export const AuthProvider = ({ children }) => {
 
       if (error) throw error
       
+      // Sync username/full_name to auth metadata and display_name
+      if (updates.username || updates.full_name) {
+        const displayName = updates.username || updates.full_name
+        await supabase.auth.updateUser({
+          data: {
+            ...(updates.username && { username: updates.username }),
+            ...(updates.full_name && { full_name: updates.full_name }),
+            display_name: displayName
+          }
+        })
+      }
+
       setProfile(data)
       return { data, error: null }
     } catch (error) {
