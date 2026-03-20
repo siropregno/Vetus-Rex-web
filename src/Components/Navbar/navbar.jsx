@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import logger from '../../utils/logger';
 import './navbar.css';
@@ -10,6 +10,12 @@ const Navbar = () => {
   const { user, profile, isAuthenticated, signOut } = useAuthContext();
 
   const currentPath = window.location.pathname;
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.classList.toggle('modal-open', isMenuOpen);
+    return () => document.body.classList.remove('modal-open');
+  }, [isMenuOpen]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   

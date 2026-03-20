@@ -32,7 +32,14 @@ function App() {
           </main>
           <footer>
             <div className="footer">
-              <p>&copy; 2025 TikiTiki Studios. all rights reserved.</p>
+              <div className="footer-inner">
+                <nav className="footer-links">
+                  <a href="/">Home</a>
+                  <a href="/news">News</a>
+                  <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">Download</a>
+                </nav>
+                <p className="footer-copy">&copy; 2026 TikiTiki Studios. All rights reserved.</p>
+              </div>
             </div>
           </footer>
         </div>

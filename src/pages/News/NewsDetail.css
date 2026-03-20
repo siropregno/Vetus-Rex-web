@@ -43,12 +43,12 @@
 .news-detail-header {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-md);
 }
 
 .news-detail-tag {
   align-self: flex-start;
-  padding: 4px 12px;
+  padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-xs);
   font-size: 0.75rem;
   font-weight: 600;
@@ -73,7 +73,7 @@
 .news-detail-author {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-sm);
 }
 
 .news-detail-avatar {

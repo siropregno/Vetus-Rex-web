@@ -5,6 +5,8 @@
   padding: 2.5rem;
   position: relative;
   z-index: 1;
+  background: var(--dark-grey);
+  border: 1px solid var(--wht-6);
 }
 
 /* Header */
@@ -38,7 +40,7 @@
 
 .login-form .form-group {
   align-items: center;
-  width: 90%;
+  width: 100%;
 }
 
 .form-label {
@@ -145,65 +147,19 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .login-container {
-    padding: var(--space-lg);
-  }
-  
   .login-card {
     padding: var(--space-2xl);
   }
-  
 }
 
 @media (max-width: 480px) {
   .login-card {
     padding: var(--space-xl);
+    border-radius: var(--radius-lg);
   }
   
   .toggle-text {
     flex-direction: column;
     gap: var(--space-xs);
-  }
-}
-
-/* Light Mode Support */
-@media (prefers-color-scheme: light) {
-  .login-container {
-    background: #f8fafc;
-  }
-  
-  .login-card {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(212, 29, 29, 0.1);
-  }
-  
-  .login-title {
-    color: #1a202c;
-    background: linear-gradient(135deg, #1a202c, rgba(26, 32, 44, 0.8));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .login-subtitle {
-    color: rgba(26, 32, 44, 0.7);
-  }
-  
-  .form-label {
-    color: #1a202c;
-  }
-  
-  /* Los estilos de light mode para inputs están en index.css */
-  
-  .toggle-text {
-    color: rgba(26, 32, 44, 0.7);
-  }
-  
-  .back-btn {
-    color: rgba(26, 32, 44, 0.5);
-  }
-  
-  .back-btn:hover:not(:disabled) {
-    color: rgba(26, 32, 44, 0.8);
   }
 }

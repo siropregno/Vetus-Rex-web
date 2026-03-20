@@ -170,9 +170,33 @@
   .avatar-initials {
     font-size: 2rem;
   }
+
+  .avatar-actions {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
   
+  .profile-form .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-form .form-group label {
+    text-align: left;
+  }
+
   .button-group {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .toast {
+    left: var(--space-lg);
+    right: var(--space-lg);
+    bottom: var(--space-lg);
+    min-width: auto;
+    max-width: none;
   }
 }
 

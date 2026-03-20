@@ -33,18 +33,6 @@
   margin: 0 auto;
 }
 
-/* Light mode styles */
-@media (prefers-color-scheme: light) {
-  .container h1 {
-    color: #213547;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .container p {
-    color: rgba(33, 53, 71, 0.8);
-  }
-}
-
 /* Mobile responsive */
 @media (max-width: 768px) {
   .main-content {
@@ -55,6 +43,4 @@
   .container {
     padding: 0 var(--space-lg);
   }
-
-
 }

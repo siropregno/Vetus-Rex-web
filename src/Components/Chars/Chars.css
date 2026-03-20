@@ -50,7 +50,7 @@
   background: var(--dark-grey);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: var(--space-xl);
   transition: all var(--transition-base);
 }
 

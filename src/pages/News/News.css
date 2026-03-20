@@ -98,11 +98,31 @@
   }
 
   .news-tags-filter {
-    gap: 6px;
+    gap: var(--space-sm);
   }
 
   .tag-filter-btn {
     padding: 5px 12px;
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .news-tags-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-sm);
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+
+  .news-tags-filter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tag-filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 }

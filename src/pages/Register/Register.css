@@ -5,6 +5,8 @@
   padding: 2.5rem;
   position: relative;
   z-index: 1;
+  background: var(--dark-grey);
+  border: 1px solid var(--wht-6);
 }
 
 /* Header */
