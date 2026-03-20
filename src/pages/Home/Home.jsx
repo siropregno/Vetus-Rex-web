@@ -50,7 +50,7 @@ const Home = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Play Now
+              Coming soon - Try it on itch.io →
             </a>
           </div>
         </div>
