@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import DOMPurify from 'dompurify'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getNewsById, deleteNews, deleteNewsImage } from '../../lib/database'
-import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS } from '../../utils/helpers'
+import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
 import logger from '../../utils/logger'
 import './NewsDetail.css'
@@ -66,7 +66,7 @@ const NewsDetail = () => {
 
         logger.success('Article deleted')
         setModal({ isOpen: false })
-        window.location.href = '/news'
+        window.location.href = langPath('/news')
       },
     })
   }
@@ -86,7 +86,7 @@ const NewsDetail = () => {
       <div className="news-detail-page">
         <div className="news-detail-error">
           <p>{error || t('newsDetail.articleNotFound')}</p>
-          <button className="button-a" onClick={() => { window.location.href = '/news' }}>
+          <button className="button-a" onClick={() => { window.location.href = langPath('/news') }}>
             {t('newsDetail.backToNews')}
           </button>
         </div>
@@ -99,7 +99,7 @@ const NewsDetail = () => {
 
   return (
     <div className="news-detail-page">
-      <button className="news-detail-back" onClick={() => { window.location.href = '/news' }}>
+      <button className="news-detail-back" onClick={() => { window.location.href = langPath('/news') }}>
         {t('newsDetail.backToNews')}
       </button>
 
@@ -152,7 +152,7 @@ const NewsDetail = () => {
         <div className="news-detail-admin-actions">
           <button
             className="button-a"
-            onClick={() => { window.location.href = `/news/edit/${article.id}` }}
+            onClick={() => { window.location.href = langPath(`/news/edit/${article.id}`) }}
           >
             {t('newsDetail.edit')}
           </button>

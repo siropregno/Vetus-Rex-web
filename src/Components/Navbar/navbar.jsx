@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { SUPPORTED_LANGS, langPath } from '../../utils/helpers';
 import logger from '../../utils/logger';
 import './navbar.css';
 import logo from '../../assets/logo-big.png';
@@ -40,13 +41,20 @@ const Navbar = () => {
 
   const changeLanguage = (lang) => {
     i18n.changeLanguage(lang);
-    setIsLangOpen(false);
+    const path = window.location.pathname;
+    const segments = path.split('/');
+    if (SUPPORTED_LANGS.includes(segments[1])) {
+      segments[1] = lang;
+    } else {
+      segments.splice(1, 0, lang);
+    }
+    window.location.href = segments.join('/') || `/${lang}`;
   };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const { user, profile, isAuthenticated, signOut } = useAuthContext();
 
-  const currentPath = window.location.pathname;
+  const currentPath = window.location.pathname.replace(/^\/(en|es|de)/, '');
 
 
   useEffect(() => {
@@ -64,12 +72,12 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
   const handleAuth = () => {
-    window.location.href = '/login';
+    window.location.href = langPath('/login');
     setIsMenuOpen(false);
   };
 
   const handleProfile = () => {
-    window.location.href = '/profile';
+    window.location.href = langPath('/profile');
     setIsMenuOpen(false);
   };
 
@@ -96,7 +104,7 @@ const Navbar = () => {
         <div className="navbar-container">
 
           <div className="brand-section">
-            <a href="/" className="brand-link">
+            <a href={langPath('/')} className="brand-link">
               <img src={logo} alt="" />
             </a>
             <div className={`lang-dropdown ${isLangOpen ? 'open' : ''}`}>
@@ -122,8 +130,8 @@ const Navbar = () => {
 
           <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
             <div className="nav-links">
-              <a href="/" className={`nav-link${currentPath === '/' ? ' active' : ''}`}>{t('nav.home')}</a>
-              <a href="/news" className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>{t('nav.news')}</a>
+              <a href={langPath('/')} className={`nav-link${currentPath === '/' || currentPath === '' ? ' active' : ''}`}>{t('nav.home')}</a>
+              <a href={langPath('/news')} className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>{t('nav.news')}</a>
               <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
             </div>
             
@@ -176,7 +184,7 @@ const Navbar = () => {
                   </div>
                 </div>
               ) : (
-                <a href="/login" className="button-a">
+                <a href={langPath('/login')} className="button-a">
                   {t('nav.signIn')}
                 </a>
               )}

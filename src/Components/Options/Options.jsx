@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { langPath } from '../../utils/helpers'
 import Modal from '../Modal/Modal'
 import logger from '../../utils/logger'
 import './Options.css'
@@ -60,7 +61,7 @@ const Options = () => {
       }
     } else if (modal.step === 'success') {
       setModal(m => ({ ...m, isOpen: false }))
-      window.location.href = '/'
+      window.location.href = langPath('/')
     }
   }
 

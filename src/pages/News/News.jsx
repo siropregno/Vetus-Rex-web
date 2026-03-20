@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getAllNews } from '../../lib/database'
-import { NEWS_TAGS } from '../../utils/helpers'
+import { NEWS_TAGS, langPath } from '../../utils/helpers'
 import NewsCard from '../../Components/NewsCard/NewsCard'
 import logger from '../../utils/logger'
 import './News.css'
@@ -71,7 +71,7 @@ const News = () => {
           {isAdmin && (
             <button
               className="button-a"
-              onClick={() => { window.location.href = '/news/create' }}
+              onClick={() => { window.location.href = langPath('/news/create') }}
             >
               {t('news.newPost')}
             </button>

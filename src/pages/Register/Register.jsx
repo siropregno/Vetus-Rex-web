@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { langPath } from '../../utils/helpers'
 import logger from '../../utils/logger'
 import './Register.css'
 
@@ -21,7 +22,7 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      window.location.href = '/'
+      window.location.href = langPath('/')
     }
   }, [user])
 
@@ -58,7 +59,7 @@ const Register = () => {
       if (error) {
         setError(error.message)
       } else {
-        window.location.href = '/'
+        window.location.href = langPath('/')
       }
     } catch (err) {
       setError(t('register.unexpectedError'))
@@ -155,7 +156,7 @@ const Register = () => {
         <div className="register-footer">
           <p className="toggle-text">
             {t('register.hasAccount')}
-            <a href="/login" className="toggle-btn">
+            <a href={langPath('/login')} className="toggle-btn">
               {t('register.signIn')}
             </a>
           </p>
@@ -165,7 +166,7 @@ const Register = () => {
         <div className="back-home">
           <button
             type="button"
-            onClick={() => { window.location.href = '/' }}
+            onClick={() => { window.location.href = langPath('/') }}
             className="back-btn"
             disabled={loading}
           >

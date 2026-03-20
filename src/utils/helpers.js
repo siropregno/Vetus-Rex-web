@@ -1,3 +1,13 @@
+export const SUPPORTED_LANGS = ['en', 'es', 'de']
+
+export const getLang = () => {
+  const seg = window.location.pathname.split('/')[1]
+  if (SUPPORTED_LANGS.includes(seg)) return seg
+  return localStorage.getItem('i18nextLng')?.substring(0, 2) || 'en'
+}
+
+export const langPath = (path) => `/${getLang()}${path}`
+
 /**
  * Strip HTML tags from a string and return plain text
  */

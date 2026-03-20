@@ -1,12 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS } from '../../utils/helpers'
+import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
 import './NewsCard.css'
 
 const NewsCard = ({ news }) => {
   const { t } = useTranslation()
   const handleClick = () => {
-    window.location.href = `/news/${news.id}`
+    window.location.href = langPath(`/news/${news.id}`)
   }
 
   const tag = NEWS_TAGS[news.tag]

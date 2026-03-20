@@ -1,6 +1,7 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
 import Navbar from './Components/Navbar/navbar'
 import Profile from './pages/profile/Profile'
@@ -11,6 +12,24 @@ import News from './pages/News/News'
 import NewsDetail from './pages/News/NewsDetail'
 import NewsCreate from './pages/News/NewsCreate'
 import NotFound from './pages/NotFound/NotFound'
+import { SUPPORTED_LANGS, getLang } from './utils/helpers'
+
+function LangLayout() {
+  const { lang } = useParams()
+  const { i18n } = useTranslation()
+
+  useEffect(() => {
+    if (SUPPORTED_LANGS.includes(lang) && i18n.language !== lang) {
+      i18n.changeLanguage(lang)
+    }
+  }, [lang, i18n])
+
+  if (!SUPPORTED_LANGS.includes(lang)) {
+    return <Navigate to={`/${getLang()}`} replace />
+  }
+
+  return <Outlet />
+}
 
 function App() {
   const { t } = useTranslation()
@@ -23,14 +42,17 @@ function App() {
           <main>
             <div className="content-zone">
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/news/create" element={<NewsCreate />} />
-                <Route path="/news/edit/:id" element={<NewsCreate />} />
-                <Route path="/news/:id" element={<NewsDetail />} />
+                <Route path="/" element={<Navigate to={`/${getLang()}`} replace />} />
+                <Route path="/:lang" element={<LangLayout />}>
+                  <Route index element={<Home />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="login" element={<Login />} />
+                  <Route path="register" element={<Register />} />
+                  <Route path="news" element={<News />} />
+                  <Route path="news/create" element={<NewsCreate />} />
+                  <Route path="news/edit/:id" element={<NewsCreate />} />
+                  <Route path="news/:id" element={<NewsDetail />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
@@ -39,8 +61,8 @@ function App() {
             <div className="footer">
               <div className="footer-inner">
                 <nav className="footer-links">
-                  <a href="/">{t('nav.home')}</a>
-                  <a href="/news">{t('nav.news')}</a>
+                  <a href={`/${getLang()}`}>{t('nav.home')}</a>
+                  <a href={`/${getLang()}/news`}>{t('nav.news')}</a>
                   <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
                 </nav>
                 <p className="footer-copy">{t('footer.rights')}</p>

@@ -4,6 +4,7 @@ import { getLatestNews } from '../../lib/database'
 import NewsCard from '../../Components/NewsCard/NewsCard'
 import Separator from '../../Components/Separator/Separator'
 import { faCrosshairs, faEarthAmericas, faGift } from '@fortawesome/free-solid-svg-icons'
+import { langPath } from '../../utils/helpers'
 import logger from '../../utils/logger'
 import bannerImage from '../../assets/banner1.png'
 import './Home.css'
@@ -65,7 +66,7 @@ const Home = () => {
       <section className="home-news">
         <div className="home-news-header">
           <h2 className="home-news-title">{t('home.latestNews')}</h2>
-          <button className="home-news-viewall" onClick={() => { window.location.href = '/news' }}>
+          <button className="home-news-viewall" onClick={() => { window.location.href = langPath('/news') }}>
             {t('home.viewAll')}
           </button>
         </div>

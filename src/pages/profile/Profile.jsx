@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import { langPath } from '../../utils/helpers'
 import logger from '../../utils/logger'
 import Info from '../../Components/Info/Info'
 import Chars from '../../Components/Chars/Chars'
@@ -18,7 +19,7 @@ const Profile = () => {
   useEffect(() => {
     if (!loading && !user) {
       logger.nav('User not authenticated, redirecting to home')
-      window.location.href = '/'
+      window.location.href = langPath('/')
     }
   }, [loading, user])
 

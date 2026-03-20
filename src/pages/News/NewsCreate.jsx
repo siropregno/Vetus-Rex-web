@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createNews, updateNews, getNewsById, uploadNewsImage, deleteNewsImage } from '../../lib/database'
-import { NEWS_TAGS } from '../../utils/helpers'
+import { NEWS_TAGS, langPath } from '../../utils/helpers'
 import NewsEditor from '../../Components/NewsEditor/NewsEditor'
 import logger from '../../utils/logger'
 import './NewsCreate.css'
@@ -32,11 +32,11 @@ const NewsCreate = () => {
   useEffect(() => {
     if (!authLoading && user && profile && !isAdmin) {
       logger.nav('Non-admin redirected from news create/edit')
-      window.location.href = '/news'
+      window.location.href = langPath('/news')
     }
     if (!authLoading && !user) {
       logger.nav('Unauthenticated user redirected from news create/edit')
-      window.location.href = '/news'
+      window.location.href = langPath('/news')
     }
   }, [authLoading, user, profile, isAdmin])
 
@@ -139,7 +139,7 @@ const NewsCreate = () => {
         }
 
         logger.success('Article updated')
-        window.location.href = `/news/${id}`
+        window.location.href = langPath(`/news/${id}`)
       } else {
         const { data: newArticle, error: createError } = await createNews({
           title: title.trim(),
@@ -156,7 +156,7 @@ const NewsCreate = () => {
         }
 
         logger.success('Article created', { id: newArticle.id })
-        window.location.href = `/news/${newArticle.id}`
+        window.location.href = langPath(`/news/${newArticle.id}`)
       }
     } catch (err) {
       logger.error('Error submitting article:', err)
@@ -179,7 +179,7 @@ const NewsCreate = () => {
 
   return (
     <div className="news-create-page">
-      <button className="news-detail-back" onClick={() => { window.location.href = isEditMode ? `/news/${id}` : '/news' }}>
+      <button className="news-detail-back" onClick={() => { window.location.href = isEditMode ? langPath(`/news/${id}`) : langPath('/news') }}>
         {t(isEditMode ? 'newsCreate.backToArticle' : 'newsCreate.backToNews')}
       </button>
 
