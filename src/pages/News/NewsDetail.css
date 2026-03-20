@@ -48,6 +48,7 @@
 
 .news-detail-tag {
   align-self: flex-start;
+  font-family: var(--font-ui);
   padding: var(--space-xs) var(--space-md);
   border-radius: var(--radius-xs);
   font-size: 0.75rem;

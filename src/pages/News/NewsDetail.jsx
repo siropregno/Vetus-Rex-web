@@ -117,7 +117,7 @@ const NewsDetail = () => {
           </span>
         )}
 
-        <h1 className="news-detail-title">{article.title}</h1>
+        <h2 className="news-detail-title">{article.title}</h2>
 
         <div className="news-detail-meta">
           <div className="news-detail-author">

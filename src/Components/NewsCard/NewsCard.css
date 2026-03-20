@@ -47,6 +47,7 @@
 
 .news-card-tag {
   position: absolute;
+  font-family: var(--font-ui);
   top: var(--space-md);
   left: var(--space-md);
   padding: var(--space-xs) var(--space-md);
