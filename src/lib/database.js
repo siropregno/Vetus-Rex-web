@@ -1,11 +1,9 @@
 import { supabase } from './supabase'
 import logger from '../utils/logger'
 
-// ─── News ────────────────────────────────────────────────
 
-/**
- * Obtener las últimas noticias (para Home)
- */
+
+
 export const getLatestNews = async (limit = 3) => {
   try {
     logger.db('Fetching latest news', { limit })
@@ -29,9 +27,7 @@ export const getLatestNews = async (limit = 3) => {
   }
 }
 
-/**
- * Obtener todas las noticias con paginación y filtro por tag
- */
+
 export const getAllNews = async (page = 1, pageSize = 9, tag = null) => {
   try {
     logger.db('Fetching all news', { page, pageSize, tag })
@@ -64,9 +60,7 @@ export const getAllNews = async (page = 1, pageSize = 9, tag = null) => {
   }
 }
 
-/**
- * Obtener una noticia por ID
- */
+
 export const getNewsById = async (id) => {
   try {
     logger.db('Fetching news by ID', { id })
@@ -90,9 +84,7 @@ export const getNewsById = async (id) => {
   }
 }
 
-/**
- * Crear una noticia
- */
+
 export const createNews = async ({ title, content, cover_image_url, tag, author_id }) => {
   try {
     logger.db('Creating news article', { title, tag })
@@ -116,9 +108,7 @@ export const createNews = async ({ title, content, cover_image_url, tag, author_
   }
 }
 
-/**
- * Actualizar una noticia
- */
+
 export const updateNews = async (id, updates) => {
   try {
     logger.db('Updating news article', { id, updates: Object.keys(updates) })
@@ -143,9 +133,7 @@ export const updateNews = async (id, updates) => {
   }
 }
 
-/**
- * Eliminar una noticia
- */
+
 export const deleteNews = async (id) => {
   try {
     logger.db('Deleting news article', { id })
@@ -168,9 +156,7 @@ export const deleteNews = async (id) => {
   }
 }
 
-/**
- * Subir imagen de portada de noticia
- */
+
 export const uploadNewsImage = async (file) => {
   try {
     logger.db('Uploading news image')
@@ -200,14 +186,12 @@ export const uploadNewsImage = async (file) => {
   }
 }
 
-/**
- * Eliminar imagen de portada de noticia
- */
+
 export const deleteNewsImage = async (url) => {
   try {
     logger.db('Deleting news image')
 
-    // Extract path from the public URL
+
     const path = url.split('/news-images/')[1]
     if (!path) {
       return { error: { message: 'Invalid image URL' } }
@@ -230,11 +214,9 @@ export const deleteNewsImage = async (url) => {
   }
 }
 
-// ─── Characters ──────────────────────────────────────────
 
-/**
- * Obtener todos los personajes de un usuario
- */
+
+
 export const getUserCharacters = async (userId) => {
   try {
     logger.db('Fetching characters for user', { userId })
@@ -258,9 +240,7 @@ export const getUserCharacters = async (userId) => {
   }
 }
 
-/**
- * Eliminar un personaje
- */
+
 export const deleteCharacter = async (characterId) => {
   try {
     logger.db('Deleting character', { characterId })

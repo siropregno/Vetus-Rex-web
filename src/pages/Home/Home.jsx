@@ -11,6 +11,8 @@ const Home = () => {
   const [latestNews, setLatestNews] = useState([])
   const [newsLoading, setNewsLoading] = useState(true)
 
+  useEffect(() => { document.title = 'Vetus Rex - Embark on an Unforgettable Adventure' }, [])
+
   useEffect(() => {
     const fetchLatestNews = async () => {
       setNewsLoading(true)
@@ -30,7 +32,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {/* Hero Banner */}
+
       <section className="home-banner">
         <div className="home-banner-bg" style={{ backgroundImage: `url(${bannerImage})` }} />
         <div className="home-banner-overlay" />

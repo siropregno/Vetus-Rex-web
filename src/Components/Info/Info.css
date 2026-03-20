@@ -101,9 +101,9 @@
   flex: 1;
 }
 
-/* Los inputs usan la clase .input-field del index.css */
 
-/* form-actions base is in index.css */
+
+
 
 .button-group {
   display: flex;
@@ -146,9 +146,9 @@
   color: var(--error-text);
 }
 
-/* .message styles are in index.css */
 
-/* Spinner uses global .spinner from index.css */
+
+
 
 @media (max-width: 768px) {
   .info-container {
@@ -200,7 +200,7 @@
   }
 }
 
-/* Toast Notification */
+
 .toast {
   position: fixed;
   bottom: 20px;

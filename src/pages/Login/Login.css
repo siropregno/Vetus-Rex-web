@@ -9,7 +9,7 @@
   border: 1px solid var(--wht-6);
 }
 
-/* Header */
+
 .login-header {
   text-align: center;
   margin-bottom: var(--space-2xl);
@@ -29,7 +29,7 @@
   margin: 0;
 }
 
-/* Form */
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@
   margin: 0;
 }
 
-/* Los inputs usan la clase .input-field del index.css */
+
 
 .form-help {
   font-size: 0.75rem;
@@ -58,7 +58,7 @@
   margin: 0;
 }
 
-/* Error Message */
+
 .error-message {
   display: flex;
   align-items: center;
@@ -84,9 +84,9 @@
   animation: spin 1s linear infinite;
 }
 
-/* @keyframes spin is in index.css */
 
-/* Footer */
+
+
 .login-footer {
   margin-top: 2.5rem;
   text-align: center;
@@ -120,7 +120,7 @@
   cursor: not-allowed;
 }
 
-/* Back to Home */
+
 .back-home {
   margin-top: var(--space-xl);
   text-align: center;
@@ -145,7 +145,7 @@
   cursor: not-allowed;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .login-card {
     padding: var(--space-2xl);

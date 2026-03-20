@@ -9,7 +9,7 @@
   border: 1px solid var(--wht-6);
 }
 
-/* Header */
+
 .register-header {
   text-align: center;
   margin-bottom: var(--space-2xl);
@@ -29,7 +29,7 @@
   margin: 0;
 }
 
-/* Form */
+
 .register-form {
   display: flex;
   flex-direction: column;
@@ -39,7 +39,7 @@
   margin-bottom: var(--space-lg);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .register-card {
     padding: var(--space-2xl);

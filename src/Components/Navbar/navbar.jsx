@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const currentPath = window.location.pathname;
 
-  // Lock body scroll when mobile menu is open
+
   useEffect(() => {
     document.body.classList.toggle('modal-open', isMenuOpen);
     return () => document.body.classList.remove('modal-open');
@@ -50,12 +50,12 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-container">
-          {/* Brand */}
+
           <a href="/" className="brand-link">
           <img src={logo} alt="" />
           </a>
           
-          {/* Navigation Menu */}
+
           <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
             <div className="nav-links">
               <a href="/" className={`nav-link${currentPath === '/' ? ' active' : ''}`}>Home</a>
@@ -63,7 +63,7 @@ const Navbar = () => {
               <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">Download</a>
             </div>
             
-            {/* Auth Section */}
+
             <div className="auth-section">
               {isAuthenticated ? (
                 <div className="user-dropdown">
@@ -119,7 +119,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile Toggle */}
+
           <button 
             className={`mobile-toggle ${isMenuOpen ? 'active' : ''}`}
             onClick={toggleMenu}

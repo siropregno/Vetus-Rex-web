@@ -14,7 +14,9 @@ const Register = () => {
   
   const { signUp, user } = useAuthContext()
 
-  // Redirect if already logged in
+  useEffect(() => { document.title = 'Register | Vetus Rex' }, [])
+
+
   useEffect(() => {
     if (user) {
       window.location.href = '/'
@@ -68,13 +70,13 @@ const Register = () => {
     <>
     <div className="content-container">
       <div className="register-card">
-        {/* Header */}
+
         <div className="register-header">
           <h1 className="register-title">Create Account</h1>
           <p className="register-subtitle">Join the community</p>
         </div>
 
-        {/* Form */}
+
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
             <input
@@ -147,7 +149,7 @@ const Register = () => {
           </button>
         </form>
 
-        {/* Link to Login */}
+
         <div className="register-footer">
           <p className="toggle-text">
             Already have an account?
@@ -157,7 +159,7 @@ const Register = () => {
           </p>
         </div>
 
-        {/* Back to Home */}
+
         <div className="back-home">
           <button
             type="button"

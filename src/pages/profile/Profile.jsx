@@ -10,7 +10,9 @@ const Profile = () => {
   const { user, loading } = useAuthContext()
   const [activeTab, setActiveTab] = useState('info')
 
-  // Redirect to home if not authenticated (only after loading finishes)
+  useEffect(() => { document.title = 'Profile | Vetus Rex' }, [])
+
+
   useEffect(() => {
     if (!loading && !user) {
       logger.nav('User not authenticated, redirecting to home')
@@ -35,7 +37,7 @@ const Profile = () => {
     }
   }
 
-  // Mientras carga la sesión, mostrar spinner
+
   if (loading || !user) {
     return (
       <div className="profile-container">

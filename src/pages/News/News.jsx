@@ -46,6 +46,8 @@ const News = () => {
     }
   }, [])
 
+  useEffect(() => { document.title = 'News | Vetus Rex' }, [])
+
   useEffect(() => {
     setPage(1)
     fetchNews(1, activeTag)
@@ -78,7 +80,7 @@ const News = () => {
         </p>
       </div>
 
-      {/* Tag filters */}
+
       <div className="news-tags-filter">
         <button
           className={`tag-filter-btn ${activeTag === null ? 'active' : ''}`}
@@ -98,7 +100,7 @@ const News = () => {
         ))}
       </div>
 
-      {/* Content */}
+
       {loading ? (
         <div className="news-loading">
           <p>Loading news...</p>

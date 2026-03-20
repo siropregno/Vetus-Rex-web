@@ -8,7 +8,6 @@
 }
 
 :root {
-    /* Colors */
     --blk: #030303;
     --accent: #ff8c21;
     --accent-secondary: #b91c1c;
@@ -21,7 +20,6 @@
     --surface: #1a1a1a;
     --discord: #5865F2;
 
-    /* Accent alpha */
     --accent-5: rgba(255, 140, 33, 0.05);
     --accent-6: rgba(255, 140, 33, 0.06);
     --accent-8: rgba(255, 140, 33, 0.08);
@@ -29,7 +27,6 @@
     --accent-15: rgba(255, 140, 33, 0.15);
     --accent-25: rgba(255, 140, 33, 0.25);
 
-    /* White alpha */
     --wht-3: rgba(255, 255, 255, 0.03);
     --wht-6: rgba(255, 255, 255, 0.06);
     --wht-8: rgba(255, 255, 255, 0.08);
@@ -41,13 +38,10 @@
     --wht-70: rgba(255, 255, 255, 0.7);
     --wht-80: rgba(255, 255, 255, 0.8);
 
-    /* Overlay */
     --overlay-bg: rgba(0, 0, 0, 0.7);
 
-    /* Gradients */
     --accent-gradient: linear-gradient(135deg, var(--accent), var(--accent-secondary));
 
-    /* Input colors */
     --input-bg: rgb(31, 23, 18);
     --input-bg-focus: rgb(36, 28, 23);
     --input-border: rgb(77, 61, 46);
@@ -56,7 +50,6 @@
     --input-placeholder: rgb(128, 112, 97);
     --input-selection: rgba(230, 92, 56, 0.3);
 
-    /* Status colors */
     --error-bg: #2d1b1b;
     --error-text: #f85149;
     --error-border: #f85149;
@@ -64,7 +57,6 @@
     --success-text: #3fb950;
     --success-border: #3fb950;
 
-    /* Spacing */
     --space-xs: 0.25rem;
     --space-sm: 0.5rem;
     --space-md: 0.75rem;
@@ -73,14 +65,12 @@
     --space-2xl: 2rem;
     --space-3xl: 3rem;
 
-    /* Container widths */
     --container-xs: 400px;
     --container-sm: 500px;
     --container-md: 600px;
     --container-lg: 800px;
     --container-xl: min(70vw, 1200px);
 
-    /* Border radius */
     --radius-xs: 4px;
     --radius-sm: 6px;
     --radius-md: 8px;
@@ -89,32 +79,24 @@
     --radius-full: 50px;
     --radius-circle: 50%;
 
-    /* Shadows */
     --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
     --shadow-accent: 0 8px 24px rgba(255, 140, 33, 0.1);
 
-    /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-base: 0.2s ease;
     --transition-slow: 0.3s ease;
 
-    /* Z-index */
     --z-dropdown: 1100;
     --z-sticky: 1000;
     --z-modal: 9999;
 
-    /* Line heights */
     --leading-normal: 1.4;
     --leading-relaxed: 1.6;
     --leading-loose: 1.8;
 
-    /* Fonts */
     --font-body: 'Candara', system-ui;
     --font-ui: "adorn-serif", sans-serif;
-
-    /* Breakpoints (reference only — can't use in media queries) */
-    /* --bp-mobile: 480px; --bp-tablet: 768px; */
 }
 
 .color-blk { color: var(--blk);}
@@ -123,10 +105,13 @@
 .color-light-grey { color: var(--light-grey);}
 .color-acc { color: var(--accent);}
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 h1, h2, h3, h4, h5, p, label, input, textarea, select, button, span, li, a {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 h1 { font-family: var(--font-ui); font-size: clamp(1.5rem, 4vw, 2.4em); font-weight: 800; }
@@ -147,14 +132,13 @@ body {
     background-color: var(--blk);
     color: var(--wht);
     margin: 0;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 body.modal-open {
     overflow: hidden;
 }
 
-/* Accessibility — keyboard focus indicator */
 :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -175,7 +159,6 @@ body.modal-open {
     background: radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 50%);
 }
-
 
 .content-container {
   width: 100%;
@@ -313,7 +296,6 @@ body.modal-open {
     background-color: var(--input-selection);
 }
 
-/* Button base — shared by all button variants */
 .button-a,
 .button-a-round,
 .button-b,
@@ -334,7 +316,6 @@ body.modal-open {
     font-family: var(--font-ui);
 }
 
-/* Variants */
 .button-a { background: var(--accent); }
 .button-a:hover { opacity: 0.9; }
 
@@ -348,7 +329,6 @@ body.modal-open {
 
 .button-discord { background: var(--discord); font-size: 20px; }
 
-/* Footer */
 .footer {
     font-family: var(--font-ui);
     background-color: var(--blk);
@@ -386,15 +366,11 @@ body.modal-open {
     font-size: 0.8rem;
 }
 
-/* GM tag */
 .gm-tag {
     color: var(--accent);
     font-weight: 700;
 }
 
-/* ===== Shared Utilities ===== */
-
-/* Spinner */
 .spinner {
     width: 24px;
     height: 24px;
@@ -417,7 +393,6 @@ body.modal-open {
     to { transform: rotate(360deg); }
 }
 
-/* Messages */
 .message {
     padding: 0.75rem;
     border-radius: var(--radius-md);
@@ -436,9 +411,6 @@ body.modal-open {
     border: 1px solid var(--success-border);
 }
 
-/* ===== Shared Layout ===== */
-
-/* Page container — standard page wrapper */
 .page-container {
     width: 100%;
     max-width: var(--container-xl);
@@ -454,7 +426,6 @@ body.modal-open {
     gap: var(--space-xl);
 }
 
-/* State containers — loading, empty, error */
 .state-container {
     display: flex;
     flex-direction: column;
@@ -470,7 +441,6 @@ body.modal-open {
     padding: 4rem;
 }
 
-/* Form group base */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -484,7 +454,6 @@ body.modal-open {
     color: var(--wht);
 }
 
-/* Form actions base */
 .form-actions {
     display: flex;
     gap: var(--space-lg);
@@ -492,7 +461,6 @@ body.modal-open {
     margin-top: var(--space-2xl);
 }
 
-/* News grid — reusable card grid */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -548,7 +516,6 @@ body.modal-open {
     }
 }
 
-/* Reduced motion — accessibility */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;

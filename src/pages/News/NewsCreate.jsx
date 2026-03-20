@@ -24,7 +24,9 @@ const NewsCreate = () => {
   const [loadingArticle, setLoadingArticle] = useState(false)
   const [error, setError] = useState(null)
 
-  // Redirect non-admins (wait for both auth and profile to load)
+  useEffect(() => { document.title = 'Editor | Vetus Rex' }, [])
+
+
   useEffect(() => {
     if (!authLoading && user && profile && !isAdmin) {
       logger.nav('Non-admin redirected from news create/edit')
@@ -36,7 +38,7 @@ const NewsCreate = () => {
     }
   }, [authLoading, user, profile, isAdmin])
 
-  // Load existing article in edit mode
+
   useEffect(() => {
     if (isEditMode) {
       const loadArticle = async () => {
@@ -67,7 +69,7 @@ const NewsCreate = () => {
     if (!file) return
 
     setCoverFile(file)
-    // Create local preview
+
     const reader = new FileReader()
     reader.onload = (ev) => setCoverPreview(ev.target.result)
     reader.readAsDataURL(file)
@@ -98,9 +100,9 @@ const NewsCreate = () => {
     try {
       let finalCoverUrl = coverImageUrl
 
-      // Upload new cover image if selected
+
       if (coverFile) {
-        // Delete old cover image if replacing in edit mode
+
         if (isEditMode && coverImageUrl) {
           await deleteNewsImage(coverImageUrl)
         }
@@ -114,7 +116,7 @@ const NewsCreate = () => {
         finalCoverUrl = imageUrl
       }
 
-      // If cover was removed (no file, no url), delete old one
+
       if (isEditMode && !coverPreview && coverImageUrl) {
         await deleteNewsImage(coverImageUrl)
         finalCoverUrl = null
@@ -186,7 +188,7 @@ const NewsCreate = () => {
       <form className="news-create-form" onSubmit={handleSubmit}>
         {error && <div className="news-create-error">{error}</div>}
 
-        {/* Title */}
+
         <div className="form-group">
           <label htmlFor="news-title">Title</label>
           <input
@@ -200,7 +202,7 @@ const NewsCreate = () => {
           />
         </div>
 
-        {/* Tag */}
+
         <div className="form-group">
           <label htmlFor="news-tag">Category</label>
           <select
@@ -217,7 +219,7 @@ const NewsCreate = () => {
           </select>
         </div>
 
-        {/* Cover image */}
+
         <div className="form-group">
           <label>Cover Image (optional)</label>
           {coverPreview ? (
@@ -243,13 +245,13 @@ const NewsCreate = () => {
           )}
         </div>
 
-        {/* Content (TipTap Editor) */}
+
         <div className="form-group">
           <label>Content</label>
           <NewsEditor content={content} onChange={setContent} />
         </div>
 
-        {/* Actions */}
+
         <div className="news-create-actions">
           <button
             type="button"

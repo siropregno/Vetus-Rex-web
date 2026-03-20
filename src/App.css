@@ -33,7 +33,6 @@
   margin: 0 auto;
 }
 
-/* Mobile responsive */
 @media (max-width: 768px) {
   .main-content {
     margin-top: 70px;

@@ -19,7 +19,7 @@
   gap: var(--space-lg);
 }
 
-/* Tag filter bar */
+
 .news-tags-filter {
   display: flex;
   align-items: center;
@@ -51,14 +51,14 @@
   color: white;
 }
 
-/* News grid */
+
 .news-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--space-xl);
 }
 
-/* States */
+
 .news-loading,
 .news-error,
 .news-empty {
@@ -75,14 +75,14 @@
   color: var(--danger);
 }
 
-/* Load more */
+
 .news-load-more {
   display: flex;
   justify-content: center;
   padding: var(--space-lg) 0;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .news-page {
     padding: var(--space-lg) var(--space-sm);

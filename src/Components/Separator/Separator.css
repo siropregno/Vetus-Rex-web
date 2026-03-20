@@ -44,7 +44,7 @@
   max-width: 220px;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .separator {
     padding: var(--space-2xl) var(--space-lg);

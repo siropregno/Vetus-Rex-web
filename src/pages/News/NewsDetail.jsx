@@ -19,6 +19,8 @@ const NewsDetail = () => {
 
   const isAdmin = profile?.role === 'admin'
 
+  useEffect(() => { document.title = 'News | Vetus Rex' }, [])
+
   useEffect(() => {
     const fetchArticle = async () => {
       setLoading(true)
@@ -47,7 +49,7 @@ const NewsDetail = () => {
       variant: 'danger',
       confirmText: 'Delete',
       onConfirm: async () => {
-        // Delete cover image if exists
+
         if (article.cover_image_url) {
           await deleteNewsImage(article.cover_image_url)
         }

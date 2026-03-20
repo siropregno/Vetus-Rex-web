@@ -14,7 +14,7 @@
   gap: var(--space-xl);
 }
 
-/* form-group base is in index.css */
+
 
 .news-create-form .form-group label {
   color: var(--light-grey);
@@ -29,7 +29,7 @@
   padding-right: 32px;
 }
 
-/* Cover image */
+
 .cover-preview {
   position: relative;
   border-radius: var(--radius-md);
@@ -92,7 +92,7 @@
   background: var(--accent-10);
 }
 
-/* Error */
+
 .news-create-error {
   background: rgba(209, 45, 45, 0.1);
   border: 1px solid rgba(209, 45, 45, 0.3);
@@ -102,7 +102,7 @@
   font-size: 0.9rem;
 }
 
-/* Actions */
+
 .news-create-actions {
   display: flex;
   justify-content: flex-end;
@@ -110,7 +110,7 @@
   padding-top: var(--space-lg);
 }
 
-/* Loading */
+
 .news-create-loading {
   display: flex;
   align-items: center;
@@ -120,7 +120,7 @@
   min-height: 40vh;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .news-create-page {
     padding: var(--space-lg) var(--space-sm);

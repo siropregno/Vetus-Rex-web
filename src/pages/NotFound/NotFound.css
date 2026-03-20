@@ -1,0 +1,54 @@
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: var(--space-2xl);
+  gap: var(--space-xl);
+}
+
+.notfound-code {
+  font-size: clamp(5rem, 15vw, 10rem);
+  font-weight: 800;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin: 0;
+}
+
+.notfound-icon {
+  font-size: 3rem;
+  opacity: 0.6;
+  animation: spiderSway 3s ease-in-out infinite;
+}
+
+.notfound-message {
+  max-width: 420px;
+  color: var(--wht-70);
+  line-height: var(--leading-relaxed);
+  font-size: 1.05rem;
+}
+
+.notfound-message strong {
+  color: var(--accent);
+}
+
+.notfound-hint {
+  color: var(--wht-30);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.notfound-home {
+  margin-top: var(--space-md);
+}
+
+@keyframes spiderSway {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  25% { transform: rotate(-5deg) translateY(-4px); }
+  75% { transform: rotate(5deg) translateY(4px); }
+}

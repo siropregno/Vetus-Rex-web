@@ -32,7 +32,7 @@ const Chars = () => {
     }
   }, [user])
 
-  // Load characters on component mount
+
   useEffect(() => {
     if (user) {
       loadCharacters()

@@ -22,7 +22,7 @@ const Options = () => {
 
   const handleModalConfirm = async (value) => {
     if (modal.step === 'prompt') {
-      // value is the typed input — promptMatch handles validation
+
       setModal({
         isOpen: true,
         type: 'confirm',
@@ -64,7 +64,7 @@ const Options = () => {
   return (
     <div className="options-container">
 
-      {/* General Settings */}
+
       <div className="options-section">
         <h3>Preferences</h3>
         <div className="option-item">
@@ -98,7 +98,7 @@ const Options = () => {
         </div>
       </div>
 
-      {/* Privacy & Security */}
+
       <div className="options-section">
         <h3>Privacy & Security</h3>
         <div className="option-item">
@@ -122,7 +122,7 @@ const Options = () => {
         </div>
       </div>
 
-      {/* Export Data */}
+
       <div className="options-section">
         <h3>Data</h3>
         <div className="option-item">
@@ -136,7 +136,7 @@ const Options = () => {
         </div>
       </div>
 
-      {/* Danger Zone */}
+
       <div className="danger-zone">
         <h3>Danger Zone</h3>
         <div className="danger-content">

@@ -1,4 +1,4 @@
-/* Contenedor principal */
+
 .chars-container {
   display: flex;
   flex-direction: column;
@@ -15,7 +15,7 @@
   text-align: center;
 }
 
-/* Estados vacío y carga */
+
 .empty-state, .loading-state {
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@
   color: var(--light-grey);
 }
 
-/* Grid de personajes */
+
 .characters-grid {
   width: 100%;
   display: grid;
@@ -78,7 +78,7 @@
   gap: var(--space-sm);
 }
 
-/* Botones de acción */
+
 .delete-btn {
   background: none;
   border: 1px solid var(--dark-grey);
@@ -100,7 +100,7 @@
 }
 
 
-/* Modal — uses .modal-overlay from Modal.css */
+
 
 .character-form-modal {
   background: var(--surface);
@@ -125,7 +125,7 @@
   color: var(--wht);
 }
 
-/* Formulario */
+
 .character-form {
   padding: var(--space-xl);
 }
@@ -140,7 +140,7 @@
   font-size: 0.9rem;
 }
 
-/* form-group base is in index.css */
+
 .character-form .form-group {
   margin-bottom: var(--space-xl);
 }
@@ -150,7 +150,7 @@
   margin-bottom: var(--space-sm);
 }
 
-/* Inputs — use .input-field class from index.css in JSX */
+
 .form-group select {
   cursor: pointer;
 }
@@ -161,7 +161,7 @@
   padding: var(--space-sm);
 }
 
-/* Acciones del formulario — extends .form-actions from index.css */
+
 
 .cancel-btn, .submit-btn {
   padding: var(--space-md) var(--space-xl);
@@ -198,7 +198,7 @@
   cursor: not-allowed;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .chars-container {
     gap: var(--space-lg);

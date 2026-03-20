@@ -167,7 +167,7 @@ const Info = () => {
 
   return (
     <div className="info-container">
-      {/* Avatar Section */}
+
       <div className="avatar-section">
         <div className="avatar-circle">
           {avatarPreview ? (
@@ -214,7 +214,7 @@ const Info = () => {
         </div>
       </div>
 
-      {/* Profile Form */}
+
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="form-group">
           <label>Email:</label>
@@ -288,7 +288,7 @@ const Info = () => {
         </div>
       </form>
 
-      {/* Account Info */}
+
       <div className="account-info">
         <div className="info-item">
           <span className="label">Member since</span>
@@ -296,7 +296,7 @@ const Info = () => {
         </div>
       </div>
 
-      {/* Debug Section - Solo si no hay perfil */}
+
       {user && !profile && !loading && (
         <div className="debug-section">
           <p>Profile not found. The profile needs to be created in the database.</p>
@@ -342,7 +342,7 @@ const Info = () => {
         </div>
       )}
 
-      {/* Toast Notification */}
+
       {showToast && (
         <div className={`toast ${showToast ? 'toast-show' : ''}`}>
           <div className="toast-content">

@@ -25,7 +25,7 @@
   opacity: 0.8;
 }
 
-/* Cover image */
+
 .news-detail-cover {
   width: 100%;
   max-height: 400px;
@@ -39,7 +39,7 @@
   object-fit: cover;
 }
 
-/* Header */
+
 .news-detail-header {
   display: flex;
   flex-direction: column;
@@ -100,7 +100,7 @@
   color: var(--light-grey);
 }
 
-/* Article content */
+
 .news-detail-content {
   color: var(--wht);
   line-height: var(--leading-loose);
@@ -164,7 +164,7 @@
   font-weight: 700;
 }
 
-/* Admin actions */
+
 .news-detail-admin-actions {
   display: flex;
   gap: var(--space-lg);
@@ -172,7 +172,7 @@
   border-top: 1px solid var(--wht-6);
 }
 
-/* States */
+
 .news-detail-loading,
 .news-detail-error {
   display: flex;
@@ -189,7 +189,7 @@
   color: var(--danger);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .news-detail-page {
     padding: var(--space-lg) var(--space-sm);

@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './Modal.css'
 
-/**
- * Reusable Modal component
- * 
- * Types:
- * - "alert"   → message + OK button
- * - "confirm" → message + Cancel/Confirm buttons
- * - "prompt"  → message + text input + Cancel/Confirm buttons
- */
+
 const Modal = ({ 
   isOpen, 
   onClose, 

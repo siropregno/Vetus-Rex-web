@@ -9,6 +9,7 @@ import Register from './pages/Register/Register'
 import News from './pages/News/News'
 import NewsDetail from './pages/News/NewsDetail'
 import NewsCreate from './pages/News/NewsCreate'
+import NotFound from './pages/NotFound/NotFound'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/news/create" element={<NewsCreate />} />
                 <Route path="/news/edit/:id" element={<NewsCreate />} />
                 <Route path="/news/:id" element={<NewsDetail />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </div>
           </main>

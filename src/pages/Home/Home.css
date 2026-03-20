@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 
-/* Hero Banner */
+
 .home-banner {
   position: relative;
   width: 100vw;
@@ -70,7 +70,7 @@
   margin-top: var(--space-sm);
 }
 
-/* News section */
+
 .home-news {
   display: flex;
   flex-direction: column;
@@ -117,7 +117,7 @@
   color: var(--light-grey);
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .home-container {
     padding: 0 0 var(--space-lg) 0;

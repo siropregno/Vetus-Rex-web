@@ -7,7 +7,7 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Obtener sesión inicial
+
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession()
       setSession(session)
@@ -17,7 +17,7 @@ export const useAuth = () => {
 
     getInitialSession()
 
-    // Escuchar cambios en la autenticación
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setSession(session)
@@ -29,7 +29,7 @@ export const useAuth = () => {
     return () => subscription.unsubscribe()
   }, [])
 
-  // Funciones de autenticación
+
   const signUp = async (email, password, userData = {}) => {
     setLoading(true)
     try {
@@ -123,7 +123,7 @@ export const useSupabase = () => {
     }
   }
 
-  // Funciones para manejar perfiles de usuario
+
   const getUserProfile = async (userId) => {
     return executeQuery(async () => {
       const { data, error } = await supabase
@@ -164,7 +164,7 @@ export const useSupabase = () => {
     })
   }
 
-  // Función genérica para cualquier consulta
+
   const query = async (table) => {
     return {
       select: (columns = '*') => ({
