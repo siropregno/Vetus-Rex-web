@@ -19,10 +19,9 @@ i18n
       escapeValue: false,
     },
     detection: {
-      order: ['path', 'localStorage', 'navigator'],
+      order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
       lookupLocalStorage: 'i18nextLng',
-      lookupFromPathIndex: 0,
     },
   })
 

@@ -1,9 +1,12 @@
+import i18n from '../i18n/i18n'
+
 export const SUPPORTED_LANGS = ['en', 'es', 'de']
 
 export const getLang = () => {
   const seg = window.location.pathname.split('/')[1]
   if (SUPPORTED_LANGS.includes(seg)) return seg
-  return localStorage.getItem('i18nextLng')?.substring(0, 2) || 'en'
+  const detected = (i18n.resolvedLanguage || i18n.language || 'en').substring(0, 2)
+  return SUPPORTED_LANGS.includes(detected) ? detected : 'en'
 }
 
 export const langPath = (path) => `/${getLang()}${path}`
