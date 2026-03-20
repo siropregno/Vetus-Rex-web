@@ -1,5 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { AuthProvider } from './contexts/AuthContext'
 import Navbar from './Components/Navbar/navbar'
 import Profile from './pages/profile/Profile'
@@ -12,6 +13,8 @@ import NewsCreate from './pages/News/NewsCreate'
 import NotFound from './pages/NotFound/NotFound'
 
 function App() {
+  const { t } = useTranslation()
+
   return (
     <AuthProvider>
       <Router>
@@ -36,11 +39,11 @@ function App() {
             <div className="footer">
               <div className="footer-inner">
                 <nav className="footer-links">
-                  <a href="/">Home</a>
-                  <a href="/news">News</a>
-                  <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">Download</a>
+                  <a href="/">{t('nav.home')}</a>
+                  <a href="/news">{t('nav.news')}</a>
+                  <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
                 </nav>
-                <p className="footer-copy">&copy; 2026 TikiTiki Studios. All rights reserved.</p>
+                <p className="footer-copy">{t('footer.rights')}</p>
               </div>
             </div>
           </footer>

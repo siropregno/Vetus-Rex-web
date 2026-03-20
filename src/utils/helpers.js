@@ -19,10 +19,10 @@ export const truncateText = (text, maxLength = 150) => {
 /**
  * Format a date string into a readable format
  */
-export const formatDate = (dateString) => {
+export const formatDate = (dateString, locale) => {
   if (!dateString) return ''
   const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', {
+  return date.toLocaleDateString(locale || undefined, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -43,9 +43,9 @@ export const getAuthorName = (profile) => profile?.username || 'Unknown'
  * News tag definitions with labels and colors
  */
 export const NEWS_TAGS = {
-  update: { label: 'Update', color: '#3b82f6' },
-  patch: { label: 'Patch', color: '#8b5cf6' },
-  event: { label: 'Event', color: '#f59e0b' },
-  announcement: { label: 'Announcement', color: '#ef4444' },
-  community: { label: 'Community', color: '#10b981' },
+  update: { label: 'tags.update', color: '#3b82f6' },
+  patch: { label: 'tags.patch', color: '#8b5cf6' },
+  event: { label: 'tags.event', color: '#f59e0b' },
+  announcement: { label: 'tags.announcement', color: '#ef4444' },
+  community: { label: 'tags.community', color: '#10b981' },
 }

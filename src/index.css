@@ -9,9 +9,9 @@
 
 :root {
     --blk: #030303;
-    --accent: #ff8c21;
+    --accent: #ff7221;
     --accent-secondary: #b91c1c;
-    --wht: #fff;
+    --wht: #e3e3e3;
     --dark-grey: #13110e;
     --light-grey: #929292;
     --danger: #d12d2d;
@@ -20,12 +20,12 @@
     --surface: #1a1a1a;
     --discord: #5865F2;
 
-    --accent-5: rgba(255, 140, 33, 0.05);
-    --accent-6: rgba(255, 140, 33, 0.06);
-    --accent-8: rgba(255, 140, 33, 0.08);
-    --accent-10: rgba(255, 140, 33, 0.1);
-    --accent-15: rgba(255, 140, 33, 0.15);
-    --accent-25: rgba(255, 140, 33, 0.25);
+    --accent-5: rgba(255, 114, 33, 0.05);
+    --accent-6: rgba(255, 114, 33, 0.06);
+    --accent-8: rgba(255, 114, 33, 0.08);
+    --accent-10: rgba(255, 114, 33, 0.1);
+    --accent-15: rgba(255, 114, 33, 0.15);
+    --accent-25: rgba(255, 114, 33, 0.25);
 
     --wht-3: rgba(255, 255, 255, 0.03);
     --wht-6: rgba(255, 255, 255, 0.06);

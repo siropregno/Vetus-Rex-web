@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import logger from '../../utils/logger'
 import Info from '../../Components/Info/Info'
@@ -7,10 +8,11 @@ import Options from '../../Components/Options/Options'
 import './Profile.css'
 
 const Profile = () => {
+  const { t } = useTranslation()
   const { user, loading } = useAuthContext()
   const [activeTab, setActiveTab] = useState('info')
 
-  useEffect(() => { document.title = 'Profile | Vetus Rex' }, [])
+  useEffect(() => { document.title = t('profile.pageTitle') }, [])
 
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const Profile = () => {
         <div className="profile-card">
           <div className="loading-spinner">
             <div className="spinner"></div>
-            <p>Loading profile...</p>
+            <p>{t('profile.loadingProfile')}</p>
           </div>
         </div>
       </div>
@@ -54,20 +56,20 @@ const Profile = () => {
   return (
     <>
       <div className='content-header'>
-        <h1 className="content-header-title">My Profile</h1>
-        <p className="content-header-subtitle">Here you can view and edit your account information.</p>
+        <h1 className="content-header-title">{t('profile.title')}</h1>
+        <p className="content-header-subtitle">{t('profile.subtitle')}</p>
       </div>
       <div className="content-body">
         <div className='bar-options'>
           <ul>
             <li className={activeTab === 'info' ? 'active' : ''} onClick={() => handleTabClick('info')}>
-              Info
+              {t('profile.tabInfo')}
             </li>
             <li className={activeTab === 'chars' ? 'active' : ''} onClick={() => handleTabClick('chars')}>
-              Characters
+              {t('profile.tabChars')}
             </li>
             <li className={activeTab === 'options' ? 'active' : ''} onClick={() => handleTabClick('options')}>
-              Options
+              {t('profile.tabOptions')}
             </li>
           </ul>
         </div>

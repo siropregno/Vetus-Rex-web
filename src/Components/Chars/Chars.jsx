@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
@@ -8,6 +9,7 @@ import logger from '../../utils/logger'
 import './Chars.css'
 
 const Chars = () => {
+  const { t } = useTranslation()
   const { user } = useAuthContext()
   const [characters, setCharacters] = useState([])
   const [loading, setLoading] = useState(true)
@@ -43,8 +45,8 @@ const Chars = () => {
     setModal({
       isOpen: true,
       type: 'confirm',
-      title: 'Delete Character',
-      message: 'Are you sure you want to delete this character?',
+      title: t('chars.deleteTitle'),
+      message: t('chars.deleteMessage'),
       variant: 'danger',
       onConfirm: () => confirmDelete(characterId)
     })
@@ -58,13 +60,13 @@ const Chars = () => {
       
       if (error) {
         logger.error('Error deleting character:', error)
-        setModal({ isOpen: true, type: 'alert', title: 'Error', message: 'Error deleting character. Please try again.', variant: 'danger', onConfirm: null })
+        setModal({ isOpen: true, type: 'alert', title: t('chars.error'), message: t('chars.deleteErrorMessage'), variant: 'danger', onConfirm: null })
       } else {
         setCharacters(prev => prev.filter(char => char.id !== characterId))
       }
     } catch (error) {
       logger.error('Unexpected error deleting character:', error)
-      setModal({ isOpen: true, type: 'alert', title: 'Error', message: 'Unexpected error while deleting character.', variant: 'danger', onConfirm: null })
+      setModal({ isOpen: true, type: 'alert', title: t('chars.error'), message: t('chars.unexpectedDeleteError'), variant: 'danger', onConfirm: null })
     }
   }
 
@@ -73,7 +75,7 @@ const Chars = () => {
       <div className="chars-container">
         <div className="chars-content">
           <div className="loading-state">
-            <p>Loading characters...</p>
+            <p>{t('chars.loadingChars')}</p>
           </div>
         </div>
       </div>
@@ -86,17 +88,17 @@ const Chars = () => {
       <div className="chars-content">
         {characters.length === 0 ? (
           <div className="empty-state">
-            <p>You don't have any characters yet. Create your first character in the game.</p>
+            <p>{t('chars.noChars')}</p>
           </div>
         ) : (
           <>
-            <p>Your characters ({characters.length}/5)</p>
+            <p>{t('chars.charCount', { count: characters.length })}</p>
             <div className="characters-grid">
               {characters.map((character) => (
                 <div key={character.id} className="character-card">
                   <div className="character-info">
                     <h3>{character.player_name}</h3>
-                    <p className="character-level">Level {character.level}</p>
+                    <p className="character-level">{t('chars.level', { level: character.level })}</p>
                   </div>
                   <div className="character-actions">
                     <button 
@@ -122,7 +124,7 @@ const Chars = () => {
         message={modal.message}
         type={modal.type}
         variant={modal.variant}
-        confirmText={modal.type === 'alert' ? 'OK' : 'Delete'}
+        confirmText={modal.type === 'alert' ? t('modal.ok') : t('common.delete')}
       />
     </div>
   )

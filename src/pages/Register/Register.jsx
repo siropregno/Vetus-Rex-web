@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import logger from '../../utils/logger'
 import './Register.css'
 
 const Register = () => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -14,7 +16,7 @@ const Register = () => {
   
   const { signUp, user } = useAuthContext()
 
-  useEffect(() => { document.title = 'Register | Vetus Rex' }, [])
+  useEffect(() => { document.title = t('register.pageTitle') }, [])
 
 
   useEffect(() => {
@@ -38,13 +40,13 @@ const Register = () => {
     setError('')
 
     if (!formData.username.trim()) {
-      setError('Username is required')
+      setError(t('register.usernameRequired'))
       setLoading(false)
       return
     }
 
     if (formData.username.trim().includes(' ')) {
-      setError('Username cannot contain spaces')
+      setError(t('register.usernameNoSpaces'))
       setLoading(false)
       return
     }
@@ -59,7 +61,7 @@ const Register = () => {
         window.location.href = '/'
       }
     } catch (err) {
-      setError('Unexpected error. Please try again.')
+      setError(t('register.unexpectedError'))
       logger.error('Register error:', err)
     } finally {
       setLoading(false)
@@ -72,8 +74,8 @@ const Register = () => {
       <div className="register-card">
 
         <div className="register-header">
-          <h1 className="register-title">Create Account</h1>
-          <p className="register-subtitle">Join the community</p>
+          <h1 className="register-title">{t('register.title')}</h1>
+          <p className="register-subtitle">{t('register.subtitle')}</p>
         </div>
 
 
@@ -85,14 +87,14 @@ const Register = () => {
               value={formData.username}
               onChange={handleChange}
               className="input-field"
-              placeholder="Username"
+              placeholder={t('register.usernamePlaceholder')}
               required
               disabled={loading}
               minLength={3}
               maxLength={20}
             />
             <small className="form-help">
-              3-20 characters, no spaces
+              {t('register.usernameHelp')}
             </small>
           </div>
 
@@ -103,7 +105,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               className="input-field"
-              placeholder="Email"
+              placeholder={t('register.emailPlaceholder')}
               required
               disabled={loading}
             />
@@ -116,13 +118,13 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               className="input-field"
-              placeholder="Password"
+              placeholder={t('register.passwordPlaceholder')}
               required
               disabled={loading}
               minLength={8}
             />
             <small className="form-help">
-              Minimum 8 characters
+              {t('register.passwordHelp')}
             </small>
           </div>
 
@@ -141,10 +143,10 @@ const Register = () => {
             {loading ? (
               <>
                 <div className="btn-spinner"></div>
-                Creating account...
+                {t('register.submitLoading')}
               </>
             ) : (
-              'Create Account'
+              t('register.submit')
             )}
           </button>
         </form>
@@ -152,9 +154,9 @@ const Register = () => {
 
         <div className="register-footer">
           <p className="toggle-text">
-            Already have an account?
+            {t('register.hasAccount')}
             <a href="/login" className="toggle-btn">
-              Sign In
+              {t('register.signIn')}
             </a>
           </p>
         </div>
@@ -167,7 +169,7 @@ const Register = () => {
             className="back-btn"
             disabled={loading}
           >
-            ← Back to Home
+            {t('register.backHome')}
           </button>
         </div>
       </div>

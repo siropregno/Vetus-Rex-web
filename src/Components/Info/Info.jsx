@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { supabase } from '../../lib/supabase'
 import Modal from '../Modal/Modal'
@@ -6,6 +7,7 @@ import logger from '../../utils/logger'
 import './Info.css'
 
 const Info = () => {
+  const { t } = useTranslation()
   const { user, profile, updateProfile, uploadAvatar, deleteAvatar, loading } = useAuthContext()
   const [formData, setFormData] = useState({
     username: '',
@@ -60,11 +62,11 @@ const Info = () => {
       if (error) {
         setError(error.message)
       } else {
-        showSuccessToast('Profile updated successfully')
+        showSuccessToast(t('info.profileUpdated'))
         setIsEditing(false)
       }
     } catch (err) {
-      setError('Unexpected error while updating profile')
+      setError(t('info.unexpectedError'))
       logger.error('Error updating profile:', err)
     } finally {
       setIsLoading(false)
@@ -94,12 +96,12 @@ const Info = () => {
     if (!file) return
 
     if (!file.type.startsWith('image/')) {
-      setError('Please select a valid image')
+      setError(t('info.invalidImage'))
       return
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setError('Image must be less than 5MB')
+      setError(t('info.imageTooLarge'))
       return
     }
 
@@ -120,12 +122,12 @@ const Info = () => {
       const { error } = await uploadAvatar(file)
       
       if (error) {
-        setError(error.message || 'Error uploading image')
+        setError(error.message || t('info.uploadError'))
       } else {
-        showSuccessToast('Avatar updated successfully')
+        showSuccessToast(t('info.avatarUpdated'))
       }
     } catch {
-      setError('Unexpected error while uploading image')
+      setError(t('info.unexpectedUploadError'))
     } finally {
       setIsUploadingAvatar(false)
       setAvatarPreview(null)
@@ -145,20 +147,20 @@ const Info = () => {
       const { error } = await deleteAvatar()
       
       if (error) {
-        setError(error.message || 'Error deleting image')
+        setError(error.message || t('info.deleteError'))
       } else {
-        showSuccessToast('Avatar deleted successfully')
+        showSuccessToast(t('info.avatarDeleted'))
       }
     } catch {
-      setError('Unexpected error while deleting image')
+      setError(t('info.unexpectedDeleteError'))
     } finally {
       setIsUploadingAvatar(false)
     }
   }
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'Date not available'
-    return new Date(dateString).toLocaleDateString('en-US', {
+    if (!dateString) return t('info.dateNotAvailable')
+    return new Date(dateString).toLocaleDateString(undefined, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -200,7 +202,7 @@ const Info = () => {
             disabled={isUploadingAvatar}
           />
           <label htmlFor="avatar-upload" className="button-a">
-            {isUploadingAvatar ? 'Uploading...' : 'Change photo'}
+            {isUploadingAvatar ? t('info.uploading') : t('info.changePhoto')}
           </label>
           {profile?.avatar_url && (
             <button
@@ -208,7 +210,7 @@ const Info = () => {
               className="button-danger"
               disabled={isUploadingAvatar}
             >
-              Delete
+              {t('info.delete')}
             </button>
           )}
         </div>
@@ -217,7 +219,7 @@ const Info = () => {
 
       <form onSubmit={handleSubmit} className="profile-form">
         <div className="form-group">
-          <label>Email:</label>
+          <label>{t('info.email')}</label>
           {isEditing ? (
             <input
               type="email"
@@ -232,7 +234,7 @@ const Info = () => {
         </div>
 
         <div className="form-group">
-          <label>Username:</label>
+          <label>{t('info.username')}</label>
           {isEditing ? (
             <input
               type="text"
@@ -240,7 +242,7 @@ const Info = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Your username"
+              placeholder={t('info.usernamePlaceholder')}
               disabled={isLoading}
               required
             />
@@ -264,7 +266,7 @@ const Info = () => {
               onClick={() => setIsEditing(true)}
               className="button-a"
             >
-              Edit profile
+              {t('info.editProfile')}
             </button>
           ) : (
             <div className="button-group">
@@ -273,7 +275,7 @@ const Info = () => {
                 className="button-a"
                 disabled={isLoading}
               >
-                {isLoading ? 'Saving...' : 'Save'}
+                {isLoading ? t('info.saving') : t('info.save')}
               </button>
               <button
                 type="button"
@@ -281,7 +283,7 @@ const Info = () => {
                 className="button-b"
                 disabled={isLoading}
               >
-                Cancel
+                {t('info.cancel')}
               </button>
             </div>
           )}
@@ -291,7 +293,7 @@ const Info = () => {
 
       <div className="account-info">
         <div className="info-item">
-          <span className="label">Member since</span>
+          <span className="label">{t('info.memberSince')}</span>
           <span className="value">{formatDate(profile?.created_at)}</span>
         </div>
       </div>
@@ -299,7 +301,7 @@ const Info = () => {
 
       {user && !profile && !loading && (
         <div className="debug-section">
-          <p>Profile not found. The profile needs to be created in the database.</p>
+          <p>{t('info.profileNotFound')}</p>
           <button
             onClick={async () => {
               setIsLoading(true)
@@ -325,11 +327,11 @@ const Info = () => {
                 if (error) {
                   setError('Error: ' + error.message)
                 } else {
-                  showSuccessToast('Profile created successfully')
+                  showSuccessToast(t('info.profileCreated'))
                   setTimeout(() => window.location.reload(), 1500)
                 }
               } catch {
-                setError('Unexpected error')
+                setError(t('info.unexpectedGenericError'))
               } finally {
                 setIsLoading(false)
               }
@@ -337,7 +339,7 @@ const Info = () => {
             className="button-a"
             disabled={isLoading}
           >
-            {isLoading ? 'Creating...' : 'Create profile'}
+            {isLoading ? t('info.creating') : t('info.createProfile')}
           </button>
         </div>
       )}
@@ -356,11 +358,11 @@ const Info = () => {
         isOpen={showDeleteAvatarModal}
         onClose={() => setShowDeleteAvatarModal(false)}
         onConfirm={confirmDeleteAvatar}
-        title="Delete Avatar"
-        message="Are you sure you want to delete your profile picture?"
+        title={t('info.deleteAvatarTitle')}
+        message={t('info.deleteAvatarMessage')}
         type="confirm"
         variant="danger"
-        confirmText="Delete"
+        confirmText={t('common.delete')}
       />
     </div>
   )

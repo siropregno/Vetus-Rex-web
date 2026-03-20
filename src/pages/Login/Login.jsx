@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import logger from '../../utils/logger'
 import './Login.css'
 
 const Login = () => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -13,7 +15,7 @@ const Login = () => {
   
   const { signIn, user } = useAuthContext()
 
-  useEffect(() => { document.title = 'Sign In | Vetus Rex' }, [])
+  useEffect(() => { document.title = t('login.pageTitle') }, [])
 
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const Login = () => {
         window.location.href = '/'
       }
     } catch (err) {
-      setError('Unexpected error. Please try again.')
+      setError(t('login.unexpectedError'))
       logger.error('Login error:', err)
     } finally {
       setLoading(false)
@@ -57,7 +59,7 @@ const Login = () => {
       <div className="login-card">
 
         <div className="login-header">
-          <h1 className="login-title">Sign In</h1>
+          <h1 className="login-title">{t('login.title')}</h1>
         </div>
 
 
@@ -69,7 +71,7 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               className="input-field"
-              placeholder="Email or username"
+              placeholder={t('login.emailPlaceholder')}
               required
               disabled={loading}
             />
@@ -82,7 +84,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               className="input-field"
-              placeholder="Password"
+              placeholder={t('login.passwordPlaceholder')}
               required
               disabled={loading}
               minLength={6}
@@ -104,10 +106,10 @@ const Login = () => {
             {loading ? (
               <>
                 <div className="btn-spinner"></div>
-                Signing in...
+                {t('login.submitLoading')}
               </>
             ) : (
-              'Sign In'
+              t('login.submit')
             )}
           </button>
         </form>
@@ -115,9 +117,9 @@ const Login = () => {
 
         <div className="login-footer">
           <p className="toggle-text">
-            Don't have an account?
+            {t('login.noAccount')}
             <a href="/register" className="toggle-btn">
-              Create Account
+              {t('login.createAccount')}
             </a>
           </p>
         </div>
@@ -130,7 +132,7 @@ const Login = () => {
             className="back-btn"
             disabled={loading}
           >
-            ← Back to Home
+            {t('login.backHome')}
           </button>
         </div>
       </div>

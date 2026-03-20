@@ -22,6 +22,12 @@
 }
 
 
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
 .brand-link {
   color: var(--wht);
   text-decoration: none;
@@ -45,6 +51,7 @@
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: var(--space-2xl);
 }
 
@@ -82,6 +89,103 @@
 
 .nav-link.active::after {
   width: 100%;
+}
+
+.lang-dropdown {
+  position: relative;
+}
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.lang-toggle:hover {
+  color: var(--accent);
+}
+
+.lang-flag {
+  width: 22px;
+  height: 14px;
+  display: block;
+  flex-shrink: 0;
+}
+
+.lang-arrow {
+  font-size: 0.75rem;
+  color: var(--wht);
+  transition: transform var(--transition-base);
+}
+
+.lang-dropdown.open .lang-arrow {
+  transform: rotate(180deg);
+}
+
+.lang-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 160px;
+  background: rgba(36, 36, 36, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all var(--transition-slow);
+  z-index: var(--z-dropdown);
+  padding-block: var(--space-sm);
+}
+
+.lang-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background: none;
+  border: none;
+  color: var(--wht);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.lang-option:first-child {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.lang-option:last-child {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.lang-option:hover {
+  color: var(--accent);
+}
+
+.lang-option.active {
+  color: var(--accent);
+}
+
+.lang-option .lang-flag {
+  width: 20px;
+  height: 13px;
 }
 
 
@@ -370,6 +474,11 @@
   .navbar-menu.active .nav-link:nth-child(1) { animation-delay: 0.05s; }
   .navbar-menu.active .nav-link:nth-child(2) { animation-delay: 0.12s; }
   .navbar-menu.active .nav-link:nth-child(3) { animation-delay: 0.19s; }
+
+  .lang-menu {
+    left: auto;
+    right: 0;
+  }
 
   .nav-link.active {
     color: var(--accent);

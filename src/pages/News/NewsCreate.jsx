@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createNews, updateNews, getNewsById, uploadNewsImage, deleteNewsImage } from '../../lib/database'
 import { NEWS_TAGS } from '../../utils/helpers'
@@ -8,6 +9,7 @@ import logger from '../../utils/logger'
 import './NewsCreate.css'
 
 const NewsCreate = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
   const { user, profile, loading: authLoading } = useAuthContext()
 
@@ -24,7 +26,7 @@ const NewsCreate = () => {
   const [loadingArticle, setLoadingArticle] = useState(false)
   const [error, setError] = useState(null)
 
-  useEffect(() => { document.title = 'Editor | Vetus Rex' }, [])
+  useEffect(() => { document.title = t('newsCreate.pageTitle') }, [])
 
 
   useEffect(() => {
@@ -47,7 +49,7 @@ const NewsCreate = () => {
 
         if (fetchError || !data) {
           logger.error('Error loading article for edit:', fetchError)
-          setError('Article not found.')
+          setError(t('newsCreate.articleNotFound'))
           setLoadingArticle(false)
           return
         }
@@ -86,12 +88,12 @@ const NewsCreate = () => {
     setError(null)
 
     if (!title.trim()) {
-      setError('Title is required.')
+      setError(t('newsCreate.titleRequired'))
       return
     }
 
     if (!content.trim() || content === '<p></p>') {
-      setError('Content is required.')
+      setError(t('newsCreate.contentRequired'))
       return
     }
 
@@ -109,7 +111,7 @@ const NewsCreate = () => {
 
         const { data: imageUrl, error: uploadError } = await uploadNewsImage(coverFile)
         if (uploadError) {
-          setError('Failed to upload cover image.')
+          setError(t('newsCreate.coverUploadFailed'))
           setSubmitting(false)
           return
         }
@@ -131,7 +133,7 @@ const NewsCreate = () => {
         })
 
         if (updateError) {
-          setError('Failed to update article.')
+          setError(t('newsCreate.updateFailed'))
           setSubmitting(false)
           return
         }
@@ -148,7 +150,7 @@ const NewsCreate = () => {
         })
 
         if (createError) {
-          setError('Failed to create article.')
+          setError(t('newsCreate.createFailed'))
           setSubmitting(false)
           return
         }
@@ -158,7 +160,7 @@ const NewsCreate = () => {
       }
     } catch (err) {
       logger.error('Error submitting article:', err)
-      setError('An unexpected error occurred.')
+      setError(t('newsCreate.unexpectedError'))
       setSubmitting(false)
     }
   }
@@ -167,7 +169,7 @@ const NewsCreate = () => {
     return (
       <div className="news-create-page">
         <div className="news-create-loading">
-          <p>{loadingArticle ? 'Loading article...' : 'Loading...'}</p>
+          <p>{loadingArticle ? t('newsCreate.loadingArticle') : t('newsCreate.loadingGeneric')}</p>
         </div>
       </div>
     )
@@ -178,11 +180,11 @@ const NewsCreate = () => {
   return (
     <div className="news-create-page">
       <button className="news-detail-back" onClick={() => { window.location.href = isEditMode ? `/news/${id}` : '/news' }}>
-        ← {isEditMode ? 'Back to Article' : 'Back to News'}
+        {t(isEditMode ? 'newsCreate.backToArticle' : 'newsCreate.backToNews')}
       </button>
 
       <h1 className="content-header-title">
-        {isEditMode ? 'Edit Article' : 'New Article'}
+        {t(isEditMode ? 'newsCreate.editTitle' : 'newsCreate.newTitle')}
       </h1>
 
       <form className="news-create-form" onSubmit={handleSubmit}>
@@ -190,30 +192,30 @@ const NewsCreate = () => {
 
 
         <div className="form-group">
-          <label htmlFor="news-title">Title</label>
+          <label htmlFor="news-title">{t('newsCreate.titleLabel')}</label>
           <input
             id="news-title"
             type="text"
             className="input-field"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Article title"
+            placeholder={t('newsCreate.titlePlaceholder')}
             maxLength={200}
           />
         </div>
 
 
         <div className="form-group">
-          <label htmlFor="news-tag">Category</label>
+          <label htmlFor="news-tag">{t('newsCreate.categoryLabel')}</label>
           <select
             id="news-tag"
             className="input-field"
             value={tag}
             onChange={(e) => setTag(e.target.value)}
           >
-            {Object.entries(NEWS_TAGS).map(([key, t]) => (
+            {Object.entries(NEWS_TAGS).map(([key, tagDef]) => (
               <option key={key} value={key}>
-                {t.label}
+                {t(tagDef.label)}
               </option>
             ))}
           </select>
@@ -221,12 +223,12 @@ const NewsCreate = () => {
 
 
         <div className="form-group">
-          <label>Cover Image (optional)</label>
+          <label>{t('newsCreate.coverLabel')}</label>
           {coverPreview ? (
             <div className="cover-preview">
               <img src={coverPreview} alt="Cover preview" />
               <button type="button" className="cover-remove" onClick={removeCover}>
-                ✕ Remove
+                {t('newsCreate.removeCover')}
               </button>
             </div>
           ) : (
@@ -239,7 +241,7 @@ const NewsCreate = () => {
                 className="cover-file-input"
               />
               <label htmlFor="cover-file-input" className="cover-upload-label">
-                📷 Choose an image
+                {t('newsCreate.chooseCover')}
               </label>
             </div>
           )}
@@ -247,7 +249,7 @@ const NewsCreate = () => {
 
 
         <div className="form-group">
-          <label>Content</label>
+          <label>{t('newsCreate.contentLabel')}</label>
           <NewsEditor content={content} onChange={setContent} />
         </div>
 
@@ -258,7 +260,7 @@ const NewsCreate = () => {
             className="button-b"
             onClick={() => { window.location.href = isEditMode ? `/news/${id}` : '/news' }}
           >
-            Cancel
+            {t('newsCreate.cancel')}
           </button>
           <button
             type="submit"
@@ -266,8 +268,8 @@ const NewsCreate = () => {
             disabled={submitting}
           >
             {submitting
-              ? (isEditMode ? 'Updating...' : 'Publishing...')
-              : (isEditMode ? 'Update' : 'Publish')
+              ? t(isEditMode ? 'newsCreate.updating' : 'newsCreate.publishing')
+              : t(isEditMode ? 'newsCreate.update' : 'newsCreate.publish')
             }
           </button>
         </div>

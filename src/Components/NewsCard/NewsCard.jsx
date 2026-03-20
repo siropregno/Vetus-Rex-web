@@ -1,8 +1,10 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS } from '../../utils/helpers'
 import './NewsCard.css'
 
 const NewsCard = ({ news }) => {
+  const { t } = useTranslation()
   const handleClick = () => {
     window.location.href = `/news/${news.id}`
   }
@@ -25,7 +27,7 @@ const NewsCard = ({ news }) => {
             className="news-card-tag"
             style={{ backgroundColor: tag.color }}
           >
-            {tag.label}
+            {t(tag.label)}
           </span>
         )}
       </div>

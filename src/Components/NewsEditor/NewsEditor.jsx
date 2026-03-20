@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
@@ -7,9 +8,10 @@ import Placeholder from '@tiptap/extension-placeholder'
 import './NewsEditor.css'
 
 const MenuBar = ({ editor }) => {
+  const { t } = useTranslation()
   const addImage = useCallback(() => {
     if (!editor) return
-    const url = window.prompt('Image URL:')
+    const url = window.prompt(t('newsCreate.imageUrlPrompt'))
     if (url) {
       editor.chain().focus().setImage({ src: url }).run()
     }
@@ -18,7 +20,7 @@ const MenuBar = ({ editor }) => {
   const addLink = useCallback(() => {
     if (!editor) return
     const previousUrl = editor.getAttributes('link').href
-    const url = window.prompt('URL:', previousUrl)
+    const url = window.prompt(t('newsCreate.urlPrompt'), previousUrl)
 
     if (url === null) return
 
@@ -149,6 +151,7 @@ const MenuBar = ({ editor }) => {
 }
 
 const NewsEditor = ({ content = '', onChange }) => {
+  const { t } = useTranslation()
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -165,7 +168,7 @@ const NewsEditor = ({ content = '', onChange }) => {
         },
       }),
       Placeholder.configure({
-        placeholder: 'Write your news article here...',
+        placeholder: t('newsCreate.editorPlaceholder'),
       }),
     ],
     content,

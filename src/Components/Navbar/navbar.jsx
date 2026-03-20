@@ -1,10 +1,47 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import logger from '../../utils/logger';
 import './navbar.css';
 import logo from '../../assets/logo-big.png';
 
+const FlagUS = () => (
+  <svg className="lang-flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+    <rect width="60" height="30" fill="#B22234"/>
+    <g fill="#FFF">
+      {[1,3,5,7,9,11].map(i => <rect key={i} y={i*30/13} width="60" height={30/13}/>)}
+    </g>
+    <rect width="24" height="16.15" fill="#3C3B6E"/>
+  </svg>
+);
+
+const FlagAR = () => (
+  <svg className="lang-flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+    <rect width="60" height="30" fill="#FFF"/>
+    <rect width="60" height="10" fill="#74ACDF"/>
+    <rect y="20" width="60" height="10" fill="#74ACDF"/>
+    <circle cx="30" cy="15" r="3.5" fill="#F6B40E"/>
+  </svg>
+);
+
+const FlagDE = () => (
+  <svg className="lang-flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+    <rect width="60" height="10" fill="#000"/>
+    <rect y="10" width="60" height="10" fill="#DD0000"/>
+    <rect y="20" width="60" height="10" fill="#FFCC00"/>
+  </svg>
+);
+
 const Navbar = () => {
+  const { t, i18n } = useTranslation();
+  const [isLangOpen, setIsLangOpen] = useState(false);
+
+  const currentLang = i18n.language?.startsWith('es') ? 'es' : i18n.language?.startsWith('de') ? 'de' : 'en';
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    setIsLangOpen(false);
+  };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const { user, profile, isAuthenticated, signOut } = useAuthContext();
@@ -16,6 +53,13 @@ const Navbar = () => {
     document.body.classList.toggle('modal-open', isMenuOpen);
     return () => document.body.classList.remove('modal-open');
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (!isLangOpen) return;
+    const close = () => setIsLangOpen(false);
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [isLangOpen]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
@@ -51,16 +95,36 @@ const Navbar = () => {
       <nav className="navbar">
         <div className="navbar-container">
 
-          <a href="/" className="brand-link">
-          <img src={logo} alt="" />
-          </a>
-          
+          <div className="brand-section">
+            <a href="/" className="brand-link">
+              <img src={logo} alt="" />
+            </a>
+            <div className={`lang-dropdown ${isLangOpen ? 'open' : ''}`}>
+              <button className="lang-toggle" onClick={(e) => { e.stopPropagation(); setIsLangOpen(!isLangOpen); }}>
+                {currentLang === 'es' ? <FlagAR /> : currentLang === 'de' ? <FlagDE /> : <FlagUS />}
+                <span className="lang-arrow">▼</span>
+              </button>
+              <div className={`lang-menu ${isLangOpen ? 'open' : ''}`}>
+                <button className={`lang-option ${currentLang === 'en' ? 'active' : ''}`} onClick={() => changeLanguage('en')}>
+                  <FlagUS /> English
+                </button>
+                <div className="dropdown-divider"></div>
+                <button className={`lang-option ${currentLang === 'es' ? 'active' : ''}`} onClick={() => changeLanguage('es')}>
+                  <FlagAR /> Español
+                </button>
+                <div className="dropdown-divider"></div>
+                <button className={`lang-option ${currentLang === 'de' ? 'active' : ''}`} onClick={() => changeLanguage('de')}>
+                  <FlagDE /> Deutsch
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
             <div className="nav-links">
-              <a href="/" className={`nav-link${currentPath === '/' ? ' active' : ''}`}>Home</a>
-              <a href="/news" className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>News</a>
-              <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">Download</a>
+              <a href="/" className={`nav-link${currentPath === '/' ? ' active' : ''}`}>{t('nav.home')}</a>
+              <a href="/news" className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>{t('nav.news')}</a>
+              <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
             </div>
             
 
@@ -99,7 +163,7 @@ const Navbar = () => {
                   
                   <div className="dropdown-menu">
                     <button onClick={handleProfile} className="dropdown-item">
-                      My Profile
+                      {t('nav.myProfile')}
                     </button>
                     <div className="dropdown-divider"></div>
                     <button 
@@ -107,13 +171,13 @@ const Navbar = () => {
                       className="dropdown-item logout-item"
                       disabled={isSigningOut}
                     >
-                      {isSigningOut ? 'Signing out...' : 'Sign Out'}
+                      {isSigningOut ? t('nav.signingOut') : t('nav.signOut')}
                     </button>
                   </div>
                 </div>
               ) : (
                 <a href="/login" className="button-a">
-                  Sign In
+                  {t('nav.signIn')}
                 </a>
               )}
             </div>
@@ -123,7 +187,7 @@ const Navbar = () => {
           <button 
             className={`mobile-toggle ${isMenuOpen ? 'active' : ''}`}
             onClick={toggleMenu}
-            aria-label="Toggle menu"
+            aria-label={t('nav.toggleMenu')}
           >
             <span></span>
             <span></span>

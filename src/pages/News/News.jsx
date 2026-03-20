@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getAllNews } from '../../lib/database'
 import { NEWS_TAGS } from '../../utils/helpers'
@@ -9,6 +10,7 @@ import './News.css'
 const PAGE_SIZE = 9
 
 const News = () => {
+  const { t } = useTranslation()
   const { profile } = useAuthContext()
 
   const [news, setNews] = useState([])
@@ -30,7 +32,7 @@ const News = () => {
 
       if (fetchError) {
         logger.error('Error loading news:', fetchError)
-        setError('Failed to load news. Please try again.')
+        setError(t('news.failedToLoad'))
         return
       }
 
@@ -39,14 +41,14 @@ const News = () => {
       setError(null)
     } catch (err) {
       logger.error('Unexpected error loading news:', err)
-      setError('Failed to load news. Please try again.')
+      setError(t('news.failedToLoad'))
     } finally {
       setLoading(false)
       setLoadingMore(false)
     }
   }, [])
 
-  useEffect(() => { document.title = 'News | Vetus Rex' }, [])
+  useEffect(() => { document.title = t('news.pageTitle') }, [])
 
   useEffect(() => {
     setPage(1)
@@ -65,18 +67,18 @@ const News = () => {
     <div className="news-page">
       <div className="news-page-header">
         <div className="news-page-title-row">
-          <h1 className="content-header-title">News</h1>
+          <h1 className="content-header-title">{t('news.title')}</h1>
           {isAdmin && (
             <button
               className="button-a"
               onClick={() => { window.location.href = '/news/create' }}
             >
-              + New Post
+              {t('news.newPost')}
             </button>
           )}
         </div>
         <p className="content-header-subtitle">
-          Stay up to date with the latest updates, patches, and events
+          {t('news.subtitle')}
         </p>
       </div>
 
@@ -86,7 +88,7 @@ const News = () => {
           className={`tag-filter-btn ${activeTag === null ? 'active' : ''}`}
           onClick={() => setActiveTag(null)}
         >
-          All
+          {t('news.all')}
         </button>
         {Object.entries(NEWS_TAGS).map(([key, tag]) => (
           <button
@@ -95,7 +97,7 @@ const News = () => {
             style={activeTag === key ? { backgroundColor: tag.color, borderColor: tag.color } : {}}
             onClick={() => setActiveTag(key)}
           >
-            {tag.label}
+            {t(tag.label)}
           </button>
         ))}
       </div>
@@ -103,18 +105,18 @@ const News = () => {
 
       {loading ? (
         <div className="news-loading">
-          <p>Loading news...</p>
+          <p>{t('news.loadingNews')}</p>
         </div>
       ) : error ? (
         <div className="news-error">
           <p>{error}</p>
           <button className="button-a" onClick={() => fetchNews(1, activeTag)}>
-            Retry
+            {t('news.retry')}
           </button>
         </div>
       ) : news.length === 0 ? (
         <div className="news-empty">
-          <p>No news articles found{activeTag ? ` for "${NEWS_TAGS[activeTag]?.label}"` : ''}.</p>
+          <p>{activeTag ? t('news.noArticlesForTag', { tag: t(NEWS_TAGS[activeTag]?.label) }) : t('news.noArticles')}</p>
         </div>
       ) : (
         <>
@@ -131,7 +133,7 @@ const News = () => {
                 onClick={handleLoadMore}
                 disabled={loadingMore}
               >
-                {loadingMore ? 'Loading...' : 'Load More'}
+                {loadingMore ? t('news.loading') : t('news.loadMore')}
               </button>
             </div>
           )}

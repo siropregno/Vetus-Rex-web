@@ -1,20 +1,19 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpider } from '@fortawesome/free-solid-svg-icons';
 import './NotFound.css';
 
 const NotFound = () => {
-  useEffect(() => { document.title = '404 | Vetus Rex' }, [])
+  const { t } = useTranslation()
+  useEffect(() => { document.title = t('notFound.pageTitle') }, [])
 
   return (
     <div className="notfound">
       <FontAwesomeIcon icon={faSpider} className="notfound-icon" />
-      <p className="notfound-message">
-        Error 404. Looks like a <strong>Forest Spider</strong> devoured this page before you could find it. 
-        There's nothing left but cobwebs here.
-      </p>
-      <p className="notfound-hint">Perhaps it never existed... or perhaps it was delicious.</p>
-      <a href="/" className="button-a notfound-home">Return to Safety</a>
+      <p className="notfound-message" dangerouslySetInnerHTML={{ __html: t('notFound.message') }} />
+      <p className="notfound-hint">{t('notFound.hint')}</p>
+      <a href="/" className="button-a notfound-home">{t('notFound.returnHome')}</a>
     </div>
   );
 };

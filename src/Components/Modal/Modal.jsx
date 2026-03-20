@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import './Modal.css'
 
 
@@ -8,14 +9,18 @@ const Modal = ({
   onConfirm, 
   title = '', 
   message = '', 
-  type = 'alert',        // 'alert' | 'confirm' | 'prompt'
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  type = 'alert',
+  confirmText,
+  cancelText,
   promptPlaceholder = '',
-  promptMatch = '',       // if set, input must match this to enable confirm
-  variant = 'default'     // 'default' | 'danger'
+  promptMatch = '',
+  variant = 'default'
 }) => {
+  const { t } = useTranslation()
   const [inputValue, setInputValue] = useState('')
+
+  const resolvedConfirmText = confirmText || t('modal.confirm')
+  const resolvedCancelText = cancelText || t('modal.cancel')
 
   useEffect(() => {
     if (isOpen) {
@@ -73,7 +78,7 @@ const Modal = ({
         <div className="modal-actions">
           {type !== 'alert' && (
             <button className="button-b" onClick={onClose}>
-              {cancelText}
+              {resolvedCancelText}
             </button>
           )}
           <button 
@@ -81,7 +86,7 @@ const Modal = ({
             onClick={handleConfirm}
             disabled={isConfirmDisabled}
           >
-            {confirmText}
+            {resolvedConfirmText}
           </button>
         </div>
       </div>

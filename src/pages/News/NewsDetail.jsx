@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import DOMPurify from 'dompurify'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getNewsById, deleteNews, deleteNewsImage } from '../../lib/database'
@@ -9,6 +10,7 @@ import logger from '../../utils/logger'
 import './NewsDetail.css'
 
 const NewsDetail = () => {
+  const { t } = useTranslation()
   const { id } = useParams()
   const { profile } = useAuthContext()
 
@@ -19,7 +21,7 @@ const NewsDetail = () => {
 
   const isAdmin = profile?.role === 'admin'
 
-  useEffect(() => { document.title = 'News | Vetus Rex' }, [])
+  useEffect(() => { document.title = t('newsDetail.pageTitle') }, [])
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -28,7 +30,7 @@ const NewsDetail = () => {
 
       if (fetchError) {
         logger.error('Error loading article:', fetchError)
-        setError('Article not found.')
+        setError(t('newsDetail.articleNotFound'))
         setLoading(false)
         return
       }
@@ -44,10 +46,10 @@ const NewsDetail = () => {
     setModal({
       isOpen: true,
       type: 'confirm',
-      title: 'Delete Article',
-      message: 'Are you sure you want to delete this article? This action cannot be undone.',
+      title: t('newsDetail.deleteTitle'),
+      message: t('newsDetail.deleteMessage'),
       variant: 'danger',
-      confirmText: 'Delete',
+      confirmText: t('common.delete'),
       onConfirm: async () => {
 
         if (article.cover_image_url) {
@@ -58,7 +60,7 @@ const NewsDetail = () => {
         if (deleteError) {
           logger.error('Error deleting article:', deleteError)
           setModal({ isOpen: false })
-          setError('Failed to delete article.')
+          setError(t('newsDetail.failedToDelete'))
           return
         }
 
@@ -73,7 +75,7 @@ const NewsDetail = () => {
     return (
       <div className="news-detail-page">
         <div className="news-detail-loading">
-          <p>Loading article...</p>
+          <p>{t('newsDetail.loadingArticle')}</p>
         </div>
       </div>
     )
@@ -83,9 +85,9 @@ const NewsDetail = () => {
     return (
       <div className="news-detail-page">
         <div className="news-detail-error">
-          <p>{error || 'Article not found.'}</p>
+          <p>{error || t('newsDetail.articleNotFound')}</p>
           <button className="button-a" onClick={() => { window.location.href = '/news' }}>
-            ← Back to News
+            {t('newsDetail.backToNews')}
           </button>
         </div>
       </div>
@@ -98,7 +100,7 @@ const NewsDetail = () => {
   return (
     <div className="news-detail-page">
       <button className="news-detail-back" onClick={() => { window.location.href = '/news' }}>
-        ← Back to News
+        {t('newsDetail.backToNews')}
       </button>
 
       {article.cover_image_url && (
@@ -113,7 +115,7 @@ const NewsDetail = () => {
             className="news-detail-tag"
             style={{ backgroundColor: tag.color }}
           >
-            {tag.label}
+            {t(tag.label)}
           </span>
         )}
 
@@ -152,10 +154,10 @@ const NewsDetail = () => {
             className="button-a"
             onClick={() => { window.location.href = `/news/edit/${article.id}` }}
           >
-            Edit
+            {t('newsDetail.edit')}
           </button>
           <button className="button-danger" onClick={handleDelete}>
-            Delete
+            {t('newsDetail.delete')}
           </button>
         </div>
       )}

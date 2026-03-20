@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { getLatestNews } from '../../lib/database'
 import NewsCard from '../../Components/NewsCard/NewsCard'
 import Separator from '../../Components/Separator/Separator'
@@ -8,10 +9,11 @@ import bannerImage from '../../assets/banner1.png'
 import './Home.css'
 
 const Home = () => {
+  const { t } = useTranslation()
   const [latestNews, setLatestNews] = useState([])
   const [newsLoading, setNewsLoading] = useState(true)
 
-  useEffect(() => { document.title = 'Vetus Rex - Embark on an Unforgettable Adventure' }, [])
+  useEffect(() => { document.title = t('home.pageTitle') }, [])
 
   useEffect(() => {
     const fetchLatestNews = async () => {
@@ -38,11 +40,9 @@ const Home = () => {
         <div className="home-banner-overlay" />
         <div className="home-banner-inner">
           <div className="home-banner-content">
-            <h1 className="home-banner-title">Embark on an <span className='color-acc'>Unforgettable</span> Adventure</h1>
+            <h1 className="home-banner-title" dangerouslySetInnerHTML={{ __html: t('home.bannerTitle').replace('<accent>', '<span class="color-acc">').replace('</accent>', '</span>') }} />
             <p className="home-banner-text">
-              Step into a vast, unexplored world and uncover the secrets hidden within
-              the enigmatic lands of the Old King. Rise as the hero who will shape the fate
-              of the world as we know it. Are you ready?
+              {t('home.bannerText')}
             </p>
             <a
               href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d"
@@ -50,33 +50,33 @@ const Home = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Coming soon - Try it on itch.io →
+              {t('home.bannerCta')}
             </a>
           </div>
         </div>
       </section>
 
       <Separator items={[
-        { icon: faCrosshairs, label: 'Epic Combat', desc: 'Master tab target-based battles against fearsome creatures' },
-        { icon: faEarthAmericas, label: 'Vast World', desc: 'Explore a rich open world full of secrets and lore' },
-        { icon: faGift, label: 'Amazing Rewards', desc: 'Collect unique items and unlock powerful abilities' },
+        { icon: faCrosshairs, label: t('home.epicCombat'), desc: t('home.epicCombatDesc') },
+        { icon: faEarthAmericas, label: t('home.vastWorld'), desc: t('home.vastWorldDesc') },
+        { icon: faGift, label: t('home.amazingRewards'), desc: t('home.amazingRewardsDesc') },
       ]} />
 
       <section className="home-news">
         <div className="home-news-header">
-          <h2 className="home-news-title">Latest News</h2>
+          <h2 className="home-news-title">{t('home.latestNews')}</h2>
           <button className="home-news-viewall" onClick={() => { window.location.href = '/news' }}>
-            View All →
+            {t('home.viewAll')}
           </button>
         </div>
 
         {newsLoading ? (
           <div className="home-news-loading">
-            <p>Loading news...</p>
+            <p>{t('home.loadingNews')}</p>
           </div>
         ) : latestNews.length === 0 ? (
           <div className="home-news-empty">
-            <p>No news yet. Stay tuned!</p>
+            <p>{t('home.noNews')}</p>
           </div>
         ) : (
           <div className="home-news-grid">
