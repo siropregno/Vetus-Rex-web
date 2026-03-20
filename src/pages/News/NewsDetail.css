@@ -74,6 +74,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
+  font-family: var(--font-body);
 }
 
 .news-detail-avatar {
@@ -98,6 +99,7 @@
 
 .news-detail-date {
   color: var(--light-grey);
+  font-family: var(--font-body);
 }
 
 

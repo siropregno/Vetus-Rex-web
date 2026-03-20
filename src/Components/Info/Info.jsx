@@ -205,7 +205,7 @@ const Info = () => {
           {profile?.avatar_url && (
             <button
               onClick={handleDeleteAvatar}
-              className="button-b"
+              className="button-danger"
               disabled={isUploadingAvatar}
             >
               Delete
