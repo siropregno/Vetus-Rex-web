@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getLatestNews } from '../../lib/database'
 import NewsCard from '../../Components/NewsCard/NewsCard'
 import Separator from '../../Components/Separator/Separator'
+import { faCrosshairs, faEarthAmericas, faGift } from '@fortawesome/free-solid-svg-icons'
 import logger from '../../utils/logger'
 import bannerImage from '../../assets/banner1.png'
 import './Home.css'
@@ -54,9 +55,9 @@ const Home = () => {
       </section>
 
       <Separator items={[
-        { icon: '⚔️', label: 'Epic Combat', desc: 'Master tab target-based battles against fearsome creatures' },
-        { icon: '🌍', label: 'Vast World', desc: 'Explore a rich open world full of secrets and lore' },
-        { icon: '🎁', label: 'Amazing Rewards', desc: 'Collect unique items and unlock powerful abilities' },
+        { icon: faCrosshairs, label: 'Epic Combat', desc: 'Master tab target-based battles against fearsome creatures' },
+        { icon: faEarthAmericas, label: 'Vast World', desc: 'Explore a rich open world full of secrets and lore' },
+        { icon: faGift, label: 'Amazing Rewards', desc: 'Collect unique items and unlock powerful abilities' },
       ]} />
 
       <section className="home-news">

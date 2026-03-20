@@ -93,6 +93,8 @@
 
 .field-value {
   color: var(--wht);
+  font-family: var(--font-body);
+  font-size: 0.9em;
 }
 
 .profile-form .form-group .input-field {

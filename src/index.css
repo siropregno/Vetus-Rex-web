@@ -1,3 +1,4 @@
+@import url("https://use.typekit.net/mer2bye.css");
 @font-face {
     font-family: 'Candara';
     src: url('./assets/Candara.ttf') format('truetype');
@@ -110,7 +111,7 @@
 
     /* Fonts */
     --font-body: 'Candara', system-ui;
-    --font-ui: 'Candara', system-ui;
+    --font-ui: "adorn-serif", sans-serif;
 
     /* Breakpoints (reference only — can't use in media queries) */
     /* --bp-mobile: 480px; --bp-tablet: 768px; */
@@ -128,15 +129,15 @@ h1, h2, h3, h4, h5, p, label, input, textarea, select, button, span, li, a {
     box-sizing: border-box;
 }
 
-h1 { font-family: var(--font-ui); font-size: 3em; font-weight: 800; }
+h1 { font-family: var(--font-ui); font-size: 2.4em; font-weight: 800; }
 h2 { font-family: var(--font-ui); font-size: 2em; font-weight: 800; }
-h3 { font-family: var(--font-ui); font-size: 1.2em; font-weight: 600; }
+h3 { font-family: var(--font-ui); font-size: 1em; font-weight: 600; }
 h4 { font-family: var(--font-ui); font-size: 1.1em; font-weight: 500; }
 h5 { font-family: var(--font-ui); font-size: 0.9em; font-weight: 500; }
 p { font-family: var(--font-body); font-size: 0.9em; font-weight: 400; }
 label { font-family: var(--font-body); font-size: 0.9em; font-weight: 500; }
-input, textarea, select, button, span, li { font-family: var(--font-body); font-size: 0.9em; }
-a { font-family: var(--font-body); font-size: 0.9em; font-weight: 400; text-decoration: none; }
+input, textarea, select, li { font-family: var(--font-body); font-size: 0.9em; }
+a, button { font-family: var(--font-ui); font-size: 0.9em; font-weight: 400; text-decoration: none; }
 
 body {
     background-color: var(--blk);

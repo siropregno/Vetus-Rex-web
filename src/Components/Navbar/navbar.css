@@ -154,6 +154,7 @@
 
 .user-name {
   max-width: 120px;
+  font-family: var(--font-body);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -201,10 +202,7 @@
   text-align: left;
   cursor: pointer;
   color: var(--wht);
-  font-size: 1rem;
-  font-weight: 500;
   transition: all var(--transition-base);
-  font-family: var(--font-ui);
 }
 
 .dropdown-item:first-child {

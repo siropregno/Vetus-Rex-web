@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Separator.css'
 
 const Separator = ({ items }) => {
@@ -6,7 +7,7 @@ const Separator = ({ items }) => {
       <div className="separator-inner">
         {items.map((item, index) => (
           <div className="separator-item" key={index}>
-            <span className="separator-icon">{item.icon}</span>
+            <FontAwesomeIcon icon={item.icon} className="separator-icon" />
             <h3 className="separator-label">{item.label}</h3>
             <p className="separator-desc">{item.desc}</p>
           </div>

@@ -92,8 +92,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--light-grey);
+  font-family: var(--font-body);
 }
 
 .news-card-avatar {
