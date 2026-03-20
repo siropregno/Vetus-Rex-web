@@ -5,19 +5,7 @@
   margin-top: 1rem;
 }
 
-/* Loading */
-.spinner {
-  width: 24px;
-  height: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid white;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* Loading - spinner uses global .spinner from index.css */
 
 .loading-spinner {
   display: flex;

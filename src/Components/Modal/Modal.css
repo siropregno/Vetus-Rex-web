@@ -4,12 +4,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  animation: modal-fade-in 0.2s ease;
+  z-index: var(--z-modal);
+  animation: modal-fade-in var(--transition-base);
 }
 
 @keyframes modal-fade-in {
@@ -19,12 +19,12 @@
 
 .modal-container {
   background: var(--dark-grey);
-  border: 1px solid rgba(255, 140, 33, 0.15);
-  border-radius: 12px;
-  padding: 2rem;
+  border: 1px solid var(--accent-15);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2xl);
   max-width: 420px;
   width: 90%;
-  animation: modal-slide-in 0.2s ease;
+  animation: modal-slide-in var(--transition-base);
 }
 
 @keyframes modal-slide-in {
@@ -33,10 +33,8 @@
 }
 
 .modal-title {
-  font-family: var(--font-ui);
-  font-size: 1.25rem;
   color: var(--accent);
-  margin: 0 0 1rem 0;
+  margin: 0 0 var(--space-lg) 0;
 }
 
 .modal-title-danger {
@@ -44,19 +42,18 @@
 }
 
 .modal-body {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-xl);
 }
 
 .modal-message {
   color: var(--wht);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: var(--leading-relaxed);
   margin: 0;
   white-space: pre-line;
 }
 
 .modal-input {
-  margin-top: 1rem;
+  margin-top: var(--space-lg);
   width: 100%;
   box-sizing: border-box;
 }
@@ -64,5 +61,5 @@
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }

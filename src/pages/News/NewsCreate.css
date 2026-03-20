@@ -1,29 +1,22 @@
 .news-create-page {
   width: 100%;
-  max-width: 800px;
+  max-width: var(--container-lg);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-2xl) var(--space-lg);
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-xl);
 }
 
 .news-create-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-xl);
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+/* form-group base is in index.css */
 
-.form-group label {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 500;
+.news-create-form .form-group label {
   color: var(--light-grey);
 }
 
@@ -39,7 +32,7 @@
 /* Cover image */
 .cover-preview {
   position: relative;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   overflow: hidden;
   max-height: 300px;
 }
@@ -55,15 +48,15 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--overlay-bg);
   color: white;
   border: none;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.8rem;
   font-family: var(--font-ui);
-  transition: background 0.2s;
+  transition: background var(--transition-base);
 }
 
 .cover-remove:hover {
@@ -82,21 +75,21 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 0.75rem 1.25rem;
-  background: rgba(255, 140, 33, 0.06);
-  border: 1px dashed rgba(255, 140, 33, 0.25);
-  border-radius: 8px;
+  padding: var(--space-md) 1.25rem;
+  background: var(--accent-6);
+  border: 1px dashed var(--accent-25);
+  border-radius: var(--radius-md);
   color: var(--light-grey);
   cursor: pointer;
   font-family: var(--font-ui);
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .cover-upload-label:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(255, 140, 33, 0.1);
+  background: var(--accent-10);
 }
 
 /* Error */
@@ -104,8 +97,8 @@
   background: rgba(209, 45, 45, 0.1);
   border: 1px solid rgba(209, 45, 45, 0.3);
   color: var(--danger);
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
 }
 
@@ -113,8 +106,8 @@
 .news-create-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  padding-top: 1rem;
+  gap: var(--space-lg);
+  padding-top: var(--space-lg);
 }
 
 /* Loading */
@@ -130,7 +123,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .news-create-page {
-    padding: 1rem 0.5rem;
+    padding: var(--space-lg) var(--space-sm);
   }
 
   .news-create-actions {

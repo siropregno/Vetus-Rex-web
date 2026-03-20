@@ -1,9 +1,9 @@
 .info-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-2xl);
   width: 100%;
-  max-width: 600px;
+  max-width: var(--container-md);
   margin: 0 auto;
 }
 
@@ -11,17 +11,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  border-radius: 16px;
+  gap: var(--space-lg);
+  border-radius: var(--radius-xl);
 }
 
 .avatar-circle {
   position: relative;
   width: 150px;
   height: 150px;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   overflow: hidden;
-  background: linear-gradient(135deg, var(--accent), #b91c1c);
+  background: var(--accent-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +31,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 
 .avatar-initials {
@@ -47,19 +47,19 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
 }
 
 .avatar-actions {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   width: auto;
-  margin-top: 1rem;
+  margin-top: var(--space-lg);
 }
 
 .avatar-input {
@@ -70,8 +70,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 16px;
-  gap: 1rem;
+  border-radius: var(--radius-xl);
+  gap: var(--space-lg);
   width: 100%;
 }
 
@@ -79,13 +79,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-md);
   width: 100%;
 }
 
 .profile-form .form-group label {
-  font-size: 1rem;
-  font-weight: 500;
   color: var(--accent);
   white-space: nowrap;
   min-width: fit-content;
@@ -94,7 +92,6 @@
 }
 
 .field-value {
-  font-size:  1rem;
   color: var(--wht);
 }
 
@@ -104,94 +101,63 @@
 
 /* Los inputs usan la clase .input-field del index.css */
 
-.form-actions {
-  margin-top: 2rem;
-}
+/* form-actions base is in index.css */
 
 .button-group {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }
 
 .account-info {
   background: var(--dark-grey);
-  padding: 2rem;
-  border-radius: 12px;
-  margin-bottom: 2rem;
+  padding: var(--space-2xl);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-2xl);
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
+  padding: var(--space-md) 0;
 }
 
 .info-item .label {
   font-weight: 500;
-  color: var(--text-secondary, #8b949e);
+  color: var(--text-secondary);
 }
 
 .info-item .value {
-  color: var(--text-primary, #fff);
+  color: var(--wht);
 }
 
 .debug-section {
-  background: var(--warning-bg, #2d1b00);
-  border: 1px solid var(--warning-border, #f85149);
-  padding: 2rem;
-  border-radius: 12px;
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  padding: var(--space-2xl);
+  border-radius: var(--radius-lg);
   text-align: center;
 }
 
 .debug-section p {
-  margin-bottom: 1rem;
-  color: var(--warning-text, #f85149);
+  margin-bottom: var(--space-lg);
+  color: var(--error-text);
 }
 
-.message {
-  padding: 0.75rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
+/* .message styles are in index.css */
 
-.message.error {
-  background: var(--error-bg, #2d1b1b);
-  color: var(--error-text, #f85149);
-  border: 1px solid var(--error-border, #f85149);
-}
-
-.message.success {
-  background: var(--success-bg, #1b2d1b);
-  color: var(--success-text, #3fb950);
-  border: 1px solid var(--success-border, #3fb950);
-}
-
-.spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #333;
-  border-top: 2px solid var(--accent-color, #58a6ff);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+/* Spinner uses global .spinner from index.css */
 
 @media (max-width: 768px) {
   .info-container {
-    gap: 1rem;
+    gap: var(--space-lg);
   }
   
   .avatar-section,
   .profile-form,
   .account-info,
   .debug-section {
-    padding: 1.5rem;
+    padding: var(--space-xl);
   }
   
   .avatar-circle {
@@ -213,16 +179,16 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: var(--success-bg, #1b2d1b);
-  color: var(--success-text, #3fb950);
-  border: 1px solid var(--success-border, #3fb950);
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  background: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid var(--success-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg) var(--space-xl);
+  box-shadow: var(--shadow-sm);
+  z-index: var(--z-sticky);
   transform: translateX(100%);
   opacity: 0;
-  transition: all 0.3s ease-in-out;
+  transition: all var(--transition-slow);
   max-width: 350px;
   min-width: 280px;
 }
@@ -235,7 +201,7 @@
 .toast-content {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }
 
 .toast-icon {
@@ -244,9 +210,9 @@
   justify-content: center;
   width: 20px;
   height: 20px;
-  background: var(--success-text, #3fb950);
-  color: var(--success-bg, #1b2d1b);
-  border-radius: 50%;
+  background: var(--success-text);
+  color: var(--success-bg);
+  border-radius: var(--radius-circle);
   font-size: 12px;
   font-weight: bold;
   flex-shrink: 0;

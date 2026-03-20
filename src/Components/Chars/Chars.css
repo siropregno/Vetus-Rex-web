@@ -2,9 +2,9 @@
 .chars-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--space-2xl);
   width: 100%;
-  max-width: 800px;
+  max-width: var(--container-lg);
   margin: 0 auto;
 }
 
@@ -20,19 +20,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  color: var(--text-secondary, #8b949e);
+  padding: var(--space-2xl);
+  color: var(--text-secondary);
 }
 
 .empty-state {
-  max-width: 400px;
+  max-width: var(--container-xs);
   margin: 0 auto;
 }
 
 .empty-state p {
-  margin: 0 0 2rem 0;
+  margin: 0 0 var(--space-2xl) 0;
   color: var(--light-grey);
-  font-size: 14px;
 }
 
 /* Grid de personajes */
@@ -40,8 +39,8 @@
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
 }
 
 .character-card {
@@ -49,10 +48,10 @@
   align-items: center;
   justify-content: space-between;
   background: var(--dark-grey);
-  border: 1px solid var(--border-color, #333);
-  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   padding: 20px;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
 }
 
 .character-card:hover {
@@ -65,34 +64,29 @@
 }
 
 .character-info h3 {
-  font-family: var(--font-ui);
-  font-weight: 500;
   margin: 0;
   color: var(--wht);
-  font-size: 18px;
 }
 
 .character-level {
   margin: 0;
   color: var(--accent);
-  font-weight: 500;
-  font-size: 1rem;
 }
 
 .character-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-sm);
 }
 
-/* Botones de acción compartidos */
-.edit-btn, .delete-btn, .close-btn {
+/* Botones de acción */
+.delete-btn {
   background: none;
   border: 1px solid var(--dark-grey);
-  border-radius: 6px;
-  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
   color: var(--wht);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,41 +94,20 @@
   height: 36px;
 }
 
-.edit-btn:hover {
-  background: var(--accent);
-  color: var(--wht);
-}
-
-.delete-btn:hover, .close-btn:hover {
+.delete-btn:hover {
   background: var(--danger);
   color: var(--wht);
 }
 
-/* Sección agregar personaje */
-.add-character-section {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-}
 
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-}
+/* Modal — uses .modal-overlay from Modal.css */
 
 .character-form-modal {
-  background: var(--surface-color, #1a1a1a);
-  border: 1px solid var(--border-color, #333);
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   width: 100%;
-  max-width: 500px;
+  max-width: var(--container-sm);
   max-height: 90vh;
   overflow-y: auto;
 }
@@ -143,70 +116,41 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--border-color, #333);
+  padding: var(--space-xl);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .form-header h3 {
   margin: 0;
-  color: var(--text-primary, #fff);
-  font-size: 1.3rem;
+  color: var(--wht);
 }
 
 /* Formulario */
 .character-form {
-  padding: 1.5rem;
+  padding: var(--space-xl);
 }
 
 .form-error {
   background: rgba(218, 54, 51, 0.1);
-  border: 1px solid #da3633;
-  color: #da3633;
-  padding: 0.75rem;
-  border-radius: 6px;
-  margin-bottom: 1rem;
+  border: 1px solid var(--error-text);
+  color: var(--error-text);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-lg);
   font-size: 0.9rem;
 }
 
-.form-group {
-  margin-bottom: 1.5rem;
+/* form-group base is in index.css */
+.character-form .form-group {
+  margin-bottom: var(--space-xl);
 }
 
-.form-group label {
+.character-form .form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  color: var(--text-primary, #fff);
-  font-weight: 500;
+  margin-bottom: var(--space-sm);
 }
 
-/* Inputs compartidos */
-.form-group input, .form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: rgb(31, 23, 18);
-  border: 1px solid rgb(77, 61, 46);
-  border-radius: 4px;
-  color: rgb(230, 217, 199);
-  caret-color: rgb(230, 92, 56);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.form-group input:focus, .form-group select:focus {
-  outline: none;
-  background-color: rgb(36, 28, 23);
-  border-color: rgb(230, 92, 56);
-}
-
-.form-group input::placeholder {
-  color: rgb(128, 112, 97);
-}
-
-.form-group input::selection, .form-group select::selection {
-  background-color: rgba(230, 92, 56, 0.3);
-}
-
+/* Inputs — use .input-field class from index.css in JSX */
 .form-group select {
   cursor: pointer;
 }
@@ -214,46 +158,39 @@
 .form-group select option {
   background: var(--dark-grey);
   color: var(--wht);
-  padding: 0.5rem;
+  padding: var(--space-sm);
 }
 
-/* Acciones del formulario */
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 2rem;
-}
+/* Acciones del formulario — extends .form-actions from index.css */
 
 .cancel-btn, .submit-btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   border: 1px solid;
 }
 
 .cancel-btn {
   background: none;
-  color: var(--text-secondary, #8b949e);
-  border-color: var(--border-color, #333);
+  color: var(--text-secondary);
+  border-color: var(--border-color);
 }
 
 .cancel-btn:hover:not(:disabled) {
-  background: var(--border-color, #333);
-  color: var(--text-primary, #fff);
+  background: var(--border-color);
+  color: var(--wht);
 }
 
 .submit-btn {
-  background: var(--accent-color, #58a6ff);
+  background: var(--accent);
   color: white;
-  border-color: var(--accent-color, #58a6ff);
+  border-color: var(--accent);
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: var(--accent-hover, #4a90e2);
-  border-color: var(--accent-hover, #4a90e2);
+  opacity: 0.9;
 }
 
 .cancel-btn:disabled, .submit-btn:disabled {
@@ -264,7 +201,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .chars-container {
-    gap: 1rem;
+    gap: var(--space-lg);
   }
 
   .characters-grid {
@@ -275,10 +212,6 @@
     margin: 0;
     max-height: 100vh;
     border-radius: 0;
-  }
-
-  .form-actions {
-    flex-direction: column;
   }
 
   .cancel-btn, .submit-btn {

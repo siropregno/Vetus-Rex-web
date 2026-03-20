@@ -1,7 +1,7 @@
 .register-card {
   width: 100%;
-  max-width: 400px;
-  border-radius: 16px;
+  max-width: var(--container-xs);
+  border-radius: var(--radius-xl);
   padding: 2.5rem;
   position: relative;
   z-index: 1;
@@ -10,26 +10,21 @@
 /* Header */
 .register-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-2xl);
 }
 
 .register-title {
-  font-family: var(--font-ui);
-  font-size: 2rem;
-  font-weight: 600;
   color: var(--wht);
-  margin: 0 0 0.5rem 0;
-  background: linear-gradient(135deg, var(--wht), rgba(255, 255, 255, 0.8));
+  margin: 0 0 var(--space-sm) 0;
+  background: linear-gradient(135deg, var(--wht), var(--wht-80));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .register-subtitle {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1rem;
+  color: var(--wht-70);
   margin: 0;
-  font-weight: 400;
 }
 
 /* Form */
@@ -38,27 +33,21 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  gap: var(--space-xl);
+  margin-bottom: var(--space-lg);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .register-card {
-    padding: 2rem;
+    padding: var(--space-2xl);
   }
   
-  .register-title {
-    font-size: 1.75rem;
-  }
 }
 
 @media (max-width: 480px) {
   .register-card {
-    padding: 1.5rem;
+    padding: var(--space-xl);
   }
   
-  .register-title {
-    font-size: 1.5rem;
-  }
 }
