@@ -63,7 +63,7 @@ function buildEmailHtml(article: {
 
           <!-- Accent top line -->
           <tr>
-            <td style="height: 3px; background: linear-gradient(90deg, #ff7221, #b91c1c); border-radius: 3px 3px 0 0; font-size: 0; line-height: 0;">&nbsp;</td>
+            <td style="height: 1px; background-color: rgba(255, 114, 33, 0.25); font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
 
           <!-- Header -->
@@ -114,8 +114,8 @@ function buildEmailHtml(article: {
                   <td align="center" style="padding: 0 32px 36px;">
                     <table role="presentation" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td style="border-radius: 8px; background: linear-gradient(135deg, #ff7221, #b91c1c);">
-                          <a href="${articleUrl}" target="_blank" style="display: inline-block; font-family: ${fontHeading}; color: #ffffff; font-size: 16px; font-weight: 700; text-decoration: none; padding: 14px 40px; letter-spacing: 0.5px;">Read Article &rarr;</a>
+                        <td style="border-radius: 50px; background-color: #ff7221;">
+                          <a href="${articleUrl}" target="_blank" style="display: inline-block; font-family: ${fontStack}; color: #ffffff; font-size: 15px; font-weight: 600; text-decoration: none; padding: 10px 28px; letter-spacing: 0.3px;">Read Article &rarr;</a>
                         </td>
                       </tr>
                     </table>
@@ -128,7 +128,7 @@ function buildEmailHtml(article: {
 
           <!-- Bottom accent line -->
           <tr>
-            <td style="height: 3px; background: linear-gradient(90deg, #b91c1c, #ff7221); border-radius: 0 0 3px 3px; font-size: 0; line-height: 0;">&nbsp;</td>
+            <td style="height: 1px; background-color: rgba(255, 114, 33, 0.25); font-size: 0; line-height: 0;">&nbsp;</td>
           </tr>
 
           <!-- Footer -->
