@@ -25,27 +25,39 @@ const TAG_LABELS: Record<string, string> = {
   community: "Community",
 };
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function truncateText(text: string, maxLength = 150): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength).trimEnd() + "...";
+}
+
 function buildEmailHtml(article: {
   id: string;
   title: string;
   tag: string;
+  content: string;
   cover_image_url: string | null;
 }): string {
   const tagColor = TAG_COLORS[article.tag] || "#ff7221";
   const tagLabel = TAG_LABELS[article.tag] || article.tag;
   const articleUrl = `${SITE_URL}/en/news/${article.id}`;
   const optionsUrl = `${SITE_URL}/en/profile`;
+  const excerpt = truncateText(stripHtml(article.content));
 
   const fontStack = "'Candara', 'Optima', 'Gill Sans', 'Segoe UI', system-ui, sans-serif";
   const fontHeading = "Georgia, 'Palatino Linotype', 'Book Antiqua', Palatino, serif";
 
   const coverSection = article.cover_image_url
-    ? `<tr>
-        <td style="padding: 0 32px;">
-          <img src="${article.cover_image_url}" alt="" width="536" style="width: 100%; max-width: 536px; height: auto; display: block; border-radius: 8px; border: 1px solid #2a2a2a;" />
-        </td>
-      </tr>
-      <tr><td style="height: 28px;"></td></tr>`
+    ? `<!-- Cover image -->
+                <tr>
+                  <td style="padding: 0 32px;">
+                    <img src="${article.cover_image_url}" alt="" width="536" style="width: 100%; max-width: 536px; height: auto; display: block; border-radius: 8px; border: 1px solid #2a2a2a;" />
+                  </td>
+                </tr>
+                <tr><td style="height: 24px;"></td></tr>`
     : "";
 
   return `<!DOCTYPE html>
@@ -90,15 +102,21 @@ function buildEmailHtml(article: {
                   </td>
                 </tr>
 
+                ${coverSection}
+
                 <!-- Title -->
                 <tr>
-                  <td style="padding: 0 32px 28px;">
+                  <td style="padding: 0 32px 12px;">
                     <h1 style="margin: 0; font-family: ${fontHeading}; font-size: 26px; font-weight: 700; color: #e3e3e3; line-height: 1.35;">${article.title}</h1>
                   </td>
                 </tr>
 
-                <!-- Cover image -->
-                ${coverSection}
+                <!-- Excerpt -->
+                <tr>
+                  <td style="padding: 0 32px 28px;">
+                    <p style="margin: 0; font-family: ${fontStack}; font-size: 15px; color: #8b949e; line-height: 1.6;">${excerpt}</p>
+                  </td>
+                </tr>
 
                 <!-- Divider -->
                 <tr>
@@ -199,6 +217,7 @@ Deno.serve(async (req) => {
       id: record.id,
       title: record.title,
       tag: record.tag || "update",
+      content: record.content || "",
       cover_image_url: record.cover_image_url || null,
     };
 

@@ -131,6 +131,7 @@ html {
 body {
     background-color: var(--blk);
     color: var(--wht);
+    font-family: var(--font-body);
     margin: 0;
     overflow-x: clip;
 }
