@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DOMPurify from 'dompurify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpider } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getNewsById, deleteNews, deleteNewsImage } from '../../lib/database'
 import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
@@ -84,11 +86,11 @@ const NewsDetail = () => {
   if (error || !article) {
     return (
       <div className="news-detail-page">
-        <div className="news-detail-error">
-          <p>{error || t('newsDetail.articleNotFound')}</p>
-          <button className="button-a" onClick={() => { window.location.href = langPath('/news') }}>
-            {t('newsDetail.backToNews')}
-          </button>
+        <div className="notfound">
+          <FontAwesomeIcon icon={faSpider} className="notfound-icon" />
+          <p className="notfound-message" dangerouslySetInnerHTML={{ __html: t('newsDetail.devoured') }} />
+          <p className="notfound-hint">{t('newsDetail.devouredHint')}</p>
+          <a href={langPath('/news')} className="button-a notfound-home">{t('newsDetail.backToNews')}</a>
         </div>
       </div>
     )

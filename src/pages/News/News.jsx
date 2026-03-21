@@ -66,17 +66,7 @@ const News = () => {
   return (
     <>
       <div className="content-header">
-        <div className="content-header-title-row">
-          <h1 className="content-header-title">{t('news.title')}</h1>
-          {isAdmin && (
-            <button
-              className="button-a"
-              onClick={() => { window.location.href = langPath('/news/create') }}
-            >
-              {t('news.newPost')}
-            </button>
-          )}
-        </div>
+        <h1 className="content-header-title">{t('news.title')}</h1>
         <p className="content-header-subtitle">
           {t('news.subtitle')}
         </p>
@@ -116,10 +106,30 @@ const News = () => {
         ) : news.length === 0 ? (
           <div className="news-empty">
             <p>{activeTag ? t('news.noArticlesForTag', { tag: t(NEWS_TAGS[activeTag]?.label) }) : t('news.noArticles')}</p>
+            {isAdmin && (
+              <button
+                className="news-create-card"
+                onClick={() => { window.location.href = langPath('/news/create') }}
+              >
+                <span className="news-create-card-icon">+</span>
+                <span className="news-create-card-label">{t('news.createNews')}</span>
+              </button>
+            )}
           </div>
         ) : (
           <>
             <div className="news-grid">
+              {isAdmin && (
+                <button
+                  className="news-create-card"
+                  onClick={() => { window.location.href = langPath('/news/create') }}
+                >
+                  <div className="news-create-card-content">
+                    <span className="news-create-card-icon">+</span>
+                    <span className="news-create-card-label">{t('news.createNews')}</span>
+                  </div>
+                </button>
+              )}
               {news.map(article => (
                 <NewsCard key={article.id} news={article} />
               ))}
