@@ -64,6 +64,7 @@
     --space-xl: 1.5rem;
     --space-2xl: 2rem;
     --space-3xl: 3rem;
+    --space-4xl: 5rem;
 
     --container-xs: 400px;
     --container-sm: 500px;
@@ -117,7 +118,7 @@ h1, h2, h3, h4, h5, p, label, input, textarea, select, button, span, li, a {
 h1 { font-family: var(--font-ui); font-size: clamp(1.5em, 4vw, 2.4em); font-weight: 800; }
 h2 { font-family: var(--font-ui); font-size: clamp(1.25em, 3vw, 1.6em); font-weight: 800; }
 h3 { font-family: var(--font-ui); font-size: 1em; font-weight: 600; }
-h4 { font-family: var(--font-ui); font-size: 1.1em; font-weight: 500; }
+h4 { font-family: var(--font-body); font-size: 1.1em; font-weight: 700; }
 h5 { font-family: var(--font-ui); font-size: 0.9em; font-weight: 500; }
 p { font-family: var(--font-body); font-size: 0.9em; font-weight: 400; }
 label { font-family: var(--font-body); font-size: 0.9em; font-weight: 500; }
@@ -183,8 +184,7 @@ body.modal-open {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 20vh;
+    padding-block: var(--space-4xl)
 }
 
 .content-header a{
@@ -193,7 +193,13 @@ body.modal-open {
 
 .content-header-title {
     color: var(--wht);
-    margin: 0;
+}
+
+.content-header-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
 }
 
 .content-header-subtitle {
@@ -208,6 +214,7 @@ body.modal-open {
     flex-direction: column;
     align-items: center;
     gap: var(--space-2xl);
+    padding-bottom: var(--space-3xl);
 }
 
 .bar-options {

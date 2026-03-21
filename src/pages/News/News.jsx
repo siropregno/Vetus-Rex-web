@@ -64,9 +64,9 @@ const News = () => {
   const hasMore = news.length < totalCount
 
   return (
-    <div className="news-page">
-      <div className="news-page-header">
-        <div className="news-page-title-row">
+    <>
+      <div className="content-header">
+        <div className="content-header-title-row">
           <h1 className="content-header-title">{t('news.title')}</h1>
           {isAdmin && (
             <button
@@ -82,64 +82,64 @@ const News = () => {
         </p>
       </div>
 
-
-      <div className="news-tags-filter">
-        <button
-          className={`tag-filter-btn ${activeTag === null ? 'active' : ''}`}
-          onClick={() => setActiveTag(null)}
-        >
-          {t('news.all')}
-        </button>
-        {Object.entries(NEWS_TAGS).map(([key, tag]) => (
+      <div className="content-body">
+        <div className="news-tags-filter">
           <button
-            key={key}
-            className={`tag-filter-btn ${activeTag === key ? 'active' : ''}`}
-            style={activeTag === key ? { backgroundColor: tag.color, borderColor: tag.color } : {}}
-            onClick={() => setActiveTag(key)}
+            className={`tag-filter-btn ${activeTag === null ? 'active' : ''}`}
+            onClick={() => setActiveTag(null)}
           >
-            {t(tag.label)}
+            {t('news.all')}
           </button>
-        ))}
-      </div>
+          {Object.entries(NEWS_TAGS).map(([key, tag]) => (
+            <button
+              key={key}
+              className={`tag-filter-btn ${activeTag === key ? 'active' : ''}`}
+              style={activeTag === key ? { backgroundColor: tag.color, borderColor: tag.color } : {}}
+              onClick={() => setActiveTag(key)}
+            >
+              {t(tag.label)}
+            </button>
+          ))}
+        </div>
 
-
-      {loading ? (
-        <div className="news-loading">
-          <p>{t('news.loadingNews')}</p>
-        </div>
-      ) : error ? (
-        <div className="news-error">
-          <p>{error}</p>
-          <button className="button-a" onClick={() => fetchNews(1, activeTag)}>
-            {t('news.retry')}
-          </button>
-        </div>
-      ) : news.length === 0 ? (
-        <div className="news-empty">
-          <p>{activeTag ? t('news.noArticlesForTag', { tag: t(NEWS_TAGS[activeTag]?.label) }) : t('news.noArticles')}</p>
-        </div>
-      ) : (
-        <>
-          <div className="news-grid">
-            {news.map(article => (
-              <NewsCard key={article.id} news={article} />
-            ))}
+        {loading ? (
+          <div className="news-loading">
+            <p>{t('news.loadingNews')}</p>
           </div>
-
-          {hasMore && (
-            <div className="news-load-more">
-              <button
-                className="button-b"
-                onClick={handleLoadMore}
-                disabled={loadingMore}
-              >
-                {loadingMore ? t('news.loading') : t('news.loadMore')}
-              </button>
+        ) : error ? (
+          <div className="news-error">
+            <p>{error}</p>
+            <button className="button-a" onClick={() => fetchNews(1, activeTag)}>
+              {t('news.retry')}
+            </button>
+          </div>
+        ) : news.length === 0 ? (
+          <div className="news-empty">
+            <p>{activeTag ? t('news.noArticlesForTag', { tag: t(NEWS_TAGS[activeTag]?.label) }) : t('news.noArticles')}</p>
+          </div>
+        ) : (
+          <>
+            <div className="news-grid">
+              {news.map(article => (
+                <NewsCard key={article.id} news={article} />
+              ))}
             </div>
-          )}
-        </>
-      )}
-    </div>
+
+            {hasMore && (
+              <div className="news-load-more">
+                <button
+                  className="button-b"
+                  onClick={handleLoadMore}
+                  disabled={loadingMore}
+                >
+                  {loadingMore ? t('news.loading') : t('news.loadMore')}
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </>
   )
 }
 

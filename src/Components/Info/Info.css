@@ -141,7 +141,6 @@
   background: var(--dark-grey);
   padding: var(--space-2xl);
   border-radius: var(--radius-lg);
-  margin-bottom: var(--space-2xl);
 }
 
 .info-item {
