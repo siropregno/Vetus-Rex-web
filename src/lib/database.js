@@ -277,3 +277,27 @@ export const deleteCharacter = async (characterId) => {
     return { error }
   }
 }
+
+
+export const getRanking = async (sortBy = 'gold') => {
+  try {
+    const column = sortBy === 'experience' ? 'experience' : 'gold'
+    logger.db('Fetching ranking', { sortBy: column })
+
+    const { data, error } = await supabase
+      .from('ranking_view')
+      .select('player_name, level, gold, experience')
+      .order(column, { ascending: false, nullsFirst: false })
+
+    if (error) {
+      logger.error('Error fetching ranking:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Fetched ${data.length} characters for ranking`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching ranking:', error)
+    return { data: null, error }
+  }
+}

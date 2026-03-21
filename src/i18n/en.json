@@ -7,7 +7,8 @@
     "signOut": "Sign Out",
     "signingOut": "Signing out...",
     "myProfile": "My Profile",
-    "toggleMenu": "Toggle menu"
+    "toggleMenu": "Toggle menu",
+    "ranking": "Ranking"
   },
   "footer": {
     "rights": "© 2026 TikiTiki Studios. All rights reserved."
@@ -221,5 +222,19 @@
   "common": {
     "delete": "Delete",
     "unknown": "Unknown"
+  },
+  "ranking": {
+    "pageTitle": "Vetus Rex | Ranking",
+    "title": "Ranking",
+    "subtitle": "Discover the top players and their achievements. Are you ready to climb the ranks?",
+    "all": "All",
+    "loading": "Loading ranking...",
+    "failedToLoad": "Failed to load ranking.",
+    "retry": "Retry",
+    "noCharacters": "No characters found."
+  },
+  "rankingTags": {
+    "gold": "Gold",
+    "experience": "Experience"
   }
 }

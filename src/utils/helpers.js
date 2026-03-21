@@ -55,6 +55,11 @@ export const getAuthorName = (profile) => profile?.username || 'Unknown'
 /**
  * News tag definitions with labels and colors
  */
+export const RANKING_TAGS = {
+  gold: { label: 'rankingTags.gold', color: '#f59e0b' },
+  experience: { label: 'rankingTags.experience', color: '#3b82f6' },
+}
+
 export const NEWS_TAGS = {
   update: { label: 'tags.update', color: '#3b82f6' },
   patch: { label: 'tags.patch', color: '#8b5cf6' },

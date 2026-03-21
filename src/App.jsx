@@ -10,6 +10,7 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import News from './pages/News/News'
+import Ranking from './pages/Ranking/Ranking'
 import NewsDetail from './pages/News/NewsDetail'
 import NewsCreate from './pages/News/NewsCreate'
 import NotFound from './pages/NotFound/NotFound'
@@ -51,6 +52,7 @@ function App() {
                   <Route path="login" element={<Login />} />
                   <Route path="register" element={<Register />} />
                   <Route path="news" element={<News />} />
+                  <Route path="ranking" element={<Ranking />} />
                   <Route path="news/create" element={<NewsCreate />} />
                   <Route path="news/edit/:id" element={<NewsCreate />} />
                   <Route path="news/:id" element={<NewsDetail />} />

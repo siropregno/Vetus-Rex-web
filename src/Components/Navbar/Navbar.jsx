@@ -70,11 +70,6 @@ const Navbar = () => {
   }, [isLangOpen]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  
-  const handleAuth = () => {
-    window.location.href = langPath('/login');
-    setIsMenuOpen(false);
-  };
 
   const handleProfile = () => {
     window.location.href = langPath('/profile');
@@ -132,6 +127,7 @@ const Navbar = () => {
             <div className="nav-links">
               <a href={langPath('/')} className={`nav-link${currentPath === '/' || currentPath === '' ? ' active' : ''}`}>{t('nav.home')}</a>
               <a href={langPath('/news')} className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>{t('nav.news')}</a>
+              <a href={langPath('/ranking')} className={`nav-link${currentPath.startsWith('/ranking') ? ' active' : ''}`}>{t('nav.ranking')}</a>
               <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
             </div>
             

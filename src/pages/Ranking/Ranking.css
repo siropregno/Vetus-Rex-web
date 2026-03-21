@@ -1,0 +1,132 @@
+.ranking-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  background-color: var(--blk);
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--wht-05);
+  border: 1px solid var(--wht-08);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+}
+
+.ranking-item:hover {
+  background: var(--wht-08);
+  border-color: var(--wht-12);
+}
+
+.ranking-item.top-1 {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.ranking-item.top-2 {
+  border-color: #94a3b8;
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.ranking-item.top-3 {
+  border-color: #b45309;
+  background: rgba(180, 83, 9, 0.06);
+}
+
+.ranking-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ranking-position {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--wht-60);
+  min-width: 36px;
+}
+
+.top-1 .ranking-position { color: #f59e0b; }
+.top-2 .ranking-position { color: #94a3b8; }
+.top-3 .ranking-position { color: #b45309; }
+
+.ranking-info {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.ranking-name {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--wht);
+}
+
+.ranking-level {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--wht-40);
+}
+
+.ranking-right {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.ranking-value {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--wht);
+}
+
+.ranking-value-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--wht-40);
+  text-transform: uppercase;
+}
+
+.ranking-loading,
+.ranking-error,
+.ranking-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3xl);
+  color: var(--light-grey);
+  gap: var(--space-lg);
+}
+
+.ranking-error p {
+  color: var(--danger);
+}
+
+@media (max-width: 600px) {
+  .ranking-item {
+    padding: 10px 14px;
+  }
+
+  .ranking-position {
+    min-width: 28px;
+    font-size: 0.8rem;
+  }
+
+  .ranking-name {
+    font-size: 0.85rem;
+  }
+
+  .ranking-value {
+    font-size: 0.9rem;
+  }
+}
