@@ -80,6 +80,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-lg);
+  padding-top: var(--space-xs);
 }
 
 .gallery-grid > * {
