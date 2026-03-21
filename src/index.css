@@ -158,6 +158,7 @@ body.modal-open {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow-x: hidden;
     background: radial-gradient(circle at 20% 50%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent) 15%, transparent) 0%, transparent 50%);
 }
@@ -215,6 +216,7 @@ body.modal-open {
     align-items: center;
     gap: var(--space-2xl);
     padding-bottom: var(--space-3xl);
+    overflow-x: hidden;
 }
 
 .bar-options {
