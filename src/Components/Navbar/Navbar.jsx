@@ -82,13 +82,9 @@ const Navbar = () => {
     
     try {
       await signOut();
-      localStorage.clear();
-      sessionStorage.clear();
       window.location.replace(window.location.href);
     } catch (error) {
       logger.error('Error signing out:', error);
-      localStorage.clear();
-      sessionStorage.clear();
       window.location.replace(window.location.href);
     }
   };
@@ -128,6 +124,7 @@ const Navbar = () => {
               <a href={langPath('/')} className={`nav-link${currentPath === '/' || currentPath === '' ? ' active' : ''}`}>{t('nav.home')}</a>
               <a href={langPath('/news')} className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>{t('nav.news')}</a>
               <a href={langPath('/ranking')} className={`nav-link${currentPath.startsWith('/ranking') ? ' active' : ''}`}>{t('nav.ranking')}</a>
+              <a href={langPath('/gallery')} className={`nav-link${currentPath.startsWith('/gallery') ? ' active' : ''}`}>{t('nav.gallery')}</a>
               <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
             </div>
             

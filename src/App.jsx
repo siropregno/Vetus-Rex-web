@@ -11,6 +11,7 @@ import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import News from './pages/News/News'
 import Ranking from './pages/Ranking/Ranking'
+import Gallery from './pages/Gallery/Gallery'
 import NewsDetail from './pages/News/NewsDetail'
 import NewsCreate from './pages/News/NewsCreate'
 import NotFound from './pages/NotFound/NotFound'
@@ -53,6 +54,7 @@ function App() {
                   <Route path="register" element={<Register />} />
                   <Route path="news" element={<News />} />
                   <Route path="ranking" element={<Ranking />} />
+                  <Route path="gallery" element={<Gallery />} />
                   <Route path="news/create" element={<NewsCreate />} />
                   <Route path="news/edit/:id" element={<NewsCreate />} />
                   <Route path="news/:id" element={<NewsDetail />} />
@@ -67,6 +69,7 @@ function App() {
                 <nav className="footer-links">
                   <a href={`/${getLang()}`}>{t('nav.home')}</a>
                   <a href={`/${getLang()}/news`}>{t('nav.news')}</a>
+                  <a href={`/${getLang()}/gallery`}>{t('nav.gallery')}</a>
                   <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
                 </nav>
                 <p className="footer-copy">{t('footer.rights')}</p>

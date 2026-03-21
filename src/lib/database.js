@@ -1,5 +1,6 @@
 import { supabase } from './supabase'
 import logger from '../utils/logger'
+import DOMPurify from 'dompurify'
 
 
 
@@ -92,9 +93,10 @@ export const createNews = async ({ title, content, cover_image_url, tag, author_
   try {
     logger.db('Creating news article', { title, tag })
 
+    const sanitizedContent = DOMPurify.sanitize(content)
     const { data, error } = await supabase
       .from('news')
-      .insert([{ title, content, cover_image_url, tag, author_id }])
+      .insert([{ title, content: sanitizedContent, cover_image_url, tag, author_id }])
       .select()
       .single()
 
@@ -119,9 +121,13 @@ export const updateNews = async (id, updates) => {
   try {
     logger.db('Updating news article', { id, updates: Object.keys(updates) })
 
+    const sanitizedUpdates = updates.content
+      ? { ...updates, content: DOMPurify.sanitize(updates.content) }
+      : updates
+
     const { data, error } = await supabase
       .from('news')
-      .update({ ...updates, updated_at: new Date().toISOString() })
+      .update({ ...sanitizedUpdates, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single()
@@ -285,19 +291,128 @@ export const getRanking = async (sortBy = 'gold') => {
     logger.db('Fetching ranking', { sortBy: column })
 
     const { data, error } = await supabase
-      .from('ranking_view')
-      .select('player_name, level, gold, experience')
-      .order(column, { ascending: false, nullsFirst: false })
+      .rpc('get_ranking')
 
     if (error) {
       logger.error('Error fetching ranking:', error)
       return { data: null, error }
     }
 
-    logger.success(`Fetched ${data.length} characters for ranking`)
-    return { data, error: null }
+    // Sort client-side since rpc doesn't support .order()
+    const sorted = [...data].sort((a, b) => (b[column] ?? 0) - (a[column] ?? 0))
+
+    logger.success(`Fetched ${sorted.length} characters for ranking`)
+    return { data: sorted, error: null }
   } catch (error) {
     logger.error('Unexpected error fetching ranking:', error)
     return { data: null, error }
+  }
+}
+
+
+// Gallery
+
+export const getGalleryImages = async (page = 1, pageSize = 12) => {
+  try {
+    logger.db('Fetching gallery images', { page, pageSize })
+
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+
+    const { data, error, count } = await supabase
+      .from('gallery')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to)
+
+    if (error) {
+      logger.error('Error fetching gallery:', error)
+      return { data: null, count: 0, error }
+    }
+
+    logger.success(`Fetched ${data.length} gallery images (total: ${count})`)
+    return { data, count, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching gallery:', error)
+    return { data: null, count: 0, error }
+  }
+}
+
+export const uploadGalleryImage = async ({ file, title, description, authorId }) => {
+  if (!file || !title?.trim() || !authorId) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Uploading gallery image', { title })
+
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+    const filePath = `images/${fileName}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('gallery')
+      .upload(filePath, file)
+
+    if (uploadError) {
+      logger.error('Error uploading gallery image:', uploadError)
+      return { data: null, error: uploadError }
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('gallery')
+      .getPublicUrl(filePath)
+
+    const { data, error } = await supabase
+      .from('gallery')
+      .insert([{ title, description, image_url: publicUrl, author_id: authorId }])
+      .select()
+      .single()
+
+    if (error) {
+      logger.error('Error saving gallery record:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Gallery image uploaded', { id: data.id })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error uploading gallery image:', error)
+    return { data: null, error }
+  }
+}
+
+export const deleteGalleryImage = async (id, imageUrl) => {
+  if (!id) return { error: { message: 'Missing image ID' } }
+  try {
+    logger.db('Deleting gallery image', { id })
+
+    if (imageUrl) {
+      try {
+        const urlObj = new URL(imageUrl)
+        const idx = urlObj.pathname.indexOf('/gallery/')
+        const path = idx !== -1 ? urlObj.pathname.substring(idx + '/gallery/'.length) : null
+        if (path) {
+          await supabase.storage.from('gallery').remove([path])
+        }
+      } catch (storageErr) {
+        logger.warn('Could not delete gallery file from storage:', storageErr)
+      }
+    }
+
+    const { error } = await supabase
+      .from('gallery')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      logger.error('Error deleting gallery record:', error)
+      return { error }
+    }
+
+    logger.success('Gallery image deleted', { id })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting gallery image:', error)
+    return { error }
   }
 }

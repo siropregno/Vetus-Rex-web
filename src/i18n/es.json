@@ -8,7 +8,8 @@
     "signingOut": "Cerrando sesión...",
     "myProfile": "Mi Perfil",
     "toggleMenu": "Abrir menú",
-    "ranking": "Ranking"
+    "ranking": "Ranking",
+    "gallery": "Galería"
   },
   "footer": {
     "rights": "© 2026 TikiTiki Studios. Todos los derechos reservados."
@@ -239,5 +240,34 @@
   "rankingTags": {
     "gold": "Oro",
     "experience": "Experiencia"
+  },
+  "gallery": {
+    "pageTitle": "Vetus Rex | Galería",
+    "title": "Galería",
+    "subtitle": "Capturas y arte oficial del mundo de Vetus Rex.",
+    "loading": "Cargando galería...",
+    "failedToLoad": "Error al cargar la galería. Inténtalo de nuevo.",
+    "retry": "Reintentar",
+    "noImages": "Las paredes de la galería están vacías... Una <strong>Araña del Bosque</strong> debe haberse robado todas las pinturas para decorar su cueva.",
+    "noImagesHint": "Quizás los artistas aún están explorando las tierras del Viejo Rey.",
+    "loadMore": "Cargar más",
+    "loadingMore": "Cargando...",
+    "upload": "Subir imagen",
+    "uploadTitle": "Subir imagen",
+    "imageLabel": "Imagen",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Título de la imagen",
+    "descLabel": "Descripción (opcional)",
+    "descPlaceholder": "Breve descripción de la imagen",
+    "publish": "Publicar",
+    "uploading": "Subiendo...",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "deleteTitle": "Eliminar imagen",
+    "deleteMessage": "¿Estás seguro de que quieres eliminar esta imagen? Esta acción no se puede deshacer.",
+    "invalidImage": "Selecciona un archivo de imagen válido.",
+    "imageTooLarge": "La imagen debe pesar menos de 10MB.",
+    "titleRequired": "El título es obligatorio.",
+    "uploadFailed": "Error al subir la imagen. Inténtalo de nuevo."
   }
 }

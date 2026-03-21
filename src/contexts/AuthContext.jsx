@@ -31,9 +31,9 @@ export const AuthProvider = ({ children }) => {
           setSession(session)
           setUser(session?.user ?? null)
           
-          // If there's a user, load profile without blocking
+          // If there's a user, load profile before marking as ready
           if (session?.user) {
-            loadUserProfile(session.user.id) // Without await
+            await loadUserProfile(session.user.id)
           }
         }
       } catch (error) {
@@ -46,26 +46,22 @@ export const AuthProvider = ({ children }) => {
 
     getInitialSession()
 
-    // Listen for auth changes
+    // Listen for auth changes (INITIAL_SESSION is handled by getInitialSession)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
+        if (event === 'INITIAL_SESSION') return
+
         logger.auth('Auth state changed', { event, userEmail: session?.user?.email })
         
         setSession(session)
         setUser(session?.user ?? null)
-
-        // Set loading to false IMMEDIATELY
-        logger.auth('Setting loading to false immediately')
         setLoading(false)
 
-        // Load profile in parallel without blocking
         if (session?.user) {
-          loadUserProfile(session.user.id) // Without await to avoid blocking
+          loadUserProfile(session.user.id)
         } else {
           setProfile(null)
         }
-
-        logger.auth('Auth state change processing complete')
       }
     )
 

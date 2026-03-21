@@ -8,7 +8,8 @@
     "signingOut": "Abmeldung...",
     "myProfile": "Mein Profil",
     "toggleMenu": "Menü umschalten",
-    "ranking": "Ranking"
+    "ranking": "Ranking",
+    "gallery": "Galerie"
   },
   "footer": {
     "rights": "© 2026 TikiTiki Studios. Alle Rechte vorbehalten."
@@ -238,5 +239,34 @@
   "rankingTags": {
     "gold": "Gold",
     "experience": "Erfahrung"
+  },
+  "gallery": {
+    "pageTitle": "Vetus Rex | Galerie",
+    "title": "Galerie",
+    "subtitle": "Offizielle Screenshots und Kunstwerke aus der Welt von Vetus Rex.",
+    "loading": "Galerie wird geladen...",
+    "failedToLoad": "Galerie konnte nicht geladen werden. Bitte versuche es erneut.",
+    "retry": "Erneut versuchen",
+    "noImages": "Die Galeriewände sind leer... Eine <strong>Waldspinne</strong> muss alle Gemälde gestohlen haben, um ihre Höhle zu dekorieren.",
+    "noImagesHint": "Vielleicht erkunden die Künstler noch die Länder des Alten Königs.",
+    "loadMore": "Mehr laden",
+    "loadingMore": "Laden...",
+    "upload": "Bild hochladen",
+    "uploadTitle": "Bild hochladen",
+    "imageLabel": "Bild",
+    "titleLabel": "Titel",
+    "titlePlaceholder": "Bildtitel",
+    "descLabel": "Beschreibung (optional)",
+    "descPlaceholder": "Kurze Beschreibung des Bildes",
+    "publish": "Veröffentlichen",
+    "uploading": "Hochladen...",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "deleteTitle": "Bild löschen",
+    "deleteMessage": "Bist du sicher, dass du dieses Bild löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "invalidImage": "Bitte wähle eine gültige Bilddatei.",
+    "imageTooLarge": "Das Bild darf maximal 10MB groß sein.",
+    "titleRequired": "Titel ist erforderlich.",
+    "uploadFailed": "Bild konnte nicht hochgeladen werden. Bitte versuche es erneut."
   }
 }
