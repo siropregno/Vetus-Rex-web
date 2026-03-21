@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { langPath } from '../../utils/helpers'
@@ -7,6 +8,7 @@ import './Register.css'
 
 const Register = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -130,7 +132,7 @@ const Register = () => {
           </div>
 
           {error && (
-            <div className="error-message">
+            <div className="error-message" role="alert" aria-live="polite">
               <span className="error-icon">⚠️</span>
               {error}
             </div>
@@ -166,7 +168,7 @@ const Register = () => {
         <div className="back-home">
           <button
             type="button"
-            onClick={() => { window.location.href = langPath('/') }}
+            onClick={() => { navigate(langPath('/')) }}
             className="back-btn"
             disabled={loading}
           >

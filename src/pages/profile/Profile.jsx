@@ -23,8 +23,21 @@ const Profile = () => {
     }
   }, [loading, user])
 
+  const tabs = ['info', 'chars', 'options']
+
   const handleTabClick = (tabName) => {
     setActiveTab(tabName)
+  }
+
+  const handleTabKeyDown = (e, tabName) => {
+    const idx = tabs.indexOf(tabName)
+    let newIdx = idx
+    if (e.key === 'ArrowRight') newIdx = (idx + 1) % tabs.length
+    else if (e.key === 'ArrowLeft') newIdx = (idx - 1 + tabs.length) % tabs.length
+    else return
+    e.preventDefault()
+    setActiveTab(tabs[newIdx])
+    e.target.parentElement.parentElement.querySelectorAll('[role="tab"]')[newIdx]?.focus()
   }
 
   const renderActiveComponent = () => {
@@ -62,20 +75,20 @@ const Profile = () => {
       </div>
       <div className="content-body">
         <div className='bar-options'>
-          <ul>
-            <li className={activeTab === 'info' ? 'active' : ''} onClick={() => handleTabClick('info')}>
+          <ul role="tablist">
+            <li role="tab" aria-selected={activeTab === 'info'} tabIndex={activeTab === 'info' ? 0 : -1} className={activeTab === 'info' ? 'active' : ''} onClick={() => handleTabClick('info')} onKeyDown={(e) => handleTabKeyDown(e, 'info')}>
               {t('profile.tabInfo')}
             </li>
-            <li className={activeTab === 'chars' ? 'active' : ''} onClick={() => handleTabClick('chars')}>
+            <li role="tab" aria-selected={activeTab === 'chars'} tabIndex={activeTab === 'chars' ? 0 : -1} className={activeTab === 'chars' ? 'active' : ''} onClick={() => handleTabClick('chars')} onKeyDown={(e) => handleTabKeyDown(e, 'chars')}>
               {t('profile.tabChars')}
             </li>
-            <li className={activeTab === 'options' ? 'active' : ''} onClick={() => handleTabClick('options')}>
+            <li role="tab" aria-selected={activeTab === 'options'} tabIndex={activeTab === 'options' ? 0 : -1} className={activeTab === 'options' ? 'active' : ''} onClick={() => handleTabClick('options')} onKeyDown={(e) => handleTabKeyDown(e, 'options')}>
               {t('profile.tabOptions')}
             </li>
           </ul>
         </div>
         
-        <div className="profile-content">
+        <div className="profile-content" role="tabpanel">
           {renderActiveComponent()}
         </div>
       </div>

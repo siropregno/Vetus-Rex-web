@@ -176,8 +176,8 @@ export const AuthProvider = ({ children }) => {
       setSession(null)
       setProfile(null)
       
-      localStorage.clear()
-      sessionStorage.clear()
+      localStorage.removeItem('sb-' + import.meta.env.VITE_SUPABASE_URL?.split('//')[1]?.split('.')[0] + '-auth-token')
+      sessionStorage.removeItem('sb-' + import.meta.env.VITE_SUPABASE_URL?.split('//')[1]?.split('.')[0] + '-auth-token')
       
       await supabase.auth.signOut()
       logger.success('SignOut completed successfully')
@@ -301,7 +301,8 @@ export const AuthProvider = ({ children }) => {
       // Delete avatar from storage if it exists
       if (profile?.avatar_url) {
         try {
-          const fileName = profile.avatar_url.split('/').pop()
+          const avatarPath = new URL(profile.avatar_url).pathname
+          const fileName = avatarPath.split('/').pop()
           await supabase.storage
             .from('avatars')
             .remove([`${user.id}/${fileName}`])
@@ -323,8 +324,8 @@ export const AuthProvider = ({ children }) => {
       setSession(null)
       setProfile(null)
       
-      localStorage.clear()
-      sessionStorage.clear()
+      localStorage.removeItem('sb-' + import.meta.env.VITE_SUPABASE_URL?.split('//')[1]?.split('.')[0] + '-auth-token')
+      sessionStorage.removeItem('sb-' + import.meta.env.VITE_SUPABASE_URL?.split('//')[1]?.split('.')[0] + '-auth-token')
 
       logger.success('Account deleted successfully')
       return { error: null }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createNews, updateNews, getNewsById, uploadNewsImage, deleteNewsImage } from '../../lib/database'
@@ -11,6 +11,7 @@ import './NewsCreate.css'
 const NewsCreate = () => {
   const { t } = useTranslation()
   const { id } = useParams()
+  const navigate = useNavigate()
   const { user, profile, loading: authLoading } = useAuthContext()
 
   const isEditMode = Boolean(id)
@@ -139,7 +140,7 @@ const NewsCreate = () => {
         }
 
         logger.success('Article updated')
-        window.location.href = langPath(`/news/${id}`)
+        navigate(langPath(`/news/${id}`))
       } else {
         const { data: newArticle, error: createError } = await createNews({
           title: title.trim(),
@@ -156,7 +157,7 @@ const NewsCreate = () => {
         }
 
         logger.success('Article created', { id: newArticle.id })
-        window.location.href = langPath(`/news/${newArticle.id}`)
+        navigate(langPath(`/news/${newArticle.id}`))
       }
     } catch (err) {
       logger.error('Error submitting article:', err)
@@ -179,7 +180,7 @@ const NewsCreate = () => {
 
   return (
     <div className="news-create-page">
-      <button className="news-detail-back" onClick={() => { window.location.href = isEditMode ? langPath(`/news/${id}`) : langPath('/news') }}>
+      <button className="news-detail-back" onClick={() => { navigate(isEditMode ? langPath(`/news/${id}`) : langPath('/news')) }}>
         {t(isEditMode ? 'newsCreate.backToArticle' : 'newsCreate.backToNews')}
       </button>
 
@@ -258,7 +259,7 @@ const NewsCreate = () => {
           <button
             type="button"
             className="button-b"
-            onClick={() => { window.location.href = isEditMode ? `/news/${id}` : '/news' }}
+            onClick={() => { navigate(isEditMode ? langPath(`/news/${id}`) : langPath('/news')) }}
           >
             {t('newsCreate.cancel')}
           </button>

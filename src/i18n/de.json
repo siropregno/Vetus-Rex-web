@@ -31,7 +31,7 @@
   "login": {
     "pageTitle": "Vetus Rex | Anmelden",
     "title": "Anmelden",
-    "emailPlaceholder": "E-Mail oder Benutzername",
+    "emailPlaceholder": "E-Mail",
     "passwordPlaceholder": "Passwort",
     "submitLoading": "Anmeldung...",
     "submit": "Anmelden",

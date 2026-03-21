@@ -86,6 +86,9 @@ export const getNewsById = async (id) => {
 
 
 export const createNews = async ({ title, content, cover_image_url, tag, author_id }) => {
+  if (!title?.trim() || !content?.trim() || !author_id) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
   try {
     logger.db('Creating news article', { title, tag })
 
@@ -110,6 +113,9 @@ export const createNews = async ({ title, content, cover_image_url, tag, author_
 
 
 export const updateNews = async (id, updates) => {
+  if (!id || !updates) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
   try {
     logger.db('Updating news article', { id, updates: Object.keys(updates) })
 
@@ -135,6 +141,7 @@ export const updateNews = async (id, updates) => {
 
 
 export const deleteNews = async (id) => {
+  if (!id) return { error: { message: 'Missing article ID' } }
   try {
     logger.db('Deleting news article', { id })
 
@@ -192,7 +199,14 @@ export const deleteNewsImage = async (url) => {
     logger.db('Deleting news image')
 
 
-    const path = url.split('/news-images/')[1]
+    let path
+    try {
+      const urlObj = new URL(url)
+      const idx = urlObj.pathname.indexOf('/news-images/')
+      path = idx !== -1 ? urlObj.pathname.substring(idx + '/news-images/'.length) : null
+    } catch {
+      path = null
+    }
     if (!path) {
       return { error: { message: 'Invalid image URL' } }
     }
@@ -242,6 +256,7 @@ export const getUserCharacters = async (userId) => {
 
 
 export const deleteCharacter = async (characterId) => {
+  if (!characterId) return { error: { message: 'Missing character ID' } }
   try {
     logger.db('Deleting character', { characterId })
 

@@ -175,11 +175,11 @@ const Info = () => {
       <div className="avatar-section">
         <div className="avatar-circle">
           {avatarPreview ? (
-            <img src={avatarPreview} alt="Preview" className="avatar-img" />
+            <img src={avatarPreview} alt={t('info.avatarPreview', 'Avatar preview')} className="avatar-img" />
           ) : profile?.avatar_url ? (
             <img 
               src={profile.avatar_url} 
-              alt="Avatar" 
+              alt={formData.username || t('info.avatar', 'User avatar')}
               className="avatar-img"
             />
           ) : (
@@ -203,7 +203,7 @@ const Info = () => {
             id="avatar-upload"
             disabled={isUploadingAvatar}
           />
-          <label htmlFor="avatar-upload" className="avatar-icon-btn" title={t('info.changePhoto')}>
+          <label htmlFor="avatar-upload" className="avatar-icon-btn" title={t('info.changePhoto')} aria-label={t('info.changePhoto')}>
             <FontAwesomeIcon icon={faPen} />
           </label>
           {profile?.avatar_url && (
@@ -212,6 +212,7 @@ const Info = () => {
               className="avatar-icon-btn avatar-icon-danger"
               disabled={isUploadingAvatar}
               title={t('info.delete')}
+              aria-label={t('info.delete')}
             >
               <FontAwesomeIcon icon={faTrash} />
             </button>
@@ -255,7 +256,7 @@ const Info = () => {
         </div>
 
         {error && (
-          <div className="message error">
+          <div className="message error" role="alert" aria-live="polite">
             {error}
           </div>
         )}

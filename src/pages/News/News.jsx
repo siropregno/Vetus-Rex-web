@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getAllNews } from '../../lib/database'
@@ -11,6 +12,7 @@ const PAGE_SIZE = 9
 
 const News = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { profile } = useAuthContext()
 
   const [news, setNews] = useState([])
@@ -109,7 +111,7 @@ const News = () => {
             {isAdmin && (
               <button
                 className="news-create-card"
-                onClick={() => { window.location.href = langPath('/news/create') }}
+                onClick={() => { navigate(langPath('/news/create')) }}
               >
                 <span className="news-create-card-icon">+</span>
                 <span className="news-create-card-label">{t('news.createNews')}</span>
@@ -122,7 +124,7 @@ const News = () => {
               {isAdmin && (
                 <button
                   className="news-create-card"
-                  onClick={() => { window.location.href = langPath('/news/create') }}
+                  onClick={() => { navigate(langPath('/news/create')) }}
                 >
                   <div className="news-create-card-content">
                     <span className="news-create-card-icon">+</span>

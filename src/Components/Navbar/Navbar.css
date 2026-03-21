@@ -197,21 +197,6 @@
   align-items: center;
 }
 
-.login-button {
-  background: var(--accent);
-  color: white;
-  border: none;
-  padding: var(--space-sm) var(--space-lg);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all var(--transition-slow);
-}
-
-.login-button:hover {
-  transform: translateY(-1px);
-}
-
-
 .user-dropdown {
   position: relative;
 }
@@ -493,8 +478,7 @@
     animation: menuLinkFadeIn 0.4s ease 0.26s forwards;
   }
 
-  .auth-section .button-a,
-  .auth-section .login-button {
+  .auth-section .button-a {
     width: 100%;
     text-align: center;
     font-size: 1rem;

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import DOMPurify from 'dompurify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpider } from '@fortawesome/free-solid-svg-icons';
 import { langPath } from '../../utils/helpers';
@@ -12,7 +13,7 @@ const NotFound = () => {
   return (
     <div className="notfound">
       <FontAwesomeIcon icon={faSpider} className="notfound-icon" />
-      <p className="notfound-message" dangerouslySetInnerHTML={{ __html: t('notFound.message') }} />
+      <p className="notfound-message" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('notFound.message')) }} />
       <p className="notfound-hint">{t('notFound.hint')}</p>
       <a href={langPath('/')} className="button-a notfound-home">{t('notFound.returnHome')}</a>
     </div>

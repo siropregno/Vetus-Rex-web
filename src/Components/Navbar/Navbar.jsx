@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { SUPPORTED_LANGS, langPath } from '../../utils/helpers';
 import logger from '../../utils/logger';
-import './navbar.css';
+import './Navbar.css';
 import logo from '../../assets/logo-big.png';
 
 const FlagUS = () => (
@@ -105,10 +105,10 @@ const Navbar = () => {
 
           <div className="brand-section">
             <a href={langPath('/')} className="brand-link">
-              <img src={logo} alt="" />
+              <img src={logo} alt="Vetus Rex" />
             </a>
             <div className={`lang-dropdown ${isLangOpen ? 'open' : ''}`}>
-              <button className="lang-toggle" onClick={(e) => { e.stopPropagation(); setIsLangOpen(!isLangOpen); }}>
+              <button className="lang-toggle" aria-label={t('nav.changeLanguage', 'Change language')} onClick={(e) => { e.stopPropagation(); setIsLangOpen(!isLangOpen); }}>
                 {currentLang === 'es' ? <FlagAR /> : currentLang === 'de' ? <FlagDE /> : <FlagUS />}
                 <span className="lang-arrow">▼</span>
               </button>
@@ -144,7 +144,7 @@ const Navbar = () => {
                       {profile?.avatar_url ? (
                         <img 
                           src={profile.avatar_url} 
-                          alt="Avatar" 
+                          alt={profile?.username || 'User avatar'}
                           className="user-avatar-img"
                           onLoad={() => logger.success('Avatar loaded successfully')}
                           onError={(e) => {

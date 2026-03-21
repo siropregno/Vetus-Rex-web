@@ -52,3 +52,9 @@
   25% { transform: rotate(-5deg) translateY(-4px); }
   75% { transform: rotate(5deg) translateY(4px); }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .notfound-icon {
+    animation: none;
+  }
+}

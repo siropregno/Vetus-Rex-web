@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate, Outlet, useParams } f
 import { useTranslation } from 'react-i18next'
 import { useEffect } from 'react'
 import { AuthProvider } from './contexts/AuthContext'
-import Navbar from './Components/Navbar/navbar'
+import ErrorBoundary from './Components/ErrorBoundary/ErrorBoundary'
+import Navbar from './Components/Navbar/Navbar'
 import Profile from './pages/profile/Profile'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
@@ -35,6 +36,7 @@ function App() {
   const { t } = useTranslation()
 
   return (
+    <ErrorBoundary>
     <AuthProvider>
       <Router>
         <div className="app">
@@ -72,6 +74,7 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
+    </ErrorBoundary>
   )
 }
 

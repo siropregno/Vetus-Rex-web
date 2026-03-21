@@ -31,7 +31,7 @@
   "login": {
     "pageTitle": "Vetus Rex | Iniciar Sesión",
     "title": "Iniciar Sesión",
-    "emailPlaceholder": "Email o nombre de usuario",
+    "emailPlaceholder": "Email",
     "passwordPlaceholder": "Contraseña",
     "submitLoading": "Iniciando sesión...",
     "submit": "Iniciar Sesión",

@@ -1,12 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
 import './NewsCard.css'
 
 const NewsCard = ({ news }) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const handleClick = () => {
-    window.location.href = langPath(`/news/${news.id}`)
+    navigate(langPath(`/news/${news.id}`))
   }
 
   const tag = NEWS_TAGS[news.tag]

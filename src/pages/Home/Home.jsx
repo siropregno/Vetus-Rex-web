@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import DOMPurify from 'dompurify'
 import { getLatestNews } from '../../lib/database'
 import NewsCard from '../../Components/NewsCard/NewsCard'
 import Separator from '../../Components/Separator/Separator'
@@ -11,6 +13,7 @@ import './Home.css'
 
 const Home = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [latestNews, setLatestNews] = useState([])
   const [newsLoading, setNewsLoading] = useState(true)
 
@@ -41,7 +44,7 @@ const Home = () => {
         <div className="home-banner-overlay" />
         <div className="home-banner-inner">
           <div className="home-banner-content">
-            <h1 className="home-banner-title" dangerouslySetInnerHTML={{ __html: t('home.bannerTitle').replace('<accent>', '<span class="color-acc">').replace('</accent>', '</span>') }} />
+            <h1 className="home-banner-title" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('home.bannerTitle').replace('<accent>', '<span class="color-acc">').replace('</accent>', '</span>')) }} />
             <p className="home-banner-text">
               {t('home.bannerText')}
             </p>
@@ -66,7 +69,7 @@ const Home = () => {
       <section className="home-news">
         <div className="home-news-header">
           <h2 className="home-news-title">{t('home.latestNews')}</h2>
-          <button className="home-news-viewall" onClick={() => { window.location.href = langPath('/news') }}>
+          <button className="home-news-viewall" onClick={() => { navigate(langPath('/news')) }}>
             {t('home.viewAll')}
           </button>
         </div>

@@ -53,9 +53,9 @@ const Modal = ({
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-container" role="dialog" aria-modal="true" aria-labelledby={title ? 'modal-title' : undefined} onClick={(e) => e.stopPropagation()}>
         {title && (
-          <h3 className={`modal-title ${variant === 'danger' ? 'modal-title-danger' : ''}`}>
+          <h3 id="modal-title" className={`modal-title ${variant === 'danger' ? 'modal-title-danger' : ''}`}>
             {title}
           </h3>
         )}

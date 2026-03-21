@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DOMPurify from 'dompurify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,6 +14,7 @@ import './NewsDetail.css'
 const NewsDetail = () => {
   const { t } = useTranslation()
   const { id } = useParams()
+  const navigate = useNavigate()
   const { profile } = useAuthContext()
 
   const [article, setArticle] = useState(null)
@@ -68,7 +69,7 @@ const NewsDetail = () => {
 
         logger.success('Article deleted')
         setModal({ isOpen: false })
-        window.location.href = langPath('/news')
+        navigate(langPath('/news'))
       },
     })
   }
@@ -88,7 +89,7 @@ const NewsDetail = () => {
       <div className="news-detail-page">
         <div className="notfound">
           <FontAwesomeIcon icon={faSpider} className="notfound-icon" />
-          <p className="notfound-message" dangerouslySetInnerHTML={{ __html: t('newsDetail.devoured') }} />
+          <p className="notfound-message" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('newsDetail.devoured')) }} />
           <p className="notfound-hint">{t('newsDetail.devouredHint')}</p>
           <a href={langPath('/news')} className="button-a notfound-home">{t('newsDetail.backToNews')}</a>
         </div>
@@ -101,7 +102,7 @@ const NewsDetail = () => {
 
   return (
     <div className="news-detail-page">
-      <button className="news-detail-back" onClick={() => { window.location.href = langPath('/news') }}>
+      <button className="news-detail-back" onClick={() => { navigate(langPath('/news')) }}>
         {t('newsDetail.backToNews')}
       </button>
 
@@ -154,7 +155,7 @@ const NewsDetail = () => {
         <div className="news-detail-admin-actions">
           <button
             className="button-a"
-            onClick={() => { window.location.href = langPath(`/news/edit/${article.id}`) }}
+            onClick={() => { navigate(langPath(`/news/edit/${article.id}`)) }}
           >
             {t('newsDetail.edit')}
           </button>

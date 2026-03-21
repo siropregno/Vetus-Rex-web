@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { langPath } from '../../utils/helpers'
@@ -7,6 +8,7 @@ import './Login.css'
 
 const Login = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -67,7 +69,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <input
-              type="text"
+              type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -93,7 +95,7 @@ const Login = () => {
           </div>
 
           {error && (
-            <div className="error-message">
+            <div className="error-message" role="alert" aria-live="polite">
               <span className="error-icon">⚠️</span>
               {error}
             </div>
@@ -129,7 +131,7 @@ const Login = () => {
         <div className="back-home">
           <button
             type="button"
-            onClick={() => { window.location.href = langPath('/') }}
+            onClick={() => { navigate(langPath('/')) }}
             className="back-btn"
             disabled={loading}
           >

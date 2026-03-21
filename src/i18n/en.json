@@ -31,7 +31,7 @@
   "login": {
     "pageTitle": "Vetus Rex | Sign In",
     "title": "Sign In",
-    "emailPlaceholder": "Email or username",
+    "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",
     "submitLoading": "Signing in...",
     "submit": "Sign In",
