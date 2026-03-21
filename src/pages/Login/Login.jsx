@@ -60,7 +60,7 @@ const Login = () => {
       <div className="login-card">
 
         <div className="login-header">
-          <h1 className="login-title">{t('login.title')}</h1>
+          <h2 className="login-title">{t('login.title')}</h2>
         </div>
 
 

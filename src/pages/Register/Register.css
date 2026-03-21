@@ -39,6 +39,10 @@
   margin-bottom: var(--space-lg);
 }
 
+.register-form .form-group {
+  width: 100%;
+}
+
 
 @media (max-width: 768px) {
   .register-card {

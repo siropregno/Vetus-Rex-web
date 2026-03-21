@@ -75,7 +75,7 @@ const Register = () => {
       <div className="register-card">
 
         <div className="register-header">
-          <h1 className="register-title">{t('register.title')}</h1>
+          <h2 className="register-title">{t('register.title')}</h2>
           <p className="register-subtitle">{t('register.subtitle')}</p>
         </div>
 
