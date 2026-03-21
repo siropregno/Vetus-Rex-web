@@ -27,6 +27,12 @@ const NewsDetail = () => {
   useEffect(() => { document.title = t('newsDetail.pageTitle') }, [t])
 
   useEffect(() => {
+    if (article?.title) {
+      document.title = `Vetus Rex | ${article.title}`
+    }
+  }, [article])
+
+  useEffect(() => {
     const fetchArticle = async () => {
       setLoading(true)
       const { data, error: fetchError } = await getNewsById(id)

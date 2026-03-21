@@ -1,21 +1,18 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
 import './NewsCard.css'
 
 const NewsCard = ({ news }) => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
-  const handleClick = () => {
-    navigate(langPath(`/news/${news.id}`))
-  }
 
   const tag = NEWS_TAGS[news.tag]
   const excerpt = truncateText(stripHtml(news.content), 150)
 
   return (
-    <article className="news-card" onClick={handleClick}>
+    <article className="news-card">
+      <Link to={langPath(`/news/${news.id}`)} className="news-card-link">
       <div className="news-card-image">
         {news.cover_image_url ? (
           <img src={news.cover_image_url} alt={news.title} />
@@ -59,6 +56,7 @@ const NewsCard = ({ news }) => {
           <span className="news-card-date">{formatDate(news.created_at)}</span>
         </div>
       </div>
+      </Link>
     </article>
   )
 }
