@@ -10,7 +10,7 @@
 .home-banner {
   position: relative;
   width: 100vw;
-  height: calc(100vh - 10vh);
+  height: calc(100vh - 80px);
   margin-left: calc(-50vw + 50%);
   min-height: 420px;
   overflow: hidden;
@@ -124,7 +124,7 @@
   }
 
   .home-banner {
-    min-height: 60svh;
+    height: calc(100vh - 56px);
   }
 
   .home-banner-overlay {

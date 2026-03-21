@@ -151,7 +151,7 @@ body.modal-open {
 
 .content-zone {
     height: auto;
-    margin-top: 10vh;
+    margin-top: 80px;
     min-height: 80vh;
     display: flex;
     flex-direction: column;
@@ -354,6 +354,7 @@ body.modal-open {
 
 .footer-links a {
     color: var(--light-grey);
+    font-size: 0.8rem;
     text-decoration: none;
     transition: color var(--transition-base);
 }
@@ -469,6 +470,10 @@ body.modal-open {
 }
 
 @media (max-width: 768px) {
+    .content-zone {
+        margin-top: 56px;
+    }
+
     .page-container {
         padding: var(--space-lg) var(--space-sm);
     }
