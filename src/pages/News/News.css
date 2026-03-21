@@ -31,7 +31,7 @@
 .tag-filter-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  color: var(--wht);
 }
 
 
@@ -100,7 +100,7 @@
 
 .news-create-card:hover .news-create-card-icon {
   background: var(--accent);
-  color: white;
+  color: var(--wht);
 }
 
 .news-create-card-label {

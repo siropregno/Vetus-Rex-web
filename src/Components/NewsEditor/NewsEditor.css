@@ -51,7 +51,7 @@
 
 .toolbar-btn.active {
   background: var(--accent);
-  color: white;
+  color: var(--wht);
 }
 
 

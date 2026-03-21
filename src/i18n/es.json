@@ -226,12 +226,14 @@
   "ranking": {
     "pageTitle": "Vetus Rex | Ranking",
     "title": "Ranking",
-    "subtitle": "Descubrí a los mejores jugadores y sus logros. ¿Estás listo para escalar posiciones?",
+    "subtitle": "Descubrí a los mejores jugadores y sus logros.",
     "all": "Todos",
     "loading": "Cargando ranking...",
     "failedToLoad": "Error al cargar el ranking.",
     "retry": "Reintentar",
     "noCharacters": "No se encontraron personajes.",
+    "myCharacters": "Tus personajes",
+    "notListed": "No listado",
     "nav": "Ranking"
   },
   "rankingTags": {

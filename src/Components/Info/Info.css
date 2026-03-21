@@ -37,7 +37,7 @@
 .avatar-initials {
   font-size: 3rem;
   font-weight: 600;
-  color: white;
+  color: var(--wht);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 

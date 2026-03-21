@@ -137,7 +137,7 @@
   top: 100%;
   left: 0;
   min-width: 160px;
-  background: rgba(36, 36, 36, 0.95);
+  background: var(--dropdown-bg);
   backdrop-filter: blur(10px);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   border-radius: var(--radius-md);
@@ -226,7 +226,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--wht);
   font-weight: 600;
   font-size: 0.875rem;
   position: relative;
@@ -268,7 +268,7 @@
   top: 100%;
   right: 0;
   min-width: 200px;
-  background: rgba(36, 36, 36, 0.95);
+  background: var(--dropdown-bg);
   backdrop-filter: blur(10px);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   border-radius: var(--radius-md);
