@@ -4,6 +4,8 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { supabase } from '../../lib/supabase'
 import Modal from '../Modal/Modal'
 import logger from '../../utils/logger'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import './Info.css'
 
 const Info = () => {
@@ -201,16 +203,17 @@ const Info = () => {
             id="avatar-upload"
             disabled={isUploadingAvatar}
           />
-          <label htmlFor="avatar-upload" className="button-a">
-            {isUploadingAvatar ? t('info.uploading') : t('info.changePhoto')}
+          <label htmlFor="avatar-upload" className="avatar-icon-btn" title={t('info.changePhoto')}>
+            <FontAwesomeIcon icon={faPen} />
           </label>
           {profile?.avatar_url && (
             <button
               onClick={handleDeleteAvatar}
-              className="button-danger"
+              className="avatar-icon-btn avatar-icon-danger"
               disabled={isUploadingAvatar}
+              title={t('info.delete')}
             >
-              {t('info.delete')}
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           )}
         </div>
