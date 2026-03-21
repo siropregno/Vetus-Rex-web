@@ -8,11 +8,27 @@ import './Options.css'
 
 const Options = () => {
   const { t, i18n } = useTranslation()
-  const { deleteAccount } = useAuthContext()
-  const currentLang = i18n.language?.startsWith('es') ? 'es' : i18n.language?.startsWith('de') ? 'de' : 'en'
+  const { deleteAccount, profile, updateProfile } = useAuthContext()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [modal, setModal] = useState({ isOpen: false, type: 'alert', title: '', message: '', step: null })
+  const [togglingNotif, setTogglingNotif] = useState(false)
+
+  const emailNotifications = profile?.email_notifications ?? true
+
+  const handleToggleNotifications = async () => {
+    setTogglingNotif(true)
+    try {
+      const { error } = await updateProfile({ email_notifications: !emailNotifications })
+      if (error) {
+        logger.error('Error toggling notifications:', error)
+      }
+    } catch (err) {
+      logger.error('Unexpected error toggling notifications:', err)
+    } finally {
+      setTogglingNotif(false)
+    }
+  }
 
   const handleDeleteAccount = () => {
     setModal({
@@ -73,67 +89,18 @@ const Options = () => {
         <h3>{t('options.preferences')}</h3>
         <div className="option-item">
           <div className="option-info">
-            <h4>{t('options.darkTheme')}</h4>
-            <p>{t('options.darkThemeDesc')}</p>
-          </div>
-          <button className="button-b" disabled>
-            {t('options.comingSoon')}
-          </button>
-        </div>
-        
-        <div className="option-item">
-          <div className="option-info">
             <h4>{t('options.notifications')}</h4>
             <p>{t('options.notificationsDesc')}</p>
           </div>
-          <button className="button-b" disabled>
-            {t('options.comingSoon')}
-          </button>
-        </div>
-        
-        <div className="option-item">
-          <div className="option-info">
-            <h4>{t('options.language')}</h4>
-            <p>{t('options.languageDesc')}</p>
-          </div>
-          <div className="language-buttons">
-            <button
-              className={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
-              onClick={() => i18n.changeLanguage('en')}
-            >
-              <svg className="lang-btn-flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                <rect width="60" height="30" fill="#B22234"/>
-                <g fill="#FFF">
-                  {[1,3,5,7,9,11].map(i => <rect key={i} y={i*30/13} width="60" height={30/13}/>)}
-                </g>
-                <rect width="24" height="16.15" fill="#3C3B6E"/>
-              </svg>
-              English
-            </button>
-            <button
-              className={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
-              onClick={() => i18n.changeLanguage('es')}
-            >
-              <svg className="lang-btn-flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                <rect width="60" height="30" fill="#FFF"/>
-                <rect width="60" height="10" fill="#74ACDF"/>
-                <rect y="20" width="60" height="10" fill="#74ACDF"/>
-                <circle cx="30" cy="15" r="3.5" fill="#F6B40E"/>
-              </svg>
-              Español
-            </button>
-            <button
-              className={`lang-btn ${currentLang === 'de' ? 'active' : ''}`}
-              onClick={() => i18n.changeLanguage('de')}
-            >
-              <svg className="lang-btn-flag" viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
-                <rect width="60" height="10" fill="#000"/>
-                <rect y="10" width="60" height="10" fill="#DD0000"/>
-                <rect y="20" width="60" height="10" fill="#FFCC00"/>
-              </svg>
-              Deutsch
-            </button>
-          </div>
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={emailNotifications}
+              onChange={handleToggleNotifications}
+              disabled={togglingNotif}
+            />
+            <span className="toggle-slider" />
+          </label>
         </div>
       </div>
 
