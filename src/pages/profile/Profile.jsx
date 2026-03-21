@@ -13,7 +13,7 @@ const Profile = () => {
   const { user, loading } = useAuthContext()
   const [activeTab, setActiveTab] = useState('info')
 
-  useEffect(() => { document.title = t('profile.pageTitle') }, [])
+  useEffect(() => { document.title = t('profile.pageTitle') }, [t])
 
 
   useEffect(() => {

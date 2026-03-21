@@ -14,7 +14,7 @@ const Home = () => {
   const [latestNews, setLatestNews] = useState([])
   const [newsLoading, setNewsLoading] = useState(true)
 
-  useEffect(() => { document.title = t('home.pageTitle') }, [])
+  useEffect(() => { document.title = t('home.pageTitle') }, [t])
 
   useEffect(() => {
     const fetchLatestNews = async () => {

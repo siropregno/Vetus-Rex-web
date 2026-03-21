@@ -16,7 +16,7 @@ const Login = () => {
   
   const { signIn, user } = useAuthContext()
 
-  useEffect(() => { document.title = t('login.pageTitle') }, [])
+  useEffect(() => { document.title = t('login.pageTitle') }, [t])
 
 
   useEffect(() => {

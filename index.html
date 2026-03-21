@@ -29,16 +29,17 @@
     <meta name="author" content="TikiTiki Studios" />
     <meta name="theme-color" content="#000000" />
   </head>
-  <body>
-    <!-- Fallback content for search engine crawlers that don't execute JavaScript -->
-    <div id="root">
+  <body style="background:#030303;margin:0">
+    <div id="root"></div>
+    <!-- Fallback content only visible when JavaScript is disabled (crawlers) -->
+    <noscript>
       <h1>Vetus Rex</h1>
       <p>Embark on an unforgettable adventure. Step into a vast, unexplored world and uncover the secrets hidden within the enigmatic lands of the Old King.</p>
       <nav>
         <a href="/">Home</a>
         <a href="/news">News</a>
       </nav>
-    </div>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

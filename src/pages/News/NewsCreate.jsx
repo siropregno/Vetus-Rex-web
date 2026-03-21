@@ -26,7 +26,7 @@ const NewsCreate = () => {
   const [loadingArticle, setLoadingArticle] = useState(false)
   const [error, setError] = useState(null)
 
-  useEffect(() => { document.title = t('newsCreate.pageTitle') }, [])
+  useEffect(() => { document.title = t('newsCreate.pageTitle') }, [t])
 
 
   useEffect(() => {

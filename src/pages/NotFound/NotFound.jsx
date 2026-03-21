@@ -7,7 +7,7 @@ import './NotFound.css';
 
 const NotFound = () => {
   const { t } = useTranslation()
-  useEffect(() => { document.title = t('notFound.pageTitle') }, [])
+  useEffect(() => { document.title = t('notFound.pageTitle') }, [t])
 
   return (
     <div className="notfound">

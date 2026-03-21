@@ -17,7 +17,7 @@ const Register = () => {
   
   const { signUp, user } = useAuthContext()
 
-  useEffect(() => { document.title = t('register.pageTitle') }, [])
+  useEffect(() => { document.title = t('register.pageTitle') }, [t])
 
 
   useEffect(() => {

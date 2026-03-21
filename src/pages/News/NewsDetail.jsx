@@ -21,7 +21,7 @@ const NewsDetail = () => {
 
   const isAdmin = profile?.role === 'admin'
 
-  useEffect(() => { document.title = t('newsDetail.pageTitle') }, [])
+  useEffect(() => { document.title = t('newsDetail.pageTitle') }, [t])
 
   useEffect(() => {
     const fetchArticle = async () => {

@@ -48,7 +48,7 @@ const News = () => {
     }
   }, [])
 
-  useEffect(() => { document.title = t('news.pageTitle') }, [])
+  useEffect(() => { document.title = t('news.pageTitle') }, [t])
 
   useEffect(() => {
     setPage(1)
