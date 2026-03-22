@@ -770,6 +770,28 @@ export const deleteComment = async (id) => {
   }
 }
 
+export const tempBanUser = async (userId, days) => {
+  try {
+    logger.db('Temporarily banning user', { userId, days })
+
+    const { error } = await supabase.rpc('ban_user_temporarily', {
+      target_user_id: userId,
+      ban_days: days,
+    })
+
+    if (error) {
+      logger.error('Error banning user:', error)
+      return { error }
+    }
+
+    logger.success('User banned temporarily', { userId, days })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error banning user:', error)
+    return { error }
+  }
+}
+
 
 // ============================================
 // Notifications
@@ -854,6 +876,25 @@ export const markAllNotificationsRead = async (userId) => {
     return { error: null }
   } catch (error) {
     logger.error('Unexpected error marking all notifications read:', error)
+    return { error }
+  }
+}
+
+export const deleteNotification = async (id) => {
+  try {
+    const { error } = await supabase
+      .from('notifications')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      logger.error('Error deleting notification:', error)
+      return { error }
+    }
+
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting notification:', error)
     return { error }
   }
 }

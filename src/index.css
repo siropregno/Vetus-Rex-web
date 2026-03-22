@@ -475,6 +475,36 @@ body.modal-open {
     gap: var(--space-xl);
 }
 
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-circle);
+  border: none;
+  background: var(--wht-6);
+  color: var(--wht-80);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all var(--transition-slow);
+}
+
+.icon-btn:hover {
+  background: var(--accent);
+  color: var(--wht);
+}
+
+.icon-btn.danger:hover {
+  background: #ef4444;
+  color: var(--wht);
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
     .content-zone {
         margin-top: 56px;

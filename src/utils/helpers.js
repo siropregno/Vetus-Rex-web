@@ -48,6 +48,16 @@ export const formatDate = (dateString, locale) => {
  */
 export const isProfileAdmin = (profile) => profile?.role === 'admin'
 
+export const isUserBanned = (profile) => {
+  if (!profile?.banned_until) return false
+  return new Date(profile.banned_until) > new Date()
+}
+
+export const getBanExpiry = (profile) => {
+  if (!profile?.banned_until) return null
+  return new Date(profile.banned_until)
+}
+
 /**
  * Get display name for a profile
  */

@@ -203,13 +203,13 @@ const Info = () => {
             id="avatar-upload"
             disabled={isUploadingAvatar}
           />
-          <label htmlFor="avatar-upload" className="avatar-icon-btn" title={t('info.changePhoto')} aria-label={t('info.changePhoto')}>
+          <label htmlFor="avatar-upload" className="icon-btn" title={t('info.changePhoto')} aria-label={t('info.changePhoto')}>
             <FontAwesomeIcon icon={faPen} />
           </label>
           {profile?.avatar_url && (
             <button
               onClick={handleDeleteAvatar}
-              className="avatar-icon-btn avatar-icon-danger"
+              className="icon-btn danger"
               disabled={isUploadingAvatar}
               title={t('info.delete')}
               aria-label={t('info.delete')}

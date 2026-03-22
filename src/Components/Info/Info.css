@@ -60,34 +60,7 @@
   gap: var(--space-sm);
 }
 
-.avatar-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-circle);
-  border: none;
-  background: var(--wht-6);
-  color: var(--wht-80);
-  cursor: pointer;
-  transition: all var(--transition-slow);
-}
 
-.avatar-icon-btn:hover {
-  background: var(--accent);
-  color: var(--wht);
-}
-
-.avatar-icon-btn.avatar-icon-danger:hover {
-  background: #ef4444;
-  color: var(--wht);
-}
-
-.avatar-icon-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
 
 .avatar-input {
   display: none;

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { getNotifications, getUnreadNotificationCount, markNotificationRead, markAllNotificationsRead } from '../../lib/database'
+import { getNotifications, getUnreadNotificationCount, markNotificationRead, markAllNotificationsRead, deleteNotification } from '../../lib/database'
 import { timeAgo, langPath } from '../../utils/helpers'
 import './NotificationBell.css'
 
@@ -56,8 +56,8 @@ const NotificationBell = () => {
       setNotifications(prev => prev.map(n => n.id === notification.id ? { ...n, is_read: true } : n))
     }
     setIsOpen(false)
-    if (notification.post_id) {
-      navigate(langPath(`/forum/${notification.post_id}`))
+    if (notification.link) {
+      navigate(langPath(notification.link) + '#comments')
     }
   }
 
@@ -67,23 +67,30 @@ const NotificationBell = () => {
     setNotifications(prev => prev.map(n => ({ ...n, is_read: true })))
   }
 
+  const handleDeleteNotification = async (e, notification) => {
+    e.stopPropagation()
+    const { error } = await deleteNotification(notification.id)
+    if (!error) {
+      setNotifications(prev => prev.filter(n => n.id !== notification.id))
+      if (!notification.is_read) setUnreadCount(prev => Math.max(0, prev - 1))
+    }
+  }
+
   const getNotificationText = (notification) => {
     const username = notification.profiles?.username || '?'
-    if (notification.type === 'comment') {
+    if (notification.type === 'forum_comment') {
       return t('notifications.commentedOn', { username })
     }
-    if (notification.type === 'reply') {
+    if (notification.type === 'forum_reply') {
       return t('notifications.repliedTo', { username })
     }
-    return ''
+    return notification.title || ''
   }
 
   const getTimeText = (dateString) => {
-    const { unit, value } = timeAgo(dateString)
-    if (unit === 'now') return t('notifications.justNow')
-    if (unit === 'minutes') return t('notifications.minutesAgo', { count: value })
-    if (unit === 'hours') return t('notifications.hoursAgo', { count: value })
-    return t('notifications.daysAgo', { count: value })
+    const result = timeAgo(dateString)
+    if (result === 'justNow') return t('notifications.justNow')
+    return t(`notifications.${result.key}`, { count: result.count })
   }
 
   if (!user) return null
@@ -134,6 +141,13 @@ const NotificationBell = () => {
                     <span className="notification-item-time">{getTimeText(n.created_at)}</span>
                   </div>
                   {!n.is_read && <span className="notification-item-dot" />}
+                  <button
+                    className="notification-item-delete"
+                    onClick={(e) => handleDeleteNotification(e, n)}
+                    aria-label="Delete"
+                  >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </button>
                 </button>
               ))
             )}

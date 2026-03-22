@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DOMPurify from 'dompurify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpider } from '@fortawesome/free-solid-svg-icons'
+import { faSpider, faPen, faTrash, faReply, faGavel } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import {
   getForumPostById, deleteForumPost,
-  getCommentsByPostId, createComment, updateComment, deleteComment
+  getCommentsByPostId, createComment, updateComment, deleteComment, tempBanUser
 } from '../../lib/database'
-import { formatDate, isProfileAdmin, getAuthorName, FORUM_CATEGORIES, langPath } from '../../utils/helpers'
+import { formatDate, isProfileAdmin, isUserBanned, getBanExpiry, getAuthorName, FORUM_CATEGORIES, langPath } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
 import logger from '../../utils/logger'
 import './ForumDetail.css'
@@ -18,7 +18,9 @@ const ForumDetail = () => {
   const { t } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const { user, profile, isAuthenticated } = useAuthContext()
+  const commentsEndRef = useRef(null)
 
   const [post, setPost] = useState(null)
   const [comments, setComments] = useState([])
@@ -31,10 +33,12 @@ const ForumDetail = () => {
   const [replyTo, setReplyTo] = useState(null)
   const [editingComment, setEditingComment] = useState(null)
   const [editText, setEditText] = useState('')
+  const [moderateTarget, setModerateTarget] = useState(null)
 
   const isAuthor = user && post?.author_id === user.id
   const isAdmin = profile?.role === 'admin'
   const canModify = isAuthor || isAdmin
+  const isBanned = isUserBanned(profile)
 
   useEffect(() => { document.title = t('forum.pageTitle') }, [t])
 
@@ -46,8 +50,13 @@ const ForumDetail = () => {
 
   const fetchComments = useCallback(async () => {
     const { data } = await getCommentsByPostId(id)
-    if (data) setComments(data)
-  }, [id])
+    if (data) {
+      setComments(data)
+      if (location.hash === '#comments') {
+        setTimeout(() => commentsEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+      }
+    }
+  }, [id, location.hash])
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -143,6 +152,42 @@ const ForumDetail = () => {
     })
   }
 
+  const handleModerateDelete = async () => {
+    if (!moderateTarget) return
+    const { error: deleteError } = await deleteComment(moderateTarget.id)
+    if (deleteError) {
+      logger.error('Error deleting comment:', deleteError)
+    } else {
+      setComments(prev => prev.filter(c => c.id !== moderateTarget.id && c.parent_comment_id !== moderateTarget.id))
+    }
+    setModerateTarget(null)
+  }
+
+  const handleModerateBan = (days) => {
+    if (!moderateTarget) return
+    setModal({
+      isOpen: true,
+      type: 'confirm',
+      title: t('forum.banConfirmTitle'),
+      message: t('forum.banConfirmMessage', { username: getAuthorName(moderateTarget.profiles), days }),
+      variant: 'danger',
+      confirmText: t('forum.banConfirm'),
+      onConfirm: async () => {
+        const { error: banError } = await tempBanUser(moderateTarget.author_id, days)
+        if (banError) {
+          logger.error('Error banning user:', banError)
+        }
+        // Also delete the offending comment
+        const { error: deleteError } = await deleteComment(moderateTarget.id)
+        if (!deleteError) {
+          setComments(prev => prev.filter(c => c.id !== moderateTarget.id && c.parent_comment_id !== moderateTarget.id))
+        }
+        setModal({ isOpen: false })
+        setModerateTarget(null)
+      },
+    })
+  }
+
   // Build threaded structure
   const topLevelComments = comments.filter(c => !c.parent_comment_id)
   const getReplies = (parentId) => comments.filter(c => c.parent_comment_id === parentId)
@@ -199,29 +244,41 @@ const ForumDetail = () => {
             </span>
           </div>
           <div className="forum-comment-actions">
-            {isAuthenticated && !isReply && (isPostAuthor || isCommentAuthor) && (
+            {isAuthenticated && !isReply && (
               <button
-                className="forum-comment-action-btn"
+                className="icon-btn"
                 onClick={() => { setReplyTo(comment); setCommentText('') }}
+                title={t('forum.reply')}
               >
-                {t('forum.reply')}
+                <FontAwesomeIcon icon={faReply} />
               </button>
             )}
-            {canModifyComment && (
+            {isCommentAuthor && (
               <>
                 <button
-                  className="forum-comment-action-btn"
+                  className="icon-btn"
                   onClick={() => { setEditingComment(comment.id); setEditText(comment.content) }}
+                  title={t('forum.editComment')}
                 >
-                  {t('forum.editComment')}
+                  <FontAwesomeIcon icon={faPen} />
                 </button>
                 <button
-                  className="forum-comment-action-btn danger"
+                  className="icon-btn danger"
                   onClick={() => handleDeleteComment(comment.id)}
+                  title={t('forum.deleteComment')}
                 >
-                  {t('forum.deleteComment')}
+                  <FontAwesomeIcon icon={faTrash} />
                 </button>
               </>
+            )}
+            {isAdmin && !isCommentAuthor && (
+              <button
+                className="icon-btn danger"
+                onClick={() => setModerateTarget(comment)}
+                title={t('forum.moderate')}
+              >
+                <FontAwesomeIcon icon={faGavel} />
+              </button>
             )}
           </div>
         </div>
@@ -301,7 +358,11 @@ const ForumDetail = () => {
       <div className="forum-comments-section">
         <h3 className="forum-comments-title">{t('forum.commentsTitle')} ({comments.length})</h3>
 
-        {isAuthenticated ? (
+        {isBanned ? (
+          <p className="forum-banned-message">
+            {t('forum.bannedMessage', { date: getBanExpiry(profile)?.toLocaleDateString() })}
+          </p>
+        ) : isAuthenticated ? (
           <form className="forum-comment-form" onSubmit={handleSubmitComment}>
             {replyTo && (
               <div className="forum-reply-indicator">
@@ -332,8 +393,37 @@ const ForumDetail = () => {
           ) : (
             topLevelComments.map(comment => renderComment(comment))
           )}
+          <div ref={commentsEndRef} />
         </div>
       </div>
+
+      {moderateTarget && (
+        <div className="moderate-overlay" onClick={() => setModerateTarget(null)}>
+          <div className="moderate-panel" onClick={(e) => e.stopPropagation()}>
+            <h3 className="moderate-title">{t('forum.moderateTitle')}</h3>
+            <p className="moderate-user">
+              {t('forum.moderateUser', { username: getAuthorName(moderateTarget.profiles) })}
+            </p>
+            <div className="moderate-actions">
+              <button className="button-b moderate-btn" onClick={handleModerateDelete}>
+                {t('forum.moderateDelete')}
+              </button>
+              <button className="button-b moderate-btn danger" onClick={() => handleModerateBan(1)}>
+                {t('forum.ban1Day')}
+              </button>
+              <button className="button-b moderate-btn danger" onClick={() => handleModerateBan(7)}>
+                {t('forum.ban7Days')}
+              </button>
+              <button className="button-b moderate-btn danger" onClick={() => handleModerateBan(30)}>
+                {t('forum.ban30Days')}
+              </button>
+            </div>
+            <button className="button-b moderate-cancel" onClick={() => setModerateTarget(null)}>
+              {t('common.cancel')}
+            </button>
+          </div>
+        </div>
+      )}
 
       <Modal
         isOpen={modal.isOpen}

@@ -165,6 +165,26 @@
   flex-shrink: 0;
 }
 
+.notification-item-delete {
+  background: none;
+  border: none;
+  color: var(--light-grey);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: all var(--transition-base);
+}
+
+.notification-item:hover .notification-item-delete {
+  opacity: 1;
+}
+
+.notification-item-delete:hover {
+  color: var(--danger);
+}
+
 @media (max-width: 768px) {
   .notification-dropdown {
     position: fixed;

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createForumPost, updateForumPost, getForumPostById } from '../../lib/database'
-import { FORUM_CATEGORIES, langPath } from '../../utils/helpers'
+import { FORUM_CATEGORIES, langPath, isUserBanned, getBanExpiry } from '../../utils/helpers'
 import NewsEditor from '../../Components/NewsEditor/NewsEditor'
 import logger from '../../utils/logger'
 import './ForumCreate.css'
@@ -25,6 +25,8 @@ const ForumCreate = () => {
   const [error, setError] = useState(null)
 
   useEffect(() => { document.title = t('forumCreate.pageTitle') }, [t])
+
+  const isBanned = isUserBanned(profile)
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -128,6 +130,19 @@ const ForumCreate = () => {
   }
 
   if (!isAuthenticated) return null
+
+  if (isBanned) {
+    return (
+      <div className="forum-create-page">
+        <button className="forum-detail-back" onClick={() => navigate(langPath('/forum'))}>
+          {t('forumCreate.backToForum')}
+        </button>
+        <p className="forum-banned-message">
+          {t('forumCreate.bannedMessage', { date: getBanExpiry(profile)?.toLocaleDateString() })}
+        </p>
+      </div>
+    )
+  }
 
   return (
     <div className="forum-create-page">

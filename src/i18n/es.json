@@ -223,6 +223,7 @@
   },
   "common": {
     "delete": "Eliminar",
+    "cancel": "Cancelar",
     "unknown": "Desconocido"
   },
   "ranking": {
@@ -318,9 +319,21 @@
     "edited": "(editado)",
     "replyTo": "Respondiendo a {{username}}",
     "cancelReply": "Cancelar respuesta",
-    "loginToComment": "Inicia sesión para comentar"
+    "loginToComment": "Inicia sesión para comentar",
+    "moderate": "Moderar",
+    "moderateTitle": "Moderar Comentario",
+    "moderateUser": "Usuario: {{username}}",
+    "moderateDelete": "Eliminar Comentario",
+    "ban1Day": "Banear 1 día",
+    "ban7Days": "Banear 7 días",
+    "ban30Days": "Banear 30 días",
+    "banConfirmTitle": "Confirmar Ban",
+    "banConfirmMessage": "¿Banear a {{username}} por {{days}} día(s)? Se eliminará el comentario.",
+    "banConfirm": "Banear",
+    "bannedMessage": "Tu cuenta está suspendida hasta el {{date}}. No podés crear publicaciones ni comentarios."
   },
   "forumCreate": {
+    "bannedMessage": "Tu cuenta está suspendida hasta el {{date}}. No podés crear publicaciones.",
     "pageTitle": "Vetus Rex | Nuevo Post",
     "editTitle": "Editar Publicación",
     "newTitle": "Nueva Publicación",

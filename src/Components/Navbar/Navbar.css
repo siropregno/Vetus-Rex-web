@@ -137,11 +137,10 @@
   top: 100%;
   left: 0;
   min-width: 160px;
-  background: var(--dropdown-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  background: var(--dark-grey);
+  border: 1px solid var(--wht-12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -180,6 +179,7 @@
 
 .lang-option:hover {
   color: var(--accent);
+  background: var(--wht-6);
 }
 
 .lang-option.active {
@@ -268,11 +268,10 @@
   top: 100%;
   right: 0;
   min-width: 200px;
-  background: var(--dropdown-bg);
-  backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+  background: var(--dark-grey);
+  border: 1px solid var(--wht-12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -308,6 +307,7 @@
 
 .dropdown-item:hover:not(:disabled) {
   color: var(--accent);
+  background: var(--wht-6);
 }
 
 .logout-item:hover:not(:disabled) {
@@ -321,7 +321,7 @@
 
 .dropdown-divider {
   height: 1px;
-  background: var(--wht-10);
+  background: var(--wht-8);
   margin: 0.25rem 0;
 }
 
