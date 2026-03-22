@@ -1,0 +1,118 @@
+.forum-card {
+  background: var(--dark-grey);
+  border: 1px solid var(--wht-8);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.forum-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
+}
+
+.forum-card-link {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg);
+  gap: var(--space-sm);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.forum-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.forum-card-category {
+  font-family: var(--font-ui);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-xs);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--wht);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.forum-card-date {
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  color: var(--light-grey);
+}
+
+.forum-card-title {
+  color: var(--wht);
+  margin: 0;
+  font-size: 1.1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.forum-card-excerpt {
+  color: var(--light-grey);
+  margin: 0;
+  font-size: 0.9rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.forum-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--wht-6);
+}
+
+.forum-card-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.85rem;
+  color: var(--light-grey);
+  font-family: var(--font-body);
+}
+
+.forum-card-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-circle);
+  object-fit: cover;
+}
+
+.forum-card-avatar-fallback {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-circle);
+  background: var(--accent);
+  color: var(--wht);
+  font-family: var(--font-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.forum-card-comments {
+  font-size: 0.85rem;
+  color: var(--light-grey);
+  font-family: var(--font-body);
+}
+
+@media (max-width: 768px) {
+  .forum-card-link {
+    padding: var(--space-md);
+  }
+}

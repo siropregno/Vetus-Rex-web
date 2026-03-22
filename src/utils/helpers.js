@@ -1,4 +1,5 @@
 import i18n from '../i18n/i18n'
+import { faShieldHalved, faComments, faPalette, faMugHot, faWrench } from '@fortawesome/free-solid-svg-icons'
 
 export const SUPPORTED_LANGS = ['en', 'es', 'de']
 
@@ -66,4 +67,27 @@ export const NEWS_TAGS = {
   event: { label: 'tags.event', color: '#f59e0b' },
   announcement: { label: 'tags.announcement', color: '#ef4444' },
   community: { label: 'tags.community', color: '#10b981' },
+}
+
+export const FORUM_CATEGORIES = {
+  welcome: { label: 'forumCategories.welcome', desc: 'forumCategories.welcomeDesc', color: '#10b981', icon: faShieldHalved },
+  general: { label: 'forumCategories.general', desc: 'forumCategories.generalDesc', color: '#3b82f6', icon: faComments },
+  images: { label: 'forumCategories.images', desc: 'forumCategories.imagesDesc', color: '#8b5cf6', icon: faPalette },
+  tavern: { label: 'forumCategories.tavern', desc: 'forumCategories.tavernDesc', color: '#f59e0b', icon: faMugHot },
+  support: { label: 'forumCategories.support', desc: 'forumCategories.supportDesc', color: '#ef4444', icon: faWrench },
+}
+
+export const timeAgo = (dateString) => {
+  if (!dateString) return ''
+  const now = new Date()
+  const date = new Date(dateString)
+  const seconds = Math.floor((now - date) / 1000)
+
+  if (seconds < 60) return 'justNow'
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return { key: 'minutesAgo', count: minutes }
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return { key: 'hoursAgo', count: hours }
+  const days = Math.floor(hours / 24)
+  return { key: 'daysAgo', count: days }
 }

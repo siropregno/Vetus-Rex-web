@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { SUPPORTED_LANGS, langPath } from '../../utils/helpers';
+import NotificationBell from '../NotificationBell/NotificationBell';
 import logger from '../../utils/logger';
 import './Navbar.css';
 import logo from '../../assets/logo-big.png';
@@ -125,11 +126,13 @@ const Navbar = () => {
               <a href={langPath('/news')} className={`nav-link${currentPath.startsWith('/news') ? ' active' : ''}`}>{t('nav.news')}</a>
               <a href={langPath('/ranking')} className={`nav-link${currentPath.startsWith('/ranking') ? ' active' : ''}`}>{t('nav.ranking')}</a>
               <a href={langPath('/gallery')} className={`nav-link${currentPath.startsWith('/gallery') ? ' active' : ''}`}>{t('nav.gallery')}</a>
+              <a href={langPath('/forum')} className={`nav-link${currentPath.startsWith('/forum') ? ' active' : ''}`}>{t('nav.forum')}</a>
               <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
             </div>
             
 
             <div className="auth-section">
+              {isAuthenticated && <NotificationBell />}
               {isAuthenticated ? (
                 <div className="user-dropdown">
                   <button className="user-button">

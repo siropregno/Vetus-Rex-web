@@ -4,6 +4,7 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
+import Youtube from '@tiptap/extension-youtube'
 import Placeholder from '@tiptap/extension-placeholder'
 import './NewsEditor.css'
 
@@ -30,6 +31,14 @@ const MenuBar = ({ editor }) => {
     }
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+  }, [editor])
+
+  const addYoutube = useCallback(() => {
+    if (!editor) return
+    const url = window.prompt('YouTube URL:')
+    if (url) {
+      editor.commands.setYoutubeVideo({ src: url })
+    }
   }, [editor])
 
   if (!editor) return null
@@ -145,6 +154,14 @@ const MenuBar = ({ editor }) => {
         >
           🖼
         </button>
+        <button
+          type="button"
+          onClick={addYoutube}
+          className="toolbar-btn"
+          title="YouTube"
+        >
+          ▶
+        </button>
       </div>
     </div>
   )
@@ -166,6 +183,10 @@ const NewsEditor = ({ content = '', onChange }) => {
           target: '_blank',
           rel: 'noopener noreferrer',
         },
+      }),
+      Youtube.configure({
+        controls: true,
+        nocookie: true,
       }),
       Placeholder.configure({
         placeholder: t('newsCreate.editorPlaceholder'),

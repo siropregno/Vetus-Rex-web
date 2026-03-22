@@ -416,3 +416,444 @@ export const deleteGalleryImage = async (id, imageUrl) => {
     return { error }
   }
 }
+
+
+// ============================================
+// Forum Posts
+// ============================================
+
+export const getForumCategoryStats = async () => {
+  try {
+    logger.db('Fetching forum category stats')
+
+    const { data, error } = await supabase
+      .from('forum_posts')
+      .select('category, created_at, id, title, profiles(username)')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      logger.error('Error fetching category stats:', error)
+      return { data: null, error }
+    }
+
+    const stats = {}
+    const seen = new Set()
+    for (const post of data) {
+      if (!stats[post.category]) {
+        stats[post.category] = { count: 0, lastPost: null }
+      }
+      stats[post.category].count++
+      if (!seen.has(post.category)) {
+        seen.add(post.category)
+        stats[post.category].lastPost = {
+          id: post.id,
+          title: post.title,
+          created_at: post.created_at,
+          author: post.profiles?.username || 'Unknown',
+        }
+      }
+    }
+
+    logger.success('Fetched forum category stats')
+    return { data: stats, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching category stats:', error)
+    return { data: null, error }
+  }
+}
+
+export const getAllForumPosts = async (page = 1, pageSize = 12, category = null, search = null) => {
+  try {
+    logger.db('Fetching forum posts', { page, pageSize, category, search })
+
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+
+    let query = supabase
+      .from('forum_posts')
+      .select('*, profiles(username, avatar_url, role), forum_comments(count)', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to)
+
+    if (category) {
+      query = query.eq('category', category)
+    }
+
+    if (search) {
+      query = query.ilike('title', `%${search}%`)
+    }
+
+    const { data, error, count } = await query
+
+    if (error) {
+      logger.error('Error fetching forum posts:', error)
+      return { data: null, count: 0, error }
+    }
+
+    logger.success(`Fetched ${data.length} forum posts (total: ${count})`)
+    return { data, count, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching forum posts:', error)
+    return { data: null, count: 0, error }
+  }
+}
+
+export const getForumPostById = async (id) => {
+  try {
+    logger.db('Fetching forum post by ID', { id })
+
+    const { data, error } = await supabase
+      .from('forum_posts')
+      .select('*, profiles(username, avatar_url, role)')
+      .eq('id', id)
+      .single()
+
+    if (error) {
+      logger.error('Error fetching forum post:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Fetched forum post', { id: data.id, title: data.title })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching forum post:', error)
+    return { data: null, error }
+  }
+}
+
+export const createForumPost = async ({ title, content, category, author_id }) => {
+  if (!title?.trim() || !content?.trim() || !category || !author_id) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Creating forum post', { title, category })
+
+    const sanitizedContent = DOMPurify.sanitize(content)
+    const { data, error } = await supabase
+      .from('forum_posts')
+      .insert([{ title, content: sanitizedContent, category, author_id }])
+      .select()
+      .single()
+
+    if (error) {
+      logger.error('Error creating forum post:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Forum post created', { id: data.id })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error creating forum post:', error)
+    return { data: null, error }
+  }
+}
+
+export const updateForumPost = async (id, updates) => {
+  if (!id || !updates) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Updating forum post', { id, updates: Object.keys(updates) })
+
+    const sanitizedUpdates = updates.content
+      ? { ...updates, content: DOMPurify.sanitize(updates.content) }
+      : updates
+
+    const { data, error } = await supabase
+      .from('forum_posts')
+      .update({ ...sanitizedUpdates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) {
+      logger.error('Error updating forum post:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Forum post updated', { id })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error updating forum post:', error)
+    return { data: null, error }
+  }
+}
+
+export const deleteForumPost = async (id) => {
+  if (!id) return { error: { message: 'Missing post ID' } }
+  try {
+    logger.db('Deleting forum post', { id })
+
+    const { error } = await supabase
+      .from('forum_posts')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      logger.error('Error deleting forum post:', error)
+      return { error }
+    }
+
+    logger.success('Forum post deleted', { id })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting forum post:', error)
+    return { error }
+  }
+}
+
+export const uploadForumImage = async (file, userId) => {
+  try {
+    logger.db('Uploading forum image')
+
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
+    const filePath = `${userId}/${fileName}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('forum-images')
+      .upload(filePath, file)
+
+    if (uploadError) {
+      logger.error('Error uploading forum image:', uploadError)
+      return { data: null, error: uploadError }
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('forum-images')
+      .getPublicUrl(filePath)
+
+    logger.success('Forum image uploaded', { publicUrl })
+    return { data: publicUrl, error: null }
+  } catch (error) {
+    logger.error('Unexpected error uploading forum image:', error)
+    return { data: null, error }
+  }
+}
+
+export const deleteForumImage = async (url) => {
+  try {
+    logger.db('Deleting forum image')
+
+    let path
+    try {
+      const urlObj = new URL(url)
+      const idx = urlObj.pathname.indexOf('/forum-images/')
+      path = idx !== -1 ? urlObj.pathname.substring(idx + '/forum-images/'.length) : null
+    } catch {
+      path = null
+    }
+    if (!path) {
+      return { error: { message: 'Invalid image URL' } }
+    }
+
+    const { error } = await supabase.storage
+      .from('forum-images')
+      .remove([path])
+
+    if (error) {
+      logger.error('Error deleting forum image:', error)
+      return { error }
+    }
+
+    logger.success('Forum image deleted')
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting forum image:', error)
+    return { error }
+  }
+}
+
+
+// ============================================
+// Forum Comments
+// ============================================
+
+export const getCommentsByPostId = async (postId) => {
+  try {
+    logger.db('Fetching comments for post', { postId })
+
+    const { data, error } = await supabase
+      .from('forum_comments')
+      .select('*, profiles(username, avatar_url, role)')
+      .eq('post_id', postId)
+      .order('created_at', { ascending: true })
+
+    if (error) {
+      logger.error('Error fetching comments:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Fetched ${data.length} comments`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching comments:', error)
+    return { data: null, error }
+  }
+}
+
+export const createComment = async ({ post_id, parent_comment_id, content, author_id }) => {
+  if (!post_id || !content?.trim() || !author_id) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Creating comment', { post_id, parent_comment_id })
+
+    const sanitizedContent = DOMPurify.sanitize(content)
+    const { data, error } = await supabase
+      .from('forum_comments')
+      .insert([{ post_id, parent_comment_id: parent_comment_id || null, content: sanitizedContent, author_id }])
+      .select('*, profiles(username, avatar_url, role)')
+      .single()
+
+    if (error) {
+      logger.error('Error creating comment:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Comment created', { id: data.id })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error creating comment:', error)
+    return { data: null, error }
+  }
+}
+
+export const updateComment = async (id, content) => {
+  if (!id || !content?.trim()) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Updating comment', { id })
+
+    const sanitizedContent = DOMPurify.sanitize(content)
+    const { data, error } = await supabase
+      .from('forum_comments')
+      .update({ content: sanitizedContent, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select('*, profiles(username, avatar_url, role)')
+      .single()
+
+    if (error) {
+      logger.error('Error updating comment:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Comment updated', { id })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error updating comment:', error)
+    return { data: null, error }
+  }
+}
+
+export const deleteComment = async (id) => {
+  if (!id) return { error: { message: 'Missing comment ID' } }
+  try {
+    logger.db('Deleting comment', { id })
+
+    const { error } = await supabase
+      .from('forum_comments')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      logger.error('Error deleting comment:', error)
+      return { error }
+    }
+
+    logger.success('Comment deleted', { id })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting comment:', error)
+    return { error }
+  }
+}
+
+
+// ============================================
+// Notifications
+// ============================================
+
+export const getNotifications = async (userId, limit = 20) => {
+  try {
+    logger.db('Fetching notifications', { userId, limit })
+
+    const { data, error } = await supabase
+      .from('notifications')
+      .select('*, profiles:actor_id(username, avatar_url)')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(limit)
+
+    if (error) {
+      logger.error('Error fetching notifications:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Fetched ${data.length} notifications`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching notifications:', error)
+    return { data: null, error }
+  }
+}
+
+export const getUnreadNotificationCount = async (userId) => {
+  try {
+    const { count, error } = await supabase
+      .from('notifications')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('is_read', false)
+
+    if (error) {
+      logger.error('Error fetching unread count:', error)
+      return { count: 0, error }
+    }
+
+    return { count: count || 0, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching unread count:', error)
+    return { count: 0, error }
+  }
+}
+
+export const markNotificationRead = async (id) => {
+  try {
+    const { error } = await supabase
+      .from('notifications')
+      .update({ is_read: true })
+      .eq('id', id)
+
+    if (error) {
+      logger.error('Error marking notification read:', error)
+      return { error }
+    }
+
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error marking notification read:', error)
+    return { error }
+  }
+}
+
+export const markAllNotificationsRead = async (userId) => {
+  try {
+    const { error } = await supabase
+      .from('notifications')
+      .update({ is_read: true })
+      .eq('user_id', userId)
+      .eq('is_read', false)
+
+    if (error) {
+      logger.error('Error marking all notifications read:', error)
+      return { error }
+    }
+
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error marking all notifications read:', error)
+    return { error }
+  }
+}
