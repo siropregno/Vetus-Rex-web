@@ -326,6 +326,19 @@
   margin: 0.25rem 0;
 }
 
+.bell-desktop {
+  display: contents;
+}
+
+.bell-mobile {
+  display: none;
+}
+
+.navbar-right {
+  display: none;
+  align-items: center;
+  gap: var(--space-md);
+}
 
 .mobile-toggle {
   display: none;
@@ -384,6 +397,18 @@
 
   .brand-link img {
     height: 45px;
+  }
+
+  .navbar-right {
+    display: flex;
+  }
+
+  .bell-desktop {
+    display: none;
+  }
+
+  .bell-mobile {
+    display: contents;
   }
 
   .mobile-toggle {

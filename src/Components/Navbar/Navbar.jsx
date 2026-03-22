@@ -92,7 +92,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar" translate="no">
         <div className="navbar-container">
 
           <div className="brand-section">
@@ -132,7 +132,7 @@ const Navbar = () => {
             
 
             <div className="auth-section">
-              {isAuthenticated && <NotificationBell />}
+              {isAuthenticated && <span className="bell-desktop"><NotificationBell /></span>}
               {isAuthenticated ? (
                 <div className="user-dropdown">
                   <button className="user-button">
@@ -188,15 +188,18 @@ const Navbar = () => {
           </div>
 
 
-          <button 
-            className={`mobile-toggle ${isMenuOpen ? 'active' : ''}`}
-            onClick={toggleMenu}
-            aria-label={t('nav.toggleMenu')}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+          <div className="navbar-right">
+            {isAuthenticated && <span className="bell-mobile"><NotificationBell /></span>}
+            <button 
+              className={`mobile-toggle ${isMenuOpen ? 'active' : ''}`}
+              onClick={toggleMenu}
+              aria-label={t('nav.toggleMenu')}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
         </div>
       </nav>
 
