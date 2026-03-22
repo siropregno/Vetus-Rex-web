@@ -75,7 +75,7 @@
     --container-sm: 500px;
     --container-md: 600px;
     --container-lg: 800px;
-    --container-xl: min(70vw, 1200px);
+    --container-xl: min(90vw, 1400px);
 
     --radius-xs: 4px;
     --radius-sm: 6px;
@@ -505,7 +505,7 @@ body.modal-open {
   cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
     .content-zone {
         margin-top: 56px;
     }

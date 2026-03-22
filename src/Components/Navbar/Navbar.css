@@ -44,18 +44,19 @@
   display: flex;
   align-items: center;
   height: 80px;
-  gap: var(--space-2xl);
+  gap: var(--space-xl);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   height: 100%;
-  gap: var(--space-2xl);
+  gap: var(--space-xl);
 }
 
 .nav-link {
   font-family: var(--font-ui);
+  font-size: 0.8em;
   color: var(--wht);
   text-decoration: none;
   padding: var(--space-sm) 0;
@@ -374,7 +375,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
 
   .navbar-container {
     max-width: 100%;

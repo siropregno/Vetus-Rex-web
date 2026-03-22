@@ -33,9 +33,9 @@
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .main-content {
-    margin-top: 70px;
+    margin-top: 56px;
     padding: var(--space-lg) 0;
   }
 
