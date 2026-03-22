@@ -80,6 +80,7 @@ function App() {
                 <nav className="footer-links">
                   <a href={`/${getLang()}`}>{t('nav.home')}</a>
                   <a href={`/${getLang()}/news`}>{t('nav.news')}</a>
+                  <a href={`/${getLang()}/ranking`}>{t('nav.ranking')}</a>
                   <a href={`/${getLang()}/gallery`}>{t('nav.gallery')}</a>
                   <a href={`/${getLang()}/forum`}>{t('nav.forum')}</a>
                   <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
