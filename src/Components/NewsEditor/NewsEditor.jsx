@@ -14,6 +14,16 @@ const MenuBar = ({ editor }) => {
     if (!editor) return
     const url = window.prompt(t('newsCreate.imageUrlPrompt'))
     if (url) {
+      try {
+        const urlObj = new URL(url)
+        if (!['https:'].includes(urlObj.protocol)) {
+          alert('Only HTTPS URLs are allowed.')
+          return
+        }
+      } catch {
+        alert('Invalid URL.')
+        return
+      }
       editor.chain().focus().setImage({ src: url }).run()
     }
   }, [editor])
@@ -30,6 +40,17 @@ const MenuBar = ({ editor }) => {
       return
     }
 
+    try {
+      const urlObj = new URL(url)
+      if (!['https:', 'http:'].includes(urlObj.protocol)) {
+        alert('Invalid URL protocol.')
+        return
+      }
+    } catch {
+      alert('Invalid URL.')
+      return
+    }
+
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
   }, [editor])
 
@@ -37,6 +58,16 @@ const MenuBar = ({ editor }) => {
     if (!editor) return
     const url = window.prompt('YouTube URL:')
     if (url) {
+      try {
+        const urlObj = new URL(url)
+        if (!['www.youtube.com', 'youtube.com', 'youtu.be'].includes(urlObj.hostname)) {
+          alert('Only YouTube URLs are allowed.')
+          return
+        }
+      } catch {
+        alert('Invalid URL.')
+        return
+      }
       editor.commands.setYoutubeVideo({ src: url })
     }
   }, [editor])

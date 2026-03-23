@@ -90,6 +90,12 @@ export const createNews = async ({ title, content, cover_image_url, tag, author_
   if (!title?.trim() || !content?.trim() || !author_id) {
     return { data: null, error: { message: 'Missing required fields' } }
   }
+  if (title.length > 300) {
+    return { data: null, error: { message: 'Title too long (max 300 characters)' } }
+  }
+  if (content.length > 100000) {
+    return { data: null, error: { message: 'Content too long (max 100,000 characters)' } }
+  }
   try {
     logger.db('Creating news article', { title, tag })
 
@@ -525,6 +531,12 @@ export const createForumPost = async ({ title, content, category, author_id }) =
   if (!title?.trim() || !content?.trim() || !category || !author_id) {
     return { data: null, error: { message: 'Missing required fields' } }
   }
+  if (title.length > 200) {
+    return { data: null, error: { message: 'Title too long (max 200 characters)' } }
+  }
+  if (content.length > 50000) {
+    return { data: null, error: { message: 'Content too long (max 50,000 characters)' } }
+  }
   try {
     logger.db('Creating forum post', { title, category })
 
@@ -605,6 +617,15 @@ export const deleteForumPost = async (id) => {
 export const uploadForumImage = async (file, userId) => {
   try {
     logger.db('Uploading forum image')
+
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+    const MAX_SIZE = 10 * 1024 * 1024 // 10MB
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return { data: null, error: { message: 'Invalid file type. Only JPEG, PNG, WebP and GIF are allowed.' } }
+    }
+    if (file.size > MAX_SIZE) {
+      return { data: null, error: { message: 'File too large. Maximum size is 10MB.' } }
+    }
 
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
@@ -696,6 +717,9 @@ export const createComment = async ({ post_id, parent_comment_id, content, autho
   if (!post_id || !content?.trim() || !author_id) {
     return { data: null, error: { message: 'Missing required fields' } }
   }
+  if (content.length > 10000) {
+    return { data: null, error: { message: 'Comment too long (max 10,000 characters)' } }
+  }
   try {
     logger.db('Creating comment', { post_id, parent_comment_id })
 
@@ -722,6 +746,9 @@ export const createComment = async ({ post_id, parent_comment_id, content, autho
 export const updateComment = async (id, content) => {
   if (!id || !content?.trim()) {
     return { data: null, error: { message: 'Missing required fields' } }
+  }
+  if (content.length > 10000) {
+    return { data: null, error: { message: 'Comment too long (max 10,000 characters)' } }
   }
   try {
     logger.db('Updating comment', { id })
@@ -1230,6 +1257,12 @@ export const createTicket = async ({ subject, tag, priority, content, user_id })
   if (!subject?.trim() || !tag || !content?.trim() || !user_id) {
     return { data: null, error: { message: 'Missing required fields' } }
   }
+  if (subject.length > 200) {
+    return { data: null, error: { message: 'Subject too long (max 200 characters)' } }
+  }
+  if (content.length > 10000) {
+    return { data: null, error: { message: 'Content too long (max 10,000 characters)' } }
+  }
   try {
     logger.db('Creating support ticket', { subject, tag, priority })
 
@@ -1265,6 +1298,9 @@ export const createTicket = async ({ subject, tag, priority, content, user_id })
 export const addTicketMessage = async (ticketId, content, userId, isStaffReply = false) => {
   if (!ticketId || !content?.trim() || !userId) {
     return { data: null, error: { message: 'Missing required fields' } }
+  }
+  if (content.length > 10000) {
+    return { data: null, error: { message: 'Message too long (max 10,000 characters)' } }
   }
   try {
     logger.db('Adding ticket message', { ticketId, isStaffReply })

@@ -24,8 +24,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           logger.auth('Initial session result', {
             hasSession: !!session,
-            hasUser: !!session?.user,
-            userEmail: session?.user?.email
+            hasUser: !!session?.user
           })
           
           setSession(session)
@@ -51,7 +50,7 @@ export const AuthProvider = ({ children }) => {
       (event, session) => {
         if (event === 'INITIAL_SESSION') return
 
-        logger.auth('Auth state changed', { event, userEmail: session?.user?.email })
+        logger.auth('Auth state changed', { event, hasSession: !!session })
         
         setSession(session)
         setUser(session?.user ?? null)
@@ -228,6 +227,15 @@ export const AuthProvider = ({ children }) => {
   const uploadAvatar = async (file) => {
     if (!user) {
       return { data: null, error: new Error('No authenticated user') }
+    }
+
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+    const MAX_SIZE = 5 * 1024 * 1024 // 5MB
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return { data: null, error: new Error('Invalid file type. Only JPEG, PNG and WebP are allowed.') }
+    }
+    if (file.size > MAX_SIZE) {
+      return { data: null, error: new Error('File too large. Maximum size is 5MB.') }
     }
     
     try {
