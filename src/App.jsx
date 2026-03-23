@@ -31,6 +31,9 @@ import SupportCreate from './pages/Support/SupportCreate'
 import SupportDetail from './pages/Support/SupportDetail'
 import NotFound from './pages/NotFound/NotFound'
 import { SUPPORTED_LANGS, getLang } from './utils/helpers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faXTwitter, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons'
 
 function LangLayout() {
   const { lang } = useParams()
@@ -106,15 +109,34 @@ function AppContent() {
         <footer>
           <div className="footer">
             <div className="footer-inner">
-              <nav className="footer-links">
-                <a href={`/${getLang()}`}>{t('nav.home')}</a>
-                <a href={`/${getLang()}/news`}>{t('nav.news')}</a>
-                <a href={`/${getLang()}/ranking`}>{t('nav.ranking')}</a>
-                <a href={`/${getLang()}/gallery`}>{t('nav.gallery')}</a>
-                <a href={`/${getLang()}/forum`}>{t('nav.forum')}</a>
-                <a href={`/${getLang()}/support`}>{t('nav.support')}</a>
-                <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
-              </nav>
+            <div className="footer-col">
+                <h3 className="footer-heading">{t('footer.followUs')}</h3>
+                <div className="footer-socials">
+                  <a href="https://x.com/vetusrex" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><FontAwesomeIcon icon={faXTwitter} /></a>
+                  <a href="https://instagram.com/vetusrex" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
+                  <a href="https://youtube.com/@vetusrexofficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FontAwesomeIcon icon={faYoutube} /></a>
+                </div>
+              </div>
+              <div className="footer-col">
+                <h3 className="footer-heading">{t('footer.contact')}</h3>
+                <div className="footer-contact">
+                  <p><FontAwesomeIcon icon={faEnvelope} /> contact@vetusrex.online</p>
+                  <p><FontAwesomeIcon icon={faLocationDot} /> Buenos Aires, Argentina</p>
+                </div>
+              </div>
+              <div className="footer-col">
+                <h3 className="footer-heading">Links</h3>
+                <nav className="footer-links">
+                  <a href={`/${getLang()}`}>{t('nav.home')}</a>
+                  <a href={`/${getLang()}/news`}>{t('nav.news')}</a>
+                  <a href={`/${getLang()}/ranking`}>{t('nav.ranking')}</a>
+                  <a href={`/${getLang()}/gallery`}>{t('nav.gallery')}</a>
+                  <a href={`/${getLang()}/forum`}>{t('nav.forum')}</a>
+                  <a href={`/${getLang()}/support`}>{t('nav.support')}</a>
+                </nav>
+              </div>
+            </div>
+            <div className="footer-bottom">
               <p className="footer-copy">{t('footer.rights')}</p>
             </div>
           </div>

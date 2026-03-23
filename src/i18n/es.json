@@ -15,7 +15,9 @@
     "admin": "Admin"
   },
   "footer": {
-    "rights": "© 2026 TikiTiki Studios. Todos los derechos reservados."
+    "rights": "© 2026 TikiTiki Studios. Todos los derechos reservados.",
+    "contact": "Contacto",
+    "followUs": "Seguinos"
   },
   "home": {
     "pageTitle": "Vetus Rex - Embárcate en una Aventura Inolvidable",
