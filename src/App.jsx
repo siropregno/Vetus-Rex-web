@@ -113,7 +113,7 @@ function AppContent() {
                 <h3 className="footer-heading">{t('footer.followUs')}</h3>
                 <div className="footer-socials">
                   <a href="https://x.com/vetusrex" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><FontAwesomeIcon icon={faXTwitter} /></a>
-                  <a href="https://instagram.com/vetusrex" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
+                  <a href="https://instagram.com/vetusrexofficial" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FontAwesomeIcon icon={faInstagram} /></a>
                   <a href="https://youtube.com/@vetusrexofficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FontAwesomeIcon icon={faYoutube} /></a>
                 </div>
               </div>
