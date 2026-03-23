@@ -118,7 +118,7 @@ const AdminLog = () => {
               <tbody>
                 {entries.map((entry) => (
                   <tr key={entry.id}>
-                    <td style={{ whiteSpace: 'nowrap' }}>{formatDate(entry.created_at)}</td>
+                    <td className="admin-nowrap">{formatDate(entry.created_at)}</td>
                     <td>{entry.admin_username || t('common.unknown')}</td>
                     <td>
                       {ACTION_ICONS[entry.action_type]}{' '}
@@ -133,7 +133,7 @@ const AdminLog = () => {
                           {entry.target_username || t('admin.deletedUser')}
                         </a>
                       ) : (
-                        <span style={{ color: 'var(--text-secondary)' }}>
+                        <span className="admin-muted">
                           {t('admin.deletedUser')}
                         </span>
                       )}

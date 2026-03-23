@@ -22,7 +22,7 @@ const AdminLayout = () => {
         <div>
           <h2>{t('admin.unauthorized')}</h2>
           <p>{t('admin.unauthorizedDesc')}</p>
-          <a href={langPath('/')} className="admin-btn admin-btn-primary" style={{ marginTop: '1rem', display: 'inline-block' }}>
+          <a href={langPath('/')} className="admin-btn admin-btn-primary" style={{ marginTop: 16 }}>
             {t('admin.backHome')}
           </a>
         </div>

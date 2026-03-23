@@ -47,15 +47,15 @@ const AdminDashboard = () => {
 
       {stats && (
         <div className="admin-stats-grid">
-          <div className="admin-stat-card">
+          <div className="admin-stat-card" data-color="blue">
             <div className="admin-stat-value">{stats.total_users}</div>
             <div className="admin-stat-label">{t('admin.statUsers')}</div>
           </div>
-          <div className="admin-stat-card">
+          <div className="admin-stat-card" data-color="purple">
             <div className="admin-stat-value">{stats.total_characters}</div>
             <div className="admin-stat-label">{t('admin.statCharacters')}</div>
           </div>
-          <div className="admin-stat-card">
+          <div className="admin-stat-card" data-color="red">
             <div className="admin-stat-value">{stats.banned_users}</div>
             <div className="admin-stat-label">{t('admin.statBanned')}</div>
           </div>
@@ -71,11 +71,11 @@ const AdminDashboard = () => {
             <div className="admin-stat-value">{stats.total_news}</div>
             <div className="admin-stat-label">{t('admin.statNews')}</div>
           </div>
-          <div className="admin-stat-card">
+          <div className="admin-stat-card" data-color="blue">
             <div className="admin-stat-value">{stats.moderators}</div>
             <div className="admin-stat-label">{t('admin.statModerators')}</div>
           </div>
-          <div className="admin-stat-card">
+          <div className="admin-stat-card" data-color="amber">
             <div className="admin-stat-value">{stats.admins}</div>
             <div className="admin-stat-label">{t('admin.statAdmins')}</div>
           </div>
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
             ))}
-            <div style={{ marginTop: 'var(--space-md)', textAlign: 'center' }}>
+            <div style={{ marginTop: 16, textAlign: 'center' }}>
               <a href={langPath('/admin/log')} className="admin-btn">
                 {t('admin.viewAllActions')}
               </a>

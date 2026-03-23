@@ -241,7 +241,7 @@ const AdminUserDetail = () => {
           </h2>
           <p>{userProfile.email} · {t('admin.memberSince')} {formatDate(userProfile.created_at)}</p>
           {banned && userProfile.ban_reason && (
-            <p style={{ color: '#f87171' }}>
+            <p style={{ color: '#fca5a5' }}>
               {t('admin.banReason')}: {userProfile.ban_reason}
             </p>
           )}
@@ -254,10 +254,8 @@ const AdminUserDetail = () => {
 
         {/* Role Change - Admin only */}
         {isAdmin && (
-          <div style={{ marginBottom: 'var(--space-md)' }}>
-            <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginRight: 'var(--space-sm)' }}>
-              {t('admin.changeRole')}:
-            </label>
+          <div className="admin-field-group">
+            <div className="admin-field-label">{t('admin.changeRole')}</div>
             <select
               className="admin-role-select"
               value={userProfile.role}
@@ -279,7 +277,7 @@ const AdminUserDetail = () => {
           </div>
         ) : (
           <div>
-            <div className="admin-inline-form" style={{ marginBottom: 'var(--space-sm)' }}>
+            <div className="admin-inline-form" style={{ marginBottom: 8 }}>
               <input
                 type="number"
                 className="admin-inline-input"
@@ -287,9 +285,9 @@ const AdminUserDetail = () => {
                 max="365"
                 value={banDays}
                 onChange={(e) => setBanDays(parseInt(e.target.value) || 1)}
-                style={{ width: '80px' }}
+                style={{ width: 80 }}
               />
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              <span className="admin-field-label" style={{ margin: 0 }}>
                 {t('admin.days')}
               </span>
               <input
@@ -298,7 +296,7 @@ const AdminUserDetail = () => {
                 placeholder={t('admin.banReasonPlaceholder')}
                 value={banReason}
                 onChange={(e) => setBanReason(e.target.value)}
-                style={{ flex: 1, minWidth: '150px' }}
+                style={{ flex: 1, minWidth: 150 }}
               />
             </div>
             <div className="admin-actions">
@@ -316,7 +314,7 @@ const AdminUserDetail = () => {
 
         {/* Delete Account - Admin only */}
         {isAdmin && (
-          <div style={{ marginTop: 'var(--space-md)', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--border)' }}>
+          <div className="admin-danger-zone">
             <button className="admin-btn admin-btn-danger" onClick={handleDeleteAccount}>
               {t('admin.deleteAccount')}
             </button>
@@ -404,7 +402,7 @@ const AdminUserDetail = () => {
                 <button
                   className="admin-btn admin-btn-danger"
                   onClick={() => handleDeletePost(post.id)}
-                  style={{ fontSize: '0.8rem', padding: '2px 8px' }}
+                  style={{ fontSize: '0.75rem', padding: '4px 10px' }}
                 >
                   {t('admin.delete')}
                 </button>
@@ -434,7 +432,7 @@ const AdminUserDetail = () => {
                 <button
                   className="admin-btn admin-btn-danger"
                   onClick={() => handleDeleteComment(comment.id)}
-                  style={{ fontSize: '0.8rem', padding: '2px 8px' }}
+                  style={{ fontSize: '0.75rem', padding: '4px 10px' }}
                 >
                   {t('admin.delete')}
                 </button>
