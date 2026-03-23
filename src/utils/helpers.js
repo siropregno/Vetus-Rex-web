@@ -1,5 +1,5 @@
 import i18n from '../i18n/i18n'
-import { faShieldHalved, faComments, faPalette, faMugHot, faWrench } from '@fortawesome/free-solid-svg-icons'
+import { faShieldHalved, faComments, faPalette, faMugHot, faWrench, faBug, faLightbulb, faUserShield, faGamepad, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 export const SUPPORTED_LANGS = ['en', 'es', 'de']
 
@@ -115,4 +115,26 @@ export const timeAgo = (dateString) => {
   if (hours < 24) return { key: 'hoursAgo', count: hours }
   const days = Math.floor(hours / 24)
   return { key: 'daysAgo', count: days }
+}
+
+export const TICKET_TAGS = {
+  bug: { label: 'support.tags.bug', color: '#ef4444', icon: faBug },
+  feature_request: { label: 'support.tags.featureRequest', color: '#8b5cf6', icon: faLightbulb },
+  account_issue: { label: 'support.tags.accountIssue', color: '#f59e0b', icon: faUserShield },
+  gameplay: { label: 'support.tags.gameplay', color: '#3b82f6', icon: faGamepad },
+  other: { label: 'support.tags.other', color: '#6b7280', icon: faEllipsis },
+}
+
+export const TICKET_STATUSES = {
+  open: { label: 'support.status.open', color: '#3b82f6' },
+  in_progress: { label: 'support.status.inProgress', color: '#f59e0b' },
+  resolved: { label: 'support.status.resolved', color: '#10b981' },
+  closed: { label: 'support.status.closed', color: '#6b7280' },
+}
+
+export const TICKET_PRIORITIES = {
+  low: { label: 'support.priority.low', color: '#6b7280' },
+  normal: { label: 'support.priority.normal', color: '#3b82f6' },
+  high: { label: 'support.priority.high', color: '#f59e0b' },
+  critical: { label: 'support.priority.critical', color: '#ef4444' },
 }

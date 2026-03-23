@@ -11,6 +11,7 @@
     "ranking": "Ranking",
     "gallery": "Gallery",
     "forum": "Forum",
+    "support": "Support",
     "admin": "Admin"
   },
   "footer": {
@@ -393,6 +394,7 @@
     "markAllRead": "Mark all as read",
     "commentedOn": "{{username}} commented on your post",
     "repliedTo": "{{username}} replied to your comment",
+    "ticketReply": "Staff replied to your ticket: {{content}}",
     "justNow": "now",
     "minutesAgo": "{{count}}m ago",
     "hoursAgo": "{{count}}h ago",
@@ -406,6 +408,8 @@
     "usersDesc": "Manage users and characters",
     "actionLog": "Action Log",
     "actionLogDesc": "History of admin actions",
+    "support": "Support",
+    "supportDesc": "Manage support tickets",
     "loading": "Loading...",
     "unauthorized": "Access Denied",
     "unauthorizedDesc": "You don't have permission to access this panel.",
@@ -490,6 +494,73 @@
     "charRenamed": "Character renamed successfully.",
     "postDeleted": "Post deleted successfully.",
     "commentDeleted": "Comment deleted successfully."
+  },
+  "support": {
+    "pageTitle": "Vetus Rex | Support",
+    "title": "Support Center",
+    "subtitle": "Need help? Submit a ticket and our team will get back to you.",
+    "newTicket": "+ New Ticket",
+    "myTickets": "My Tickets",
+    "noTickets": "You haven't submitted any tickets yet.",
+    "noTicketsHint": "If you need help, create a new ticket and we'll respond as soon as possible.",
+    "loginRequired": "Please sign in to submit a support ticket.",
+    "subject": "Subject",
+    "subjectPlaceholder": "Brief description of your issue",
+    "tag": "Category",
+    "priorityLabel": "Priority",
+    "content": "Description",
+    "submit": "Submit Ticket",
+    "submitting": "Submitting...",
+    "cancel": "Cancel",
+    "created": "Created",
+    "lastUpdate": "Last updated",
+    "messages": "Messages",
+    "replyPlaceholder": "Write your reply...",
+    "sendReply": "Send Reply",
+    "sending": "Sending...",
+    "closedMessage": "This ticket is closed and cannot receive new replies.",
+    "backToSupport": "← Back to Support",
+    "createTitle": "New Ticket",
+    "subjectRequired": "Subject is required.",
+    "tagRequired": "Please select a category.",
+    "contentRequired": "Description is required.",
+    "createFailed": "Failed to create ticket.",
+    "replyFailed": "Failed to send reply.",
+    "staffReply": "Staff",
+    "supportTeamName": "Vetus Rex Support Team",
+    "tags": {
+      "bug": "Bug Report",
+      "featureRequest": "Feature Request",
+      "accountIssue": "Account Issue",
+      "gameplay": "Gameplay",
+      "other": "Other"
+    },
+    "status": {
+      "open": "Open",
+      "inProgress": "In Progress",
+      "resolved": "Resolved",
+      "closed": "Closed"
+    },
+    "priority": {
+      "low": "Low",
+      "normal": "Normal",
+      "high": "High",
+      "critical": "Critical"
+    },
+    "allStatuses": "All Statuses",
+    "allTags": "All Categories"
+  },
+  "adminTickets": {
+    "title": "Support Tickets",
+    "subtitle": "Manage and respond to user support tickets",
+    "noTickets": "No tickets found.",
+    "replyAsStaff": "Reply as Staff",
+    "changeStatus": "Change Status",
+    "updateStatus": "Update",
+    "statusUpdated": "Status updated.",
+    "statusUpdateFailed": "Failed to update status.",
+    "ticketBy": "by",
+    "allPriorities": "All Priorities"
   },
   "common": {
     "unknown": "Unknown"

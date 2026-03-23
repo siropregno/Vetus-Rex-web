@@ -170,6 +170,10 @@ const Navbar = () => {
                     <button onClick={handleProfile} className="dropdown-item">
                       {t('nav.myProfile')}
                     </button>
+                    <div className="dropdown-divider"></div>
+                    <button onClick={() => { window.location.href = langPath('/support'); setIsMenuOpen(false); }} className="dropdown-item">
+                      {t('nav.support')}
+                    </button>
                     {(profile?.role === 'admin' || profile?.role === 'moderator') && (
                       <>
                         <div className="dropdown-divider"></div>

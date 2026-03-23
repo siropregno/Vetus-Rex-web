@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { langPath } from '../../utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGauge, faUsers, faClipboardList } from '@fortawesome/free-solid-svg-icons'
+import { faGauge, faUsers, faClipboardList, faHeadset } from '@fortawesome/free-solid-svg-icons'
 import './Admin.css'
 
 const AdminLayout = () => {
@@ -48,6 +48,13 @@ const AdminLayout = () => {
           >
             <FontAwesomeIcon icon={faUsers} />
             {t('admin.users')}
+          </a>
+          <a
+            href={langPath('/admin/support')}
+            className={`admin-sidebar-link${currentPath.startsWith('/admin/support') ? ' active' : ''}`}
+          >
+            <FontAwesomeIcon icon={faHeadset} />
+            {t('admin.support')}
           </a>
           <a
             href={langPath('/admin/log')}

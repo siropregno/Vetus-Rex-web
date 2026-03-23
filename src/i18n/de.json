@@ -11,6 +11,7 @@
     "ranking": "Ranking",
     "gallery": "Galerie",
     "forum": "Forum",
+    "support": "Support",
     "admin": "Admin"
   },
   "footer": {
@@ -393,6 +394,7 @@
     "markAllRead": "Alle als gelesen markieren",
     "commentedOn": "{{username}} hat deinen Beitrag kommentiert",
     "repliedTo": "{{username}} hat auf deinen Kommentar geantwortet",
+    "ticketReply": "Das Team hat auf dein Ticket geantwortet: {{content}}",
     "justNow": "jetzt",
     "minutesAgo": "vor {{count}}m",
     "hoursAgo": "vor {{count}}h",
@@ -406,6 +408,8 @@
     "usersDesc": "Benutzer und Charaktere verwalten",
     "actionLog": "Aktionsprotokoll",
     "actionLogDesc": "Verlauf der Admin-Aktionen",
+    "support": "Support",
+    "supportDesc": "Support-Tickets verwalten",
     "loading": "Laden...",
     "unauthorized": "Zugriff verweigert",
     "unauthorizedDesc": "Du hast keine Berechtigung für diesen Bereich.",
@@ -490,6 +494,73 @@
     "charRenamed": "Charakter erfolgreich umbenannt.",
     "postDeleted": "Beitrag erfolgreich gelöscht.",
     "commentDeleted": "Kommentar erfolgreich gelöscht."
+  },
+  "support": {
+    "pageTitle": "Vetus Rex | Support",
+    "title": "Supportcenter",
+    "subtitle": "Brauchst du Hilfe? Erstelle ein Ticket und unser Team wird sich bei dir melden.",
+    "newTicket": "+ Neues Ticket",
+    "myTickets": "Meine Tickets",
+    "noTickets": "Du hast noch keine Tickets erstellt.",
+    "noTicketsHint": "Wenn du Hilfe brauchst, erstelle ein neues Ticket und wir antworten so schnell wie möglich.",
+    "loginRequired": "Bitte melde dich an, um ein Support-Ticket zu erstellen.",
+    "subject": "Betreff",
+    "subjectPlaceholder": "Kurze Beschreibung deines Problems",
+    "tag": "Kategorie",
+    "priorityLabel": "Priorität",
+    "content": "Beschreibung",
+    "submit": "Ticket senden",
+    "submitting": "Wird gesendet...",
+    "cancel": "Abbrechen",
+    "created": "Erstellt",
+    "lastUpdate": "Zuletzt aktualisiert",
+    "messages": "Nachrichten",
+    "replyPlaceholder": "Schreibe deine Antwort...",
+    "sendReply": "Antwort senden",
+    "sending": "Wird gesendet...",
+    "closedMessage": "Dieses Ticket ist geschlossen und kann keine neuen Antworten erhalten.",
+    "backToSupport": "← Zurück zum Support",
+    "createTitle": "Neues Ticket",
+    "subjectRequired": "Betreff ist erforderlich.",
+    "tagRequired": "Bitte wähle eine Kategorie.",
+    "contentRequired": "Beschreibung ist erforderlich.",
+    "createFailed": "Ticket konnte nicht erstellt werden.",
+    "replyFailed": "Antwort konnte nicht gesendet werden.",
+    "staffReply": "Team",
+    "supportTeamName": "Vetus Rex Support-Team",
+    "tags": {
+      "bug": "Fehlerbericht",
+      "featureRequest": "Funktionswunsch",
+      "accountIssue": "Kontoproblem",
+      "gameplay": "Gameplay",
+      "other": "Sonstiges"
+    },
+    "status": {
+      "open": "Offen",
+      "inProgress": "In Bearbeitung",
+      "resolved": "Gelöst",
+      "closed": "Geschlossen"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "normal": "Normal",
+      "high": "Hoch",
+      "critical": "Kritisch"
+    },
+    "allStatuses": "Alle Status",
+    "allTags": "Alle Kategorien"
+  },
+  "adminTickets": {
+    "title": "Support-Tickets",
+    "subtitle": "Benutzer-Support-Tickets verwalten und beantworten",
+    "noTickets": "Keine Tickets gefunden.",
+    "replyAsStaff": "Als Team antworten",
+    "changeStatus": "Status ändern",
+    "updateStatus": "Aktualisieren",
+    "statusUpdated": "Status aktualisiert.",
+    "statusUpdateFailed": "Status konnte nicht aktualisiert werden.",
+    "ticketBy": "von",
+    "allPriorities": "Alle Prioritäten"
   },
   "common": {
     "unknown": "Unbekannt"

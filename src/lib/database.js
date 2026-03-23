@@ -1146,3 +1146,203 @@ export const adminGetActionLog = async (filterAction = null, limit = 50, offset 
     return { data: null, error }
   }
 }
+
+
+// ============================================
+// Support Tickets
+// ============================================
+
+export const getUserTickets = async (userId, status = null, tag = null) => {
+  try {
+    logger.db('Fetching user tickets', { userId, status, tag })
+
+    let query = supabase
+      .from('support_tickets')
+      .select('*, ticket_messages(count)')
+      .eq('user_id', userId)
+      .order('updated_at', { ascending: false })
+
+    if (status) query = query.eq('status', status)
+    if (tag) query = query.eq('tag', tag)
+
+    const { data, error } = await query
+
+    if (error) {
+      logger.error('Error fetching user tickets:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Fetched ${data.length} tickets`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching user tickets:', error)
+    return { data: null, error }
+  }
+}
+
+export const getTicketById = async (ticketId) => {
+  try {
+    logger.db('Fetching ticket by ID', { ticketId })
+
+    const { data, error } = await supabase
+      .from('support_tickets')
+      .select('*, profiles(username, avatar_url, role)')
+      .eq('id', ticketId)
+      .single()
+
+    if (error) {
+      logger.error('Error fetching ticket:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Fetched ticket', { id: data.id, subject: data.subject })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching ticket:', error)
+    return { data: null, error }
+  }
+}
+
+export const getTicketMessages = async (ticketId) => {
+  try {
+    logger.db('Fetching ticket messages', { ticketId })
+
+    const { data, error } = await supabase
+      .from('ticket_messages')
+      .select('*, profiles(username, avatar_url, role)')
+      .eq('ticket_id', ticketId)
+      .order('created_at', { ascending: true })
+
+    if (error) {
+      logger.error('Error fetching ticket messages:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Fetched ${data.length} ticket messages`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching ticket messages:', error)
+    return { data: null, error }
+  }
+}
+
+export const createTicket = async ({ subject, tag, priority, content, user_id }) => {
+  if (!subject?.trim() || !tag || !content?.trim() || !user_id) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Creating support ticket', { subject, tag, priority })
+
+    const { data: ticket, error: ticketError } = await supabase
+      .from('support_tickets')
+      .insert([{ subject, tag, priority: priority || 'normal', user_id }])
+      .select()
+      .single()
+
+    if (ticketError) {
+      logger.error('Error creating ticket:', ticketError)
+      return { data: null, error: ticketError }
+    }
+
+    const sanitizedContent = DOMPurify.sanitize(content)
+    const { error: msgError } = await supabase
+      .from('ticket_messages')
+      .insert([{ ticket_id: ticket.id, user_id, content: sanitizedContent, is_staff_reply: false }])
+
+    if (msgError) {
+      logger.error('Error creating ticket message:', msgError)
+      return { data: null, error: msgError }
+    }
+
+    logger.success('Ticket created', { id: ticket.id })
+    return { data: ticket, error: null }
+  } catch (error) {
+    logger.error('Unexpected error creating ticket:', error)
+    return { data: null, error }
+  }
+}
+
+export const addTicketMessage = async (ticketId, content, userId, isStaffReply = false) => {
+  if (!ticketId || !content?.trim() || !userId) {
+    return { data: null, error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Adding ticket message', { ticketId, isStaffReply })
+
+    const sanitizedContent = DOMPurify.sanitize(content)
+    const { data, error } = await supabase
+      .from('ticket_messages')
+      .insert([{ ticket_id: ticketId, user_id: userId, content: sanitizedContent, is_staff_reply: isStaffReply }])
+      .select('*, profiles(username, avatar_url, role)')
+      .single()
+
+    if (error) {
+      logger.error('Error adding ticket message:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Ticket message added', { id: data.id })
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error adding ticket message:', error)
+    return { data: null, error }
+  }
+}
+
+export const adminGetAllTickets = async ({ status = null, tag = null, priority = null, search = null, page = 1, pageSize = 25 } = {}) => {
+  try {
+    logger.db('Admin fetching all tickets', { status, tag, priority, search, page })
+
+    const from = (page - 1) * pageSize
+    const to = from + pageSize - 1
+
+    let query = supabase
+      .from('support_tickets')
+      .select('*, profiles(username, avatar_url, role), ticket_messages(count)', { count: 'exact' })
+      .order('updated_at', { ascending: false })
+      .range(from, to)
+
+    if (status) query = query.eq('status', status)
+    if (tag) query = query.eq('tag', tag)
+    if (priority) query = query.eq('priority', priority)
+    if (search) query = query.ilike('subject', `%${search}%`)
+
+    const { data, error, count } = await query
+
+    if (error) {
+      logger.error('Error fetching all tickets:', error)
+      return { data: null, count: 0, error }
+    }
+
+    logger.success(`Fetched ${data.length} tickets (total: ${count})`)
+    return { data, count, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching all tickets:', error)
+    return { data: null, count: 0, error }
+  }
+}
+
+export const adminUpdateTicketStatus = async (ticketId, status) => {
+  if (!ticketId || !status) {
+    return { error: { message: 'Missing required fields' } }
+  }
+  try {
+    logger.db('Updating ticket status', { ticketId, status })
+
+    const { error } = await supabase
+      .from('support_tickets')
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq('id', ticketId)
+
+    if (error) {
+      logger.error('Error updating ticket status:', error)
+      return { error }
+    }
+
+    logger.success('Ticket status updated', { ticketId, status })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error updating ticket status:', error)
+    return { error }
+  }
+}

@@ -11,6 +11,7 @@
     "ranking": "Ranking",
     "gallery": "Galería",
     "forum": "Foro",
+    "support": "Soporte",
     "admin": "Admin"
   },
   "footer": {
@@ -394,6 +395,7 @@
     "markAllRead": "Marcar todas como leídas",
     "commentedOn": "{{username}} comentó en tu publicación",
     "repliedTo": "{{username}} respondió a tu comentario",
+    "ticketReply": "El equipo respondió a tu ticket: {{content}}",
     "justNow": "ahora",
     "minutesAgo": "hace {{count}}m",
     "hoursAgo": "hace {{count}}h",
@@ -407,6 +409,8 @@
     "usersDesc": "Gestionar usuarios y personajes",
     "actionLog": "Registro de Acciones",
     "actionLogDesc": "Historial de acciones administrativas",
+    "support": "Soporte",
+    "supportDesc": "Gestionar tickets de soporte",
     "loading": "Cargando...",
     "unauthorized": "Acceso Denegado",
     "unauthorizedDesc": "No tienes permisos para acceder a este panel.",
@@ -491,6 +495,73 @@
     "charRenamed": "Personaje renombrado exitosamente.",
     "postDeleted": "Publicación eliminada exitosamente.",
     "commentDeleted": "Comentario eliminado exitosamente."
+  },
+  "support": {
+    "pageTitle": "Vetus Rex | Soporte",
+    "title": "Centro de Soporte",
+    "subtitle": "¿Necesitás ayuda? Creá un ticket y nuestro equipo te responderá.",
+    "newTicket": "+ Nuevo Ticket",
+    "myTickets": "Mis Tickets",
+    "noTickets": "Aún no creaste ningún ticket.",
+    "noTicketsHint": "Si necesitás ayuda, creá un nuevo ticket y te responderemos lo antes posible.",
+    "loginRequired": "Iniciá sesión para crear un ticket de soporte.",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Breve descripción de tu problema",
+    "tag": "Categoría",
+    "priorityLabel": "Prioridad",
+    "content": "Descripción",
+    "submit": "Enviar Ticket",
+    "submitting": "Enviando...",
+    "cancel": "Cancelar",
+    "created": "Creado",
+    "lastUpdate": "Última actualización",
+    "messages": "Mensajes",
+    "replyPlaceholder": "Escribí tu respuesta...",
+    "sendReply": "Enviar Respuesta",
+    "sending": "Enviando...",
+    "closedMessage": "Este ticket está cerrado y no puede recibir nuevas respuestas.",
+    "backToSupport": "← Volver a Soporte",
+    "createTitle": "Nuevo Ticket",
+    "subjectRequired": "El asunto es obligatorio.",
+    "tagRequired": "Seleccioná una categoría.",
+    "contentRequired": "La descripción es obligatoria.",
+    "createFailed": "Error al crear el ticket.",
+    "replyFailed": "Error al enviar la respuesta.",
+    "staffReply": "Staff",
+    "supportTeamName": "Equipo de Soporte Vetus Rex",
+    "tags": {
+      "bug": "Reporte de Bug",
+      "featureRequest": "Sugerencia",
+      "accountIssue": "Problema de Cuenta",
+      "gameplay": "Gameplay",
+      "other": "Otro"
+    },
+    "status": {
+      "open": "Abierto",
+      "inProgress": "En Progreso",
+      "resolved": "Resuelto",
+      "closed": "Cerrado"
+    },
+    "priority": {
+      "low": "Baja",
+      "normal": "Normal",
+      "high": "Alta",
+      "critical": "Crítica"
+    },
+    "allStatuses": "Todos los Estados",
+    "allTags": "Todas las Categorías"
+  },
+  "adminTickets": {
+    "title": "Tickets de Soporte",
+    "subtitle": "Gestionar y responder tickets de soporte de usuarios",
+    "noTickets": "No se encontraron tickets.",
+    "replyAsStaff": "Responder como Staff",
+    "changeStatus": "Cambiar Estado",
+    "updateStatus": "Actualizar",
+    "statusUpdated": "Estado actualizado.",
+    "statusUpdateFailed": "Error al actualizar el estado.",
+    "ticketBy": "por",
+    "allPriorities": "Todas las Prioridades"
   },
   "common": {
     "unknown": "Desconocido"

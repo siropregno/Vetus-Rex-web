@@ -24,6 +24,11 @@ import AdminDashboard from './pages/Admin/AdminDashboard'
 import AdminUsers from './pages/Admin/AdminUsers'
 import AdminUserDetail from './pages/Admin/AdminUserDetail'
 import AdminLog from './pages/Admin/AdminLog'
+import AdminTickets from './pages/Admin/AdminTickets'
+import AdminTicketDetail from './pages/Admin/AdminTicketDetail'
+import Support from './pages/Support/Support'
+import SupportCreate from './pages/Support/SupportCreate'
+import SupportDetail from './pages/Support/SupportDetail'
 import NotFound from './pages/NotFound/NotFound'
 import { SUPPORTED_LANGS, getLang } from './utils/helpers'
 
@@ -69,6 +74,8 @@ function AppContent() {
                 <Route path="users" element={<AdminUsers />} />
                 <Route path="users/:userId" element={<AdminUserDetail />} />
                 <Route path="log" element={<AdminLog />} />
+                <Route path="support" element={<AdminTickets />} />
+                <Route path="support/:id" element={<AdminTicketDetail />} />
               </Route>
               <Route element={<ContentZoneLayout />}>
                 <Route index element={<Home />} />
@@ -87,6 +94,9 @@ function AppContent() {
                 <Route path="forum/edit/:id" element={<ForumCreate />} />
                 <Route path="forum/category/:category" element={<ForumCategory />} />
                 <Route path="forum/:id" element={<ForumDetail />} />
+                <Route path="support" element={<Support />} />
+                <Route path="support/create" element={<SupportCreate />} />
+                <Route path="support/:id" element={<SupportDetail />} />
               </Route>
             </Route>
             <Route path="*" element={<NotFound />} />
@@ -102,6 +112,7 @@ function AppContent() {
                 <a href={`/${getLang()}/ranking`}>{t('nav.ranking')}</a>
                 <a href={`/${getLang()}/gallery`}>{t('nav.gallery')}</a>
                 <a href={`/${getLang()}/forum`}>{t('nav.forum')}</a>
+                <a href={`/${getLang()}/support`}>{t('nav.support')}</a>
                 <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
               </nav>
               <p className="footer-copy">{t('footer.rights')}</p>
