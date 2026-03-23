@@ -344,6 +344,9 @@ export const AuthProvider = ({ children }) => {
     deleteAvatar,
     deleteAccount,
     isAuthenticated: !!user,
+    isAdmin: profile?.role === 'admin',
+    isModerator: profile?.role === 'moderator',
+    isStaff: profile?.role === 'admin' || profile?.role === 'moderator',
     loadUserProfile
   }
 

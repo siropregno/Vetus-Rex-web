@@ -47,6 +47,21 @@ export const formatDate = (dateString, locale) => {
  * Check if a profile is admin
  */
 export const isProfileAdmin = (profile) => profile?.role === 'admin'
+export const isProfileModerator = (profile) => profile?.role === 'moderator'
+export const isProfileStaff = (profile) => profile?.role === 'admin' || profile?.role === 'moderator'
+export const canAccessAdmin = (profile) => isProfileStaff(profile)
+
+export const ROLE_COLORS = {
+  user: '#6b7280',
+  moderator: '#3b82f6',
+  admin: '#f59e0b',
+}
+
+export const ROLE_LABELS = {
+  user: 'admin.roles.user',
+  moderator: 'admin.roles.moderator',
+  admin: 'admin.roles.admin',
+}
 
 export const isUserBanned = (profile) => {
   if (!profile?.banned_until) return false

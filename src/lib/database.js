@@ -898,3 +898,251 @@ export const deleteNotification = async (id) => {
     return { error }
   }
 }
+
+
+// ============================================
+// Admin Panel
+// ============================================
+
+export const adminSearchUsers = async (query = '', limit = 50, offset = 0) => {
+  try {
+    logger.db('Admin searching users', { query, limit, offset })
+
+    const { data, error } = await supabase.rpc('admin_search_users', {
+      search_query: query,
+      result_limit: limit,
+      result_offset: offset,
+    })
+
+    if (error) {
+      logger.error('Error searching users:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Found ${data.length} users`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error searching users:', error)
+    return { data: null, error }
+  }
+}
+
+export const adminGetUserDetail = async (userId) => {
+  try {
+    logger.db('Admin fetching user detail', { userId })
+
+    const { data, error } = await supabase.rpc('admin_get_user_detail', {
+      target_user_id: userId,
+    })
+
+    if (error) {
+      logger.error('Error fetching user detail:', { message: error.message, code: error.code, details: error.details, hint: error.hint })
+      console.error('FULL RPC ERROR:', JSON.stringify(error, null, 2))
+      return { data: null, error }
+    }
+
+    logger.success('Fetched user detail', { dataType: typeof data, data })
+    // Supabase may return JSON as string for scalar RPC results
+    const parsed = typeof data === 'string' ? JSON.parse(data) : data
+    return { data: parsed, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching user detail:', error)
+    return { data: null, error }
+  }
+}
+
+export const adminChangeRole = async (targetId, newRole) => {
+  try {
+    logger.db('Admin changing role', { targetId, newRole })
+
+    const { error } = await supabase.rpc('admin_change_role', {
+      target_id: targetId,
+      new_role: newRole,
+    })
+
+    if (error) {
+      logger.error('Error changing role:', error)
+      return { error }
+    }
+
+    logger.success('Role changed', { targetId, newRole })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error changing role:', error)
+    return { error }
+  }
+}
+
+export const adminBanUser = async (targetId, days, reason = null) => {
+  try {
+    logger.db('Admin banning user', { targetId, days })
+
+    const { error } = await supabase.rpc('admin_ban_user', {
+      target_id: targetId,
+      ban_days: days,
+      reason,
+    })
+
+    if (error) {
+      logger.error('Error banning user:', error)
+      return { error }
+    }
+
+    logger.success('User banned', { targetId, days })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error banning user:', error)
+    return { error }
+  }
+}
+
+export const adminUnbanUser = async (targetId) => {
+  try {
+    logger.db('Admin unbanning user', { targetId })
+
+    const { error } = await supabase.rpc('admin_unban_user', {
+      target_id: targetId,
+    })
+
+    if (error) {
+      logger.error('Error unbanning user:', error)
+      return { error }
+    }
+
+    logger.success('User unbanned', { targetId })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error unbanning user:', error)
+    return { error }
+  }
+}
+
+export const adminRenameCharacter = async (charId, newName, reason = null) => {
+  try {
+    logger.db('Admin renaming character', { charId, newName })
+
+    const { error } = await supabase.rpc('admin_rename_character', {
+      char_id: charId,
+      new_name: newName,
+      reason,
+    })
+
+    if (error) {
+      logger.error('Error renaming character:', error)
+      return { error }
+    }
+
+    logger.success('Character renamed', { charId, newName })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error renaming character:', error)
+    return { error }
+  }
+}
+
+export const adminDeleteAccount = async (targetId) => {
+  try {
+    logger.db('Admin deleting account', { targetId })
+
+    const { error } = await supabase.rpc('admin_delete_account', {
+      target_id: targetId,
+    })
+
+    if (error) {
+      logger.error('Error deleting account:', error)
+      return { error }
+    }
+
+    logger.success('Account deleted', { targetId })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting account:', error)
+    return { error }
+  }
+}
+
+export const adminDeletePost = async (postId, reason = null) => {
+  try {
+    logger.db('Admin deleting post', { postId })
+
+    const { error } = await supabase.rpc('admin_delete_post', {
+      post_id: postId,
+      reason,
+    })
+
+    if (error) {
+      logger.error('Error deleting post:', error)
+      return { error }
+    }
+
+    logger.success('Post deleted by admin', { postId })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting post:', error)
+    return { error }
+  }
+}
+
+export const adminDeleteComment = async (commentId, reason = null) => {
+  try {
+    logger.db('Admin deleting comment', { commentId })
+
+    const { error } = await supabase.rpc('admin_delete_comment', {
+      comment_id: commentId,
+      reason,
+    })
+
+    if (error) {
+      logger.error('Error deleting comment:', error)
+      return { error }
+    }
+
+    logger.success('Comment deleted by admin', { commentId })
+    return { error: null }
+  } catch (error) {
+    logger.error('Unexpected error deleting comment:', error)
+    return { error }
+  }
+}
+
+export const adminGetStats = async () => {
+  try {
+    logger.db('Fetching admin stats')
+
+    const { data, error } = await supabase.rpc('admin_get_stats')
+
+    if (error) {
+      logger.error('Error fetching admin stats:', error)
+      return { data: null, error }
+    }
+
+    logger.success('Fetched admin stats')
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching admin stats:', error)
+    return { data: null, error }
+  }
+}
+
+export const adminGetActionLog = async (filterAction = null, limit = 50, offset = 0) => {
+  try {
+    logger.db('Fetching admin action log', { filterAction, limit, offset })
+
+    const { data, error } = await supabase.rpc('admin_get_action_log', {
+      filter_action: filterAction,
+      result_limit: limit,
+      result_offset: offset,
+    })
+
+    if (error) {
+      logger.error('Error fetching action log:', error)
+      return { data: null, error }
+    }
+
+    logger.success(`Fetched ${data.length} log entries`)
+    return { data, error: null }
+  } catch (error) {
+    logger.error('Unexpected error fetching action log:', error)
+    return { data: null, error }
+  }
+}

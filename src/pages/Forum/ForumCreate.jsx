@@ -153,9 +153,9 @@ const ForumCreate = () => {
         {t(isEditMode ? 'forumCreate.backToPost' : 'forumCreate.backToForum')}
       </button>
 
-      <h1 className="content-header-title">
+      <h2 className="content-header-title">
         {t(isEditMode ? 'forumCreate.editTitle' : 'forumCreate.newTitle')}
-      </h1>
+      </h2>
 
       <form className="forum-create-form" onSubmit={handleSubmit}>
         {error && <div className="forum-create-error">{error}</div>}

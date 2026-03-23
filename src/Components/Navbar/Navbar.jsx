@@ -160,6 +160,7 @@ const Navbar = () => {
                     </span>
                     <span className="user-name">
                       {profile?.role === 'admin' && <span className="gm-tag">[GM]</span>}
+                      {profile?.role === 'moderator' && <span className="gm-tag" style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa' }}>[MOD]</span>}
                       {' '}{profile?.username || user?.user_metadata?.username || user?.email?.split('@')[0] || 'User'}
                     </span>
                     <span className="dropdown-arrow">▼</span>
@@ -169,6 +170,14 @@ const Navbar = () => {
                     <button onClick={handleProfile} className="dropdown-item">
                       {t('nav.myProfile')}
                     </button>
+                    {(profile?.role === 'admin' || profile?.role === 'moderator') && (
+                      <>
+                        <div className="dropdown-divider"></div>
+                        <button onClick={() => { window.location.href = langPath('/admin'); setIsMenuOpen(false); }} className="dropdown-item">
+                          {t('nav.admin')}
+                        </button>
+                      </>
+                    )}
                     <div className="dropdown-divider"></div>
                     <button 
                       onClick={handleSignOut} 
