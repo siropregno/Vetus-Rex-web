@@ -14,6 +14,8 @@ import {
 } from '../../lib/database'
 import { langPath, formatDate, isUserBanned } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 
 const AdminUserDetail = () => {
   const { userId } = useParams()
@@ -33,6 +35,10 @@ const AdminUserDetail = () => {
   const [renameCharId, setRenameCharId] = useState(null)
   const [renameName, setRenameName] = useState('')
   const [renameReason, setRenameReason] = useState('')
+
+  // Search filters
+  const [postSearch, setPostSearch] = useState('')
+  const [commentSearch, setCommentSearch] = useState('')
 
   const fetchDetail = async () => {
     setLoading(true)
@@ -387,10 +393,27 @@ const AdminUserDetail = () => {
       {/* Recent Posts */}
       <div className="admin-section">
         <h3 className="admin-section-title">{t('admin.recentPosts')}</h3>
+        {recent_posts && recent_posts.length > 0 && (
+          <div className="admin-search-bar" style={{ marginBottom: 12 }}>
+            <input
+              type="text"
+              className="admin-search-input"
+              placeholder={t('admin.searchPosts')}
+              value={postSearch}
+              onChange={(e) => setPostSearch(e.target.value)}
+            />
+          </div>
+        )}
         {!recent_posts || recent_posts.length === 0 ? (
           <div className="admin-empty">{t('admin.noPosts')}</div>
         ) : (
-          recent_posts.map((post) => (
+          recent_posts
+            .filter((post) => {
+              if (!postSearch.trim()) return true
+              const q = postSearch.toLowerCase()
+              return post.title?.toLowerCase().includes(q) || post.category?.toLowerCase().includes(q)
+            })
+            .map((post) => (
             <div key={post.id} className="admin-activity-item">
               <div className="admin-activity-text">
                 <div className="admin-activity-title">{post.title}</div>
@@ -398,7 +421,16 @@ const AdminUserDetail = () => {
                   {post.category} · {formatDate(post.created_at)}
                 </div>
               </div>
-              <div className="admin-activity-actions">
+              <div className="admin-activity-actions" style={{ display: 'flex', gap: 6 }}>
+                <a
+                  href={langPath(`/forum/${post.id}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="admin-btn"
+                  style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                >
+                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                </a>
                 <button
                   className="admin-btn admin-btn-danger"
                   onClick={() => handleDeletePost(post.id)}
@@ -415,10 +447,28 @@ const AdminUserDetail = () => {
       {/* Recent Comments */}
       <div className="admin-section">
         <h3 className="admin-section-title">{t('admin.recentComments')}</h3>
+        {recent_comments && recent_comments.length > 0 && (
+          <div className="admin-search-bar" style={{ marginBottom: 12 }}>
+            <input
+              type="text"
+              className="admin-search-input"
+              placeholder={t('admin.searchComments')}
+              value={commentSearch}
+              onChange={(e) => setCommentSearch(e.target.value)}
+            />
+          </div>
+        )}
         {!recent_comments || recent_comments.length === 0 ? (
           <div className="admin-empty">{t('admin.noComments')}</div>
         ) : (
-          recent_comments.map((comment) => (
+          recent_comments
+            .filter((comment) => {
+              if (!commentSearch.trim()) return true
+              const q = commentSearch.toLowerCase()
+              const text = comment.content?.replace(/<[^>]*>/g, '') || ''
+              return text.toLowerCase().includes(q)
+            })
+            .map((comment) => (
             <div key={comment.id} className="admin-activity-item">
               <div className="admin-activity-text">
                 <div className="admin-activity-title">
@@ -428,7 +478,18 @@ const AdminUserDetail = () => {
                   {formatDate(comment.created_at)}
                 </div>
               </div>
-              <div className="admin-activity-actions">
+              <div className="admin-activity-actions" style={{ display: 'flex', gap: 6 }}>
+                {comment.post_id && (
+                  <a
+                    href={langPath(`/forum/${comment.post_id}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="admin-btn"
+                    style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                  >
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                  </a>
+                )}
                 <button
                   className="admin-btn admin-btn-danger"
                   onClick={() => handleDeleteComment(comment.id)}

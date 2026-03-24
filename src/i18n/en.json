@@ -465,6 +465,8 @@
     "characters": "Characters",
     "recentPosts": "Recent Posts",
     "recentComments": "Recent Comments",
+    "searchPosts": "Search posts...",
+    "searchComments": "Search comments...",
     "rename": "Rename",
     "save": "Save",
     "cancel": "Cancel",

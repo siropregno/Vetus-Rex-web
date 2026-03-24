@@ -6,29 +6,30 @@
 /* --- Design tokens --- */
 .admin-layout,
 .admin-guard {
-  --a-bg: #0f1117;
-  --a-surface: #161922;
-  --a-surface-hover: #1c1f2e;
-  --a-surface-active: #222638;
-  --a-border: #2a2d3a;
-  --a-border-light: #32364a;
-  --a-text: #e2e4eb;
-  --a-text-secondary: #8b8fa3;
-  --a-text-muted: #5c6078;
-  --a-accent: #6366f1;
-  --a-accent-hover: #818cf8;
-  --a-accent-subtle: rgba(99, 102, 241, 0.12);
+  --a-bg: var(--dark-grey);
+  --a-surface: #1c1914;
+  --a-surface-hover: #242019;
+  --a-surface-active: #2c271f;
+  --a-border: #332e25;
+  --a-border-light: #3d3630;
+  --a-text: var(--wht);
+  --a-text-secondary: var(--text-secondary);
+  --a-text-muted: #7a7062;
+  --a-accent: var(--accent);
+  --a-accent-hover: #ff8f4d;
+  --a-accent-subtle: rgba(255, 114, 33, 0.12);
   --a-danger: #ef4444;
   --a-danger-subtle: rgba(239, 68, 68, 0.1);
   --a-warn: #f59e0b;
   --a-warn-subtle: rgba(245, 158, 11, 0.1);
   --a-success: #10b981;
   --a-success-subtle: rgba(16, 185, 129, 0.1);
-  --a-radius: 8px;
-  --a-radius-sm: 6px;
-  --a-radius-xs: 4px;
-  --a-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --a-transition: 0.15s ease;
+  --a-radius: var(--radius-md);
+  --a-radius-sm: var(--radius-sm);
+  --a-radius-xs: var(--radius-xs);
+  --a-font: var(--font-body);
+  --a-font-ui: var(--font-ui);
+  --a-transition: var(--transition-fast);
   font-family: var(--a-font);
   color: var(--a-text);
   -webkit-font-smoothing: antialiased;
@@ -37,7 +38,10 @@
 /* Override global heading / element fonts from index.css */
 .admin-layout h1,
 .admin-layout h2,
-.admin-layout h3,
+.admin-layout h3 {
+  font-family: var(--a-font-ui);
+}
+
 .admin-layout h4,
 .admin-layout h5,
 .admin-layout p,
@@ -52,7 +56,10 @@
 }
 
 .admin-guard h1,
-.admin-guard h2,
+.admin-guard h2 {
+  font-family: var(--a-font-ui);
+}
+
 .admin-guard p {
   font-family: var(--a-font);
 }
@@ -205,7 +212,7 @@
 .admin-stat-card[data-color="green"] .admin-stat-value { color: #34d399; }
 .admin-stat-card[data-color="red"] .admin-stat-value { color: #f87171; }
 .admin-stat-card[data-color="amber"] .admin-stat-value { color: #fbbf24; }
-.admin-stat-card[data-color="purple"] .admin-stat-value { color: var(--a-accent-hover); }
+.admin-stat-card[data-color="purple"] .admin-stat-value { color: #c084fc; }
 
 /* --- Search & Filters --- */
 .admin-search-bar {
@@ -248,7 +255,7 @@
   font-family: var(--a-font);
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b8fa3' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237a7062' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   transition: border-color var(--a-transition);
@@ -294,7 +301,7 @@
 
 .admin-table td {
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(42, 45, 58, 0.6);
+  border-bottom: 1px solid rgba(51, 46, 37, 0.6);
   vertical-align: middle;
   color: var(--a-text);
 }
@@ -320,7 +327,7 @@
 }
 
 .admin-table-link:hover {
-  color: #a5b4fc;
+  color: #ffab70;
   text-decoration: underline;
 }
 
@@ -580,7 +587,7 @@
 /* --- Activity list --- */
 .admin-activity-item {
   padding: 12px 0;
-  border-bottom: 1px solid rgba(42, 45, 58, 0.5);
+  border-bottom: 1px solid rgba(51, 46, 37, 0.5);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -803,7 +810,7 @@
   font-family: var(--a-font);
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b8fa3' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237a7062' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   transition: border-color var(--a-transition);
