@@ -6,6 +6,7 @@ import { faBell, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getNotifications, getUnreadNotificationCount, markNotificationRead, markAllNotificationsRead, deleteNotification } from '../../lib/database'
 import { timeAgo, langPath } from '../../utils/helpers'
+import supportAvatar from '../../assets/pfp-vetus.png'
 import './NotificationBell.css'
 
 const NotificationBell = () => {
@@ -84,6 +85,9 @@ const NotificationBell = () => {
     if (notification.type === 'forum_reply') {
       return t('notifications.repliedTo', { username })
     }
+    if (notification.type === 'ticket_reply') {
+      return t('notifications.ticketReply', { content: notification.body || '' })
+    }
     return notification.title || ''
   }
 
@@ -130,7 +134,9 @@ const NotificationBell = () => {
                   onClick={() => handleNotificationClick(n)}
                 >
                   <div className="notification-item-avatar">
-                    {n.profiles?.avatar_url ? (
+                    {n.type === 'ticket_reply' ? (
+                      <img src={supportAvatar} alt="" />
+                    ) : n.profiles?.avatar_url ? (
                       <img src={n.profiles.avatar_url} alt="" />
                     ) : (
                       <span>{n.profiles?.username?.charAt(0)?.toUpperCase() || '?'}</span>

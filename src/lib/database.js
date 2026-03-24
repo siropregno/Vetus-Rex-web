@@ -1234,9 +1234,9 @@ export const getTicketMessages = async (ticketId) => {
   try {
     logger.db('Fetching ticket messages', { ticketId })
 
-    const { data, error } = await supabase
+    const { data: messages, error } = await supabase
       .from('ticket_messages')
-      .select('*, profiles(username, avatar_url, role)')
+      .select('*')
       .eq('ticket_id', ticketId)
       .order('created_at', { ascending: true })
 
@@ -1245,8 +1245,20 @@ export const getTicketMessages = async (ticketId) => {
       return { data: null, error }
     }
 
-    logger.success(`Fetched ${data.length} ticket messages`)
-    return { data, error: null }
+    const userIds = [...new Set(messages.map(m => m.user_id))]
+    let profileMap = {}
+    if (userIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, username, avatar_url, role')
+        .in('id', userIds)
+      profileMap = Object.fromEntries((profiles || []).map(p => [p.id, p]))
+    }
+
+    const enriched = messages.map(m => ({ ...m, profiles: profileMap[m.user_id] || null }))
+
+    logger.success(`Fetched ${enriched.length} ticket messages`)
+    return { data: enriched, error: null }
   } catch (error) {
     logger.error('Unexpected error fetching ticket messages:', error)
     return { data: null, error }
@@ -1309,7 +1321,7 @@ export const addTicketMessage = async (ticketId, content, userId, isStaffReply =
     const { data, error } = await supabase
       .from('ticket_messages')
       .insert([{ ticket_id: ticketId, user_id: userId, content: sanitizedContent, is_staff_reply: isStaffReply }])
-      .select('*, profiles(username, avatar_url, role)')
+      .select()
       .single()
 
     if (error) {
@@ -1317,8 +1329,14 @@ export const addTicketMessage = async (ticketId, content, userId, isStaffReply =
       return { data: null, error }
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('username, avatar_url, role')
+      .eq('id', userId)
+      .single()
+
     logger.success('Ticket message added', { id: data.id })
-    return { data, error: null }
+    return { data: { ...data, profiles: profile }, error: null }
   } catch (error) {
     logger.error('Unexpected error adding ticket message:', error)
     return { data: null, error }
