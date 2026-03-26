@@ -35,6 +35,7 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_DOWNLOAD_URL: ${{ secrets.VITE_DOWNLOAD_URL }}
 
       - name: Copy index.html to 404.html (SPA fallback)
         run: cp dist/index.html dist/404.html
