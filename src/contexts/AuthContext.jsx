@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import logger from '../utils/logger'
 
@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState(null)
+  const signingOutRef = useRef(false)
 
   useEffect(() => {
     logger.auth('Initializing AuthContext')
@@ -51,6 +52,11 @@ export const AuthProvider = ({ children }) => {
         if (event === 'INITIAL_SESSION') return
 
         logger.auth('Auth state changed', { event, hasSession: !!session })
+
+        if (signingOutRef.current && event !== 'SIGNED_OUT') {
+          logger.auth('Ignoring auth event during sign out', { event })
+          return
+        }
         
         setSession(session)
         setUser(session?.user ?? null)
@@ -164,6 +170,7 @@ export const AuthProvider = ({ children }) => {
   // Sign out
   const signOut = async () => {
     logger.auth('Starting signOut process')
+    signingOutRef.current = true
     setLoading(true)
     
     try {
@@ -177,6 +184,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       logger.error('Error in signOut:', error)
     } finally {
+      signingOutRef.current = false
       setLoading(false)
     }
     
