@@ -141,7 +141,7 @@ export const AuthProvider = ({ children }) => {
           .single()
 
         if (lookupError || !profileData) {
-          throw new Error('User not found')
+          throw new Error('Invalid credentials')
         }
         email = profileData.email
       }
@@ -151,7 +151,7 @@ export const AuthProvider = ({ children }) => {
         password
       })
 
-      if (error) throw error
+      if (error) throw new Error('Invalid credentials')
       return { data, error: null }
     } catch (error) {
       logger.error('Error in signIn:', error)
@@ -170,9 +170,6 @@ export const AuthProvider = ({ children }) => {
       setUser(null)
       setSession(null)
       setProfile(null)
-      
-      localStorage.removeItem('sb-' + import.meta.env.VITE_SUPABASE_URL?.split('//')[1]?.split('.')[0] + '-auth-token')
-      sessionStorage.removeItem('sb-' + import.meta.env.VITE_SUPABASE_URL?.split('//')[1]?.split('.')[0] + '-auth-token')
       
       await supabase.auth.signOut()
       logger.success('SignOut completed successfully')

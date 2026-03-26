@@ -25,6 +25,15 @@ const TAG_LABELS: Record<string, string> = {
   community: "Community",
 };
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -43,18 +52,20 @@ function buildEmailHtml(article: {
 }): string {
   const tagColor = TAG_COLORS[article.tag] || "#ff7221";
   const tagLabel = TAG_LABELS[article.tag] || article.tag;
-  const articleUrl = `${SITE_URL}/en/news/${article.id}`;
+  const articleUrl = `${SITE_URL}/en/news/${encodeURIComponent(article.id)}`;
   const optionsUrl = `${SITE_URL}/en/profile`;
-  const excerpt = truncateText(stripHtml(article.content));
+  const safeTitle = escapeHtml(article.title);
+  const excerpt = escapeHtml(truncateText(stripHtml(article.content)));
+  const safeCoverUrl = article.cover_image_url ? escapeHtml(article.cover_image_url) : null;
 
   const fontStack = "'Candara', 'Optima', 'Gill Sans', 'Segoe UI', system-ui, sans-serif";
   const fontHeading = "Georgia, 'Palatino Linotype', 'Book Antiqua', Palatino, serif";
 
-  const coverSection = article.cover_image_url
+  const coverSection = safeCoverUrl
     ? `<!-- Cover image -->
                 <tr>
                   <td style="padding: 0 32px;">
-                    <img src="${article.cover_image_url}" alt="" width="536" style="width: 100%; max-width: 536px; height: auto; display: block; border-radius: 8px; border: 1px solid #2a2a2a;" />
+                    <img src="${safeCoverUrl}" alt="" width="536" style="width: 100%; max-width: 536px; height: auto; display: block; border-radius: 8px; border: 1px solid #2a2a2a;" />
                   </td>
                 </tr>
                 <tr><td style="height: 24px;"></td></tr>`
@@ -65,7 +76,7 @@ function buildEmailHtml(article: {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${article.title}</title>
+  <title>${safeTitle}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #030303; font-family: ${fontStack};">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color: #030303;">
@@ -107,7 +118,7 @@ function buildEmailHtml(article: {
                 <!-- Title -->
                 <tr>
                   <td style="padding: 0 32px 12px;">
-                    <h1 style="margin: 0; font-family: ${fontHeading}; font-size: 26px; font-weight: 700; color: #e3e3e3; line-height: 1.35;">${article.title}</h1>
+                    <h1 style="margin: 0; font-family: ${fontHeading}; font-size: 26px; font-weight: 700; color: #e3e3e3; line-height: 1.35;">${safeTitle}</h1>
                   </td>
                 </tr>
 
@@ -202,6 +213,12 @@ Deno.serve(async (req) => {
   // Webhook sends POST
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
+  }
+
+  // Verify request is from Supabase webhook
+  const authHeader = req.headers.get("Authorization");
+  if (authHeader !== `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`) {
+    return new Response("Unauthorized", { status: 401 });
   }
 
   try {

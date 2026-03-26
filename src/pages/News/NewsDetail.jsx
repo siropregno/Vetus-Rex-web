@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpider } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getNewsById, deleteNews, deleteNewsImage } from '../../lib/database'
-import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
+import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath, stripHtml } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
 import logger from '../../utils/logger'
 import './NewsDetail.css'
@@ -28,7 +28,7 @@ const NewsDetail = () => {
 
   useEffect(() => {
     if (article?.title) {
-      document.title = `Vetus Rex | ${article.title}`
+      document.title = `Vetus Rex | ${stripHtml(article.title).substring(0, 80)}`
     }
   }, [article])
 

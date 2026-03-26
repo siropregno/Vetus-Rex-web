@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DOMPurify from 'dompurify'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getTicketById, getTicketMessages, addTicketMessage } from '../../lib/database'
-import { TICKET_TAGS, TICKET_STATUSES, TICKET_PRIORITIES, langPath, formatDate } from '../../utils/helpers'
+import { TICKET_TAGS, TICKET_STATUSES, TICKET_PRIORITIES, langPath, formatDate, stripHtml } from '../../utils/helpers'
 import logger from '../../utils/logger'
 import supportAvatar from '../../assets/pfp-vetus.png'
 import './Support.css'
@@ -35,7 +35,7 @@ const SupportDetail = () => {
         logger.error('Error loading ticket:', ticketRes.error)
       } else {
         setTicket(ticketRes.data)
-        document.title = `${ticketRes.data.subject} | ${t('support.title')}`
+        document.title = `${stripHtml(ticketRes.data.subject).substring(0, 80)} | ${t('support.title')}`
       }
 
       if (!messagesRes.error) {
@@ -159,6 +159,7 @@ const SupportDetail = () => {
             value={reply}
             onChange={(e) => setReply(e.target.value)}
             placeholder={t('support.replyPlaceholder')}
+            maxLength={10000}
           />
           <div className="support-reply-actions">
             <button

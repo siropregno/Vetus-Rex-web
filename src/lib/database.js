@@ -1,7 +1,20 @@
 import { supabase } from './supabase'
 import logger from '../utils/logger'
 import DOMPurify from 'dompurify'
+import { FORUM_CATEGORIES, NEWS_TAGS, TICKET_TAGS, TICKET_PRIORITIES, TICKET_STATUSES } from '../utils/helpers'
 
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024 // 10MB
+
+const VALID_FORUM_CATEGORIES = Object.keys(FORUM_CATEGORIES)
+const VALID_NEWS_TAGS = Object.keys(NEWS_TAGS)
+const VALID_TICKET_TAGS = Object.keys(TICKET_TAGS)
+const VALID_TICKET_PRIORITIES = Object.keys(TICKET_PRIORITIES)
+const VALID_TICKET_STATUSES = Object.keys(TICKET_STATUSES)
+
+function escapeLikePattern(str) {
+  return str.replace(/[%_\\]/g, '\\$&')
+}
 
 
 
@@ -96,6 +109,9 @@ export const createNews = async ({ title, content, cover_image_url, tag, author_
   if (content.length > 100000) {
     return { data: null, error: { message: 'Content too long (max 100,000 characters)' } }
   }
+  if (tag && !VALID_NEWS_TAGS.includes(tag)) {
+    return { data: null, error: { message: 'Invalid tag' } }
+  }
   try {
     logger.db('Creating news article', { title, tag })
 
@@ -179,6 +195,13 @@ export const deleteNews = async (id) => {
 export const uploadNewsImage = async (file) => {
   try {
     logger.db('Uploading news image')
+
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      return { data: null, error: { message: 'Invalid file type. Only JPEG, PNG, WebP and GIF are allowed.' } }
+    }
+    if (file.size > MAX_IMAGE_SIZE) {
+      return { data: null, error: { message: 'File too large. Maximum size is 10MB.' } }
+    }
 
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
@@ -351,6 +374,13 @@ export const uploadGalleryImage = async ({ file, title, description, authorId })
   try {
     logger.db('Uploading gallery image', { title })
 
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      return { data: null, error: { message: 'Invalid file type. Only JPEG, PNG, WebP and GIF are allowed.' } }
+    }
+    if (file.size > MAX_IMAGE_SIZE) {
+      return { data: null, error: { message: 'File too large. Maximum size is 10MB.' } }
+    }
+
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`
     const filePath = `images/${fileName}`
@@ -486,7 +516,7 @@ export const getAllForumPosts = async (page = 1, pageSize = 12, category = null,
     }
 
     if (search) {
-      query = query.ilike('title', `%${search}%`)
+      query = query.ilike('title', `%${escapeLikePattern(search)}%`)
     }
 
     const { data, error, count } = await query
@@ -536,6 +566,9 @@ export const createForumPost = async ({ title, content, category, author_id }) =
   }
   if (content.length > 50000) {
     return { data: null, error: { message: 'Content too long (max 50,000 characters)' } }
+  }
+  if (!VALID_FORUM_CATEGORIES.includes(category)) {
+    return { data: null, error: { message: 'Invalid category' } }
   }
   try {
     logger.db('Creating forum post', { title, category })
@@ -618,12 +651,10 @@ export const uploadForumImage = async (file, userId) => {
   try {
     logger.db('Uploading forum image')
 
-    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
-    const MAX_SIZE = 10 * 1024 * 1024 // 10MB
-    if (!ALLOWED_TYPES.includes(file.type)) {
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
       return { data: null, error: { message: 'Invalid file type. Only JPEG, PNG, WebP and GIF are allowed.' } }
     }
-    if (file.size > MAX_SIZE) {
+    if (file.size > MAX_IMAGE_SIZE) {
       return { data: null, error: { message: 'File too large. Maximum size is 10MB.' } }
     }
 
@@ -1275,6 +1306,12 @@ export const createTicket = async ({ subject, tag, priority, content, user_id })
   if (content.length > 10000) {
     return { data: null, error: { message: 'Content too long (max 10,000 characters)' } }
   }
+  if (!VALID_TICKET_TAGS.includes(tag)) {
+    return { data: null, error: { message: 'Invalid tag' } }
+  }
+  if (priority && !VALID_TICKET_PRIORITIES.includes(priority)) {
+    return { data: null, error: { message: 'Invalid priority' } }
+  }
   try {
     logger.db('Creating support ticket', { subject, tag, priority })
 
@@ -1359,7 +1396,7 @@ export const adminGetAllTickets = async ({ status = null, tag = null, priority =
     if (status) query = query.eq('status', status)
     if (tag) query = query.eq('tag', tag)
     if (priority) query = query.eq('priority', priority)
-    if (search) query = query.ilike('subject', `%${search}%`)
+    if (search) query = query.ilike('subject', `%${escapeLikePattern(search)}%`)
 
     const { data, error, count } = await query
 
@@ -1379,6 +1416,9 @@ export const adminGetAllTickets = async ({ status = null, tag = null, priority =
 export const adminUpdateTicketStatus = async (ticketId, status) => {
   if (!ticketId || !status) {
     return { error: { message: 'Missing required fields' } }
+  }
+  if (!VALID_TICKET_STATUSES.includes(status)) {
+    return { error: { message: 'Invalid status' } }
   }
   try {
     logger.db('Updating ticket status', { ticketId, status })

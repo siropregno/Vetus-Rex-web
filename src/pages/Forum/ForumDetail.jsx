@@ -9,7 +9,7 @@ import {
   getForumPostById, deleteForumPost,
   getCommentsByPostId, createComment, updateComment, deleteComment, tempBanUser
 } from '../../lib/database'
-import { formatDate, isProfileAdmin, isUserBanned, getBanExpiry, getAuthorName, FORUM_CATEGORIES, langPath } from '../../utils/helpers'
+import { formatDate, isProfileAdmin, isUserBanned, getBanExpiry, getAuthorName, FORUM_CATEGORIES, langPath, stripHtml } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
 import logger from '../../utils/logger'
 import './ForumDetail.css'
@@ -44,7 +44,7 @@ const ForumDetail = () => {
 
   useEffect(() => {
     if (post?.title) {
-      document.title = `Vetus Rex | ${post.title}`
+      document.title = `Vetus Rex | ${stripHtml(post.title).substring(0, 80)}`
     }
   }, [post])
 
@@ -289,6 +289,7 @@ const ForumDetail = () => {
               value={editText}
               onChange={(e) => setEditText(e.target.value)}
               className="forum-comment-textarea"
+              maxLength={10000}
             />
             <div className="forum-comment-edit-actions">
               <button className="button-a btn-sm" onClick={() => handleEditComment(comment.id)}>
@@ -376,6 +377,7 @@ const ForumDetail = () => {
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               rows={3}
+              maxLength={10000}
             />
             <button className="button-a" type="submit" disabled={submitting || !commentText.trim()}>
               {submitting ? t('forum.submitting') : t('forum.submitComment')}

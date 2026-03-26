@@ -133,6 +133,7 @@ const SupportCreate = () => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder={t('support.subjectPlaceholder')}
+            maxLength={10000}
           />
         </div>
 

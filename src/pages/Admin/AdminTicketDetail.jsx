@@ -196,6 +196,7 @@ const AdminTicketDetail = () => {
           value={reply}
           onChange={(e) => setReply(e.target.value)}
           placeholder={t('support.replyPlaceholder')}
+          maxLength={10000}
         />
         <div style={{ marginTop: 12, display: 'flex', justifyContent: 'flex-end' }}>
           <button

@@ -23,6 +23,15 @@ const PRIORITY_LABELS: Record<string, string> = {
   critical: "Critical",
 };
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -42,8 +51,10 @@ function buildEmailHtml(ticket: {
 }): string {
   const tagLabel = TAG_LABELS[ticket.tag] || ticket.tag;
   const priorityLabel = PRIORITY_LABELS[ticket.priority] || ticket.priority;
-  const ticketUrl = `${SITE_URL}/en/admin/support/${ticket.id}`;
-  const excerpt = truncateText(stripHtml(ticket.content));
+  const ticketUrl = `${SITE_URL}/en/admin/support/${encodeURIComponent(ticket.id)}`;
+  const safeSubject = escapeHtml(ticket.subject);
+  const safeUsername = escapeHtml(ticket.username);
+  const excerpt = escapeHtml(truncateText(stripHtml(ticket.content)));
   const fontStack = "'Candara', 'Optima', 'Gill Sans', 'Segoe UI', system-ui, sans-serif";
 
   const priorityColor =
@@ -77,11 +88,11 @@ function buildEmailHtml(ticket: {
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="padding: 8px 0; color: #8b8fa3; font-size: 13px;">Subject</td>
-                  <td style="padding: 8px 0; color: #e2e4eb; font-size: 14px; font-weight: 600;">${ticket.subject}</td>
+                  <td style="padding: 8px 0; color: #e2e4eb; font-size: 14px; font-weight: 600;">${safeSubject}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0; color: #8b8fa3; font-size: 13px;">From</td>
-                  <td style="padding: 8px 0; color: #e2e4eb; font-size: 14px;">${ticket.username}</td>
+                  <td style="padding: 8px 0; color: #e2e4eb; font-size: 14px;">${safeUsername}</td>
                 </tr>
                 <tr>
                   <td style="padding: 8px 0; color: #8b8fa3; font-size: 13px;">Category</td>
@@ -126,6 +137,12 @@ function buildEmailHtml(ticket: {
 Deno.serve(async (req) => {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
+  }
+
+  // Verify request is from Supabase webhook
+  const authHeader = req.headers.get("Authorization");
+  if (authHeader !== `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`) {
+    return new Response("Unauthorized", { status: 401 });
   }
 
   try {
@@ -181,7 +198,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         from: FROM_EMAIL,
         to: [SUPPORT_EMAIL],
-        subject: `[Ticket] ${record.subject} — ${username}`,
+        subject: `[Ticket] ${record.subject.substring(0, 200)} — ${username.substring(0, 50)}`,
         html,
       }),
     });

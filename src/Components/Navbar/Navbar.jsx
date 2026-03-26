@@ -127,7 +127,9 @@ const Navbar = () => {
               <a href={langPath('/ranking')} className={`nav-link${currentPath.startsWith('/ranking') ? ' active' : ''}`}>{t('nav.ranking')}</a>
               <a href={langPath('/gallery')} className={`nav-link${currentPath.startsWith('/gallery') ? ' active' : ''}`}>{t('nav.gallery')}</a>
               <a href={langPath('/forum')} className={`nav-link${currentPath.startsWith('/forum') ? ' active' : ''}`}>{t('nav.forum')}</a>
-              <a href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d" className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
+              {import.meta.env.VITE_DOWNLOAD_URL && (
+                <a href={import.meta.env.VITE_DOWNLOAD_URL} className="nav-link" target="_blank" rel="noopener noreferrer">{t('nav.download')}</a>
+              )}
             </div>
             
 
