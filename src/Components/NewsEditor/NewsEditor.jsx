@@ -1,32 +1,54 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useEditor, EditorContent } from '@tiptap/react'
+import Modal from '../Modal/Modal'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Youtube from '@tiptap/extension-youtube'
 import Placeholder from '@tiptap/extension-placeholder'
+import TextAlign from '@tiptap/extension-text-align'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAlignLeft, faAlignCenter, faAlignRight, faAlignJustify } from '@fortawesome/free-solid-svg-icons'
 import './NewsEditor.css'
 
-const MenuBar = ({ editor }) => {
+const MenuBar = ({ editor, uploadImage }) => {
   const { t } = useTranslation()
-  const addImage = useCallback(() => {
+  const fileInputRef = useRef(null)
+  const [uploading, setUploading] = useState(false)
+  const [alertMsg, setAlertMsg] = useState('')
+
+  const handleImageFile = useCallback(async (e) => {
+    const file = e.target.files?.[0]
+    if (!file || !editor) return
+    setUploading(true)
+    const { data: url, error } = await uploadImage(file)
+    if (error) {
+      setAlertMsg(error.message || 'Error uploading image.')
+    } else if (url) {
+      editor.chain().focus().setImage({ src: url }).run()
+    }
+    setUploading(false)
+    e.target.value = ''
+  }, [editor, uploadImage])
+
+  const addImageByUrl = useCallback(() => {
     if (!editor) return
     const url = window.prompt(t('newsCreate.imageUrlPrompt'))
     if (url) {
       try {
         const urlObj = new URL(url)
         if (!['https:'].includes(urlObj.protocol)) {
-          alert('Only HTTPS URLs are allowed.')
+          setAlertMsg('Only HTTPS URLs are allowed.')
           return
         }
       } catch {
-        alert('Invalid URL.')
+        setAlertMsg('Invalid URL.')
         return
       }
       editor.chain().focus().setImage({ src: url }).run()
     }
-  }, [editor])
+  }, [editor, t])
 
   const addLink = useCallback(() => {
     if (!editor) return
@@ -43,16 +65,16 @@ const MenuBar = ({ editor }) => {
     try {
       const urlObj = new URL(url)
       if (!['https:', 'http:'].includes(urlObj.protocol)) {
-        alert('Invalid URL protocol.')
+        setAlertMsg('Invalid URL protocol.')
         return
       }
     } catch {
-      alert('Invalid URL.')
+      setAlertMsg('Invalid URL.')
       return
     }
 
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
-  }, [editor])
+  }, [editor, t])
 
   const addYoutube = useCallback(() => {
     if (!editor) return
@@ -61,11 +83,11 @@ const MenuBar = ({ editor }) => {
       try {
         const urlObj = new URL(url)
         if (!['www.youtube.com', 'youtube.com', 'youtu.be'].includes(urlObj.hostname)) {
-          alert('Only YouTube URLs are allowed.')
+          setAlertMsg('Only YouTube URLs are allowed.')
           return
         }
       } catch {
-        alert('Invalid URL.')
+        setAlertMsg('Invalid URL.')
         return
       }
       editor.commands.setYoutubeVideo({ src: url })
@@ -75,6 +97,14 @@ const MenuBar = ({ editor }) => {
   if (!editor) return null
 
   return (
+    <>
+    <Modal
+      isOpen={Boolean(alertMsg)}
+      onClose={() => setAlertMsg('')}
+      title="Error"
+      message={alertMsg}
+      type="alert"
+    />
     <div className="editor-toolbar">
       <div className="toolbar-group">
         <button
@@ -121,6 +151,43 @@ const MenuBar = ({ editor }) => {
           title="Heading 3"
         >
           H3
+        </button>
+      </div>
+
+      <div className="toolbar-separator" />
+
+      <div className="toolbar-group">
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={editor.isActive({ textAlign: 'left' }) ? 'toolbar-btn active' : 'toolbar-btn'}
+          title="Align Left"
+        >
+          <FontAwesomeIcon icon={faAlignLeft} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={editor.isActive({ textAlign: 'center' }) ? 'toolbar-btn active' : 'toolbar-btn'}
+          title="Align Center"
+        >
+          <FontAwesomeIcon icon={faAlignCenter} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={editor.isActive({ textAlign: 'right' }) ? 'toolbar-btn active' : 'toolbar-btn'}
+          title="Align Right"
+        >
+          <FontAwesomeIcon icon={faAlignRight} />
+        </button>
+        <button
+          type="button"
+          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+          className={editor.isActive({ textAlign: 'justify' }) ? 'toolbar-btn active' : 'toolbar-btn'}
+          title="Justify"
+        >
+          <FontAwesomeIcon icon={faAlignJustify} />
         </button>
       </div>
 
@@ -177,14 +244,37 @@ const MenuBar = ({ editor }) => {
         >
           🔗
         </button>
-        <button
-          type="button"
-          onClick={addImage}
-          className="toolbar-btn"
-          title="Image"
-        >
-          🖼
-        </button>
+
+        {uploadImage ? (
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              style={{ display: 'none' }}
+              onChange={handleImageFile}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="toolbar-btn"
+              title="Upload Image"
+              disabled={uploading}
+            >
+              {uploading ? '···' : '🖼'}
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            onClick={addImageByUrl}
+            className="toolbar-btn"
+            title="Image URL"
+          >
+            🖼
+          </button>
+        )}
+
         <button
           type="button"
           onClick={addYoutube}
@@ -195,10 +285,11 @@ const MenuBar = ({ editor }) => {
         </button>
       </div>
     </div>
+    </>
   )
 }
 
-const NewsEditor = ({ content = '', onChange }) => {
+const NewsEditor = ({ content = '', onChange, uploadImage }) => {
   const { t } = useTranslation()
   const editor = useEditor({
     extensions: [
@@ -222,6 +313,9 @@ const NewsEditor = ({ content = '', onChange }) => {
       Placeholder.configure({
         placeholder: t('newsCreate.editorPlaceholder'),
       }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -231,7 +325,7 @@ const NewsEditor = ({ content = '', onChange }) => {
 
   return (
     <div className="news-editor">
-      <MenuBar editor={editor} />
+      <MenuBar editor={editor} uploadImage={uploadImage} />
       <EditorContent editor={editor} className="editor-content" />
     </div>
   )

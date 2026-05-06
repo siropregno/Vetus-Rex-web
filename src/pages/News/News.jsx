@@ -95,7 +95,7 @@ const News = () => {
         </div>
 
         {loading ? (
-          <div className="news-loading">
+          <div className="empty-state">
             <p>{t('news.loadingNews')}</p>
           </div>
         ) : error ? (
@@ -106,7 +106,7 @@ const News = () => {
             </button>
           </div>
         ) : news.length === 0 ? (
-          <div className="news-empty">
+          <div className="empty-state">
             <p>{activeTag ? t('news.noArticlesForTag', { tag: t(NEWS_TAGS[activeTag]?.label) }) : t('news.noArticles')}</p>
             {isAdmin && (
               <button

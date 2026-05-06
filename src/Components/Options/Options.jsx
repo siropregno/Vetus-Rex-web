@@ -7,7 +7,7 @@ import logger from '../../utils/logger'
 import './Options.css'
 
 const Options = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const { deleteAccount, profile, updateProfile } = useAuthContext()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
@@ -40,7 +40,7 @@ const Options = () => {
     })
   }
 
-  const handleModalConfirm = async (value) => {
+  const handleModalConfirm = async () => {
     if (modal.step === 'prompt') {
 
       setModal({

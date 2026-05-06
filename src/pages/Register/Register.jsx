@@ -24,9 +24,9 @@ const Register = () => {
 
   useEffect(() => {
     if (user) {
-      window.location.href = langPath('/')
+      navigate(langPath('/'))
     }
-  }, [user])
+  }, [user, navigate])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -61,7 +61,7 @@ const Register = () => {
       if (error) {
         setError(error.message)
       } else {
-        window.location.href = langPath('/')
+        navigate(langPath('/'))
       }
     } catch (err) {
       setError(t('register.unexpectedError'))

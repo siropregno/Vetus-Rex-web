@@ -218,8 +218,6 @@ const ForumDetail = () => {
   const renderComment = (comment, isReply = false) => {
     const isCommentAuthor = user && comment.author_id === user.id
     const isPostAuthor = post.author_id === comment.author_id
-    const canModifyComment = isCommentAuthor || isAdmin
-
     return (
       <div key={comment.id} className={`forum-comment ${isReply ? 'forum-comment-reply' : ''}`}>
         <div className="forum-comment-header">

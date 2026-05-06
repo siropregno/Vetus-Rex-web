@@ -139,47 +139,27 @@ const AdminTicketDetail = () => {
           return (
             <div
               key={msg.id}
-              className="admin-activity-item"
-              style={{
-                flexDirection: 'column',
-                alignItems: 'stretch',
-                borderLeft: msg.is_staff_reply ? '3px solid var(--a-accent)' : 'none',
-                paddingLeft: msg.is_staff_reply ? 16 : 0,
-                background: msg.is_staff_reply ? 'var(--a-accent-subtle)' : 'transparent',
-                borderRadius: msg.is_staff_reply ? 'var(--a-radius-sm)' : 0,
-                margin: msg.is_staff_reply ? '8px 0' : undefined,
-                padding: msg.is_staff_reply ? 12 : undefined,
-              }}
+              className={`admin-activity-item admin-ticket-msg${isStaffMsg ? ' staff-reply' : ''}`}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <div style={{
-                  width: 28, height: 28, borderRadius: '50%',
-                  background: 'var(--a-surface-active)', display: 'flex',
-                  alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.75rem', fontWeight: 600, color: 'var(--a-accent-hover)',
-                  overflow: 'hidden', flexShrink: 0,
-                }}>
+              <div className="admin-ticket-msg-header">
+                <div className="admin-ticket-msg-avatar">
                   {displayAvatar ? (
-                    <img src={displayAvatar} alt={displayName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={displayAvatar} alt={displayName} />
                   ) : initial}
                 </div>
-                <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>
-                  {displayName}
-                </span>
+                <span className="admin-ticket-msg-author">{displayName}</span>
                 {isStaffMsg && (
-                  <span style={{ color: 'var(--a-text-muted)', fontSize: '0.75rem' }}>({author?.username})</span>
+                  <span className="admin-ticket-msg-muted">({author?.username})</span>
                 )}
                 {isStaffMsg && (
                   <span className="admin-role-badge role-moderator" style={{ fontSize: '0.6rem' }}>
                     {t('support.staffReply')}
                   </span>
                 )}
-                <span style={{ marginLeft: 'auto', color: 'var(--a-text-muted)', fontSize: '0.75rem' }}>
-                  {formatDate(msg.created_at)}
-                </span>
+                <span className="admin-ticket-msg-time">{formatDate(msg.created_at)}</span>
               </div>
               <div
-                style={{ fontSize: '0.875rem', lineHeight: 1.6, color: 'var(--a-text)' }}
+                className="admin-ticket-msg-body"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(msg.content) }}
               />
             </div>
@@ -191,14 +171,13 @@ const AdminTicketDetail = () => {
       <div className="admin-section">
         <h3 className="admin-section-title">{t('adminTickets.replyAsStaff')}</h3>
         <textarea
-          className="admin-inline-input"
-          style={{ width: '100%', minHeight: 100, resize: 'vertical', fontFamily: 'var(--a-font)' }}
+          className="admin-inline-input admin-reply-textarea"
           value={reply}
           onChange={(e) => setReply(e.target.value)}
           placeholder={t('support.replyPlaceholder')}
           maxLength={10000}
         />
-        <div style={{ marginTop: 12, display: 'flex', justifyContent: 'flex-end' }}>
+        <div className="admin-reply-actions">
           <button
             className="admin-btn admin-btn-primary"
             onClick={handleReply}

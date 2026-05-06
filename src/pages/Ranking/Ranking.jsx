@@ -72,7 +72,7 @@ const Ranking = () => {
         </div>
 
         {loading ? (
-          <div className="ranking-loading">
+          <div className="empty-state">
             <p>{t('ranking.loading')}</p>
           </div>
         ) : error ? (
@@ -83,7 +83,7 @@ const Ranking = () => {
             </button>
           </div>
         ) : characters.length === 0 ? (
-          <div className="ranking-empty">
+          <div className="empty-state">
             <p>{t('ranking.noCharacters')}</p>
           </div>
         ) : (

@@ -995,7 +995,6 @@ export const adminGetUserDetail = async (userId) => {
 
     if (error) {
       logger.error('Error fetching user detail:', { message: error.message, code: error.code, details: error.details, hint: error.hint })
-      console.error('FULL RPC ERROR:', JSON.stringify(error, null, 2))
       return { data: null, error }
     }
 

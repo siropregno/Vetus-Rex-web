@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, useParams } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { langPath } from '../../utils/helpers'
@@ -9,7 +9,7 @@ import './Admin.css'
 
 const AdminLayout = () => {
   const { t } = useTranslation()
-  const { profile, isStaff, loading } = useAuthContext()
+  const { isStaff, loading } = useAuthContext()
   const currentPath = window.location.pathname.replace(/^\/(en|es|de)/, '')
 
   if (loading) {
@@ -22,7 +22,7 @@ const AdminLayout = () => {
         <div>
           <h2>{t('admin.unauthorized')}</h2>
           <p>{t('admin.unauthorizedDesc')}</p>
-          <a href={langPath('/')} className="admin-btn admin-btn-primary" style={{ marginTop: 16 }}>
+          <a href={langPath('/')} className="admin-btn admin-btn-primary">
             {t('admin.backHome')}
           </a>
         </div>

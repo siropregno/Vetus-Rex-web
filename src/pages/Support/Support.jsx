@@ -90,11 +90,11 @@ const Support = () => {
             </div>
 
             {loading ? (
-              <div className="support-empty">
+              <div className="empty-state">
                 <p>{t('forum.loading')}</p>
               </div>
             ) : tickets.length === 0 ? (
-              <div className="support-empty">
+              <div className="empty-state">
                 <p>{t('support.noTickets')}</p>
                 <p className="support-empty-hint">{t('support.noTicketsHint')}</p>
               </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { supabase } from '../../lib/supabase'
 import Modal from '../Modal/Modal'
 import logger from '../../utils/logger'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,7 +9,7 @@ import './Info.css'
 
 const Info = () => {
   const { t } = useTranslation()
-  const { user, profile, updateProfile, uploadAvatar, deleteAvatar, loading } = useAuthContext()
+  const { user, profile, updateProfile, uploadAvatar, deleteAvatar } = useAuthContext()
   const [formData, setFormData] = useState({
     username: '',
     email: ''
@@ -301,52 +300,6 @@ const Info = () => {
           <span className="value">{formatDate(profile?.created_at)}</span>
         </div>
       </div>
-
-
-      {user && !profile && !loading && (
-        <div className="debug-section">
-          <p>{t('info.profileNotFound')}</p>
-          <button
-            onClick={async () => {
-              setIsLoading(true)
-              setError('')
-              
-              try {
-                const defaultProfile = {
-                  id: user.id,
-                  email: user.email,
-                  username: user.user_metadata?.username || '',
-                  full_name: user.user_metadata?.username || '',
-                  avatar_url: null,
-                  created_at: new Date().toISOString(),
-                  updated_at: new Date().toISOString()
-                }
-                
-                const { error } = await supabase
-                  .from('profiles')
-                  .insert([defaultProfile])
-                  .select()
-                  .single()
-                
-                if (error) {
-                  setError('Error: ' + error.message)
-                } else {
-                  showSuccessToast(t('info.profileCreated'))
-                  setTimeout(() => window.location.reload(), 1500)
-                }
-              } catch {
-                setError(t('info.unexpectedGenericError'))
-              } finally {
-                setIsLoading(false)
-              }
-            }}
-            className="button-a"
-            disabled={isLoading}
-          >
-            {isLoading ? t('info.creating') : t('info.createProfile')}
-          </button>
-        </div>
-      )}
 
 
       {showToast && (

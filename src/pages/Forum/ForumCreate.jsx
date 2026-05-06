@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuthContext } from '../../hooks/useAuthContext'
-import { createForumPost, updateForumPost, getForumPostById } from '../../lib/database'
+import { createForumPost, updateForumPost, getForumPostById, uploadForumImage } from '../../lib/database'
 import { FORUM_CATEGORIES, langPath, isUserBanned, getBanExpiry } from '../../utils/helpers'
 import NewsEditor from '../../Components/NewsEditor/NewsEditor'
 import logger from '../../utils/logger'
@@ -30,9 +30,9 @@ const ForumCreate = () => {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      window.location.href = langPath('/forum')
+      navigate(langPath('/forum'))
     }
-  }, [authLoading, user])
+  }, [authLoading, user, navigate])
 
   useEffect(() => {
     if (isEditMode) {
@@ -196,6 +196,7 @@ const ForumCreate = () => {
             content={content}
             onChange={setContent}
             placeholder={t('forumCreate.editorPlaceholder')}
+            uploadImage={user ? (file) => uploadForumImage(file, user.id) : undefined}
           />
         </div>
 

@@ -66,7 +66,7 @@ const SupportDetail = () => {
   if (loading) {
     return (
       <div className="support-detail-page">
-        <div className="support-empty"><p>{t('forum.loading')}</p></div>
+        <div className="empty-state"><p>{t('forum.loading')}</p></div>
       </div>
     )
   }
@@ -75,7 +75,7 @@ const SupportDetail = () => {
     return (
       <div className="support-detail-page">
         <Link to={langPath('/support')} className="back-link">{t('support.backToSupport')}</Link>
-        <div className="support-empty"><p>Ticket not found.</p></div>
+        <div className="empty-state"><p>Ticket not found.</p></div>
       </div>
     )
   }

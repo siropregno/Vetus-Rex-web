@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { SUPPORTED_LANGS, langPath } from '../../utils/helpers';
@@ -36,6 +37,7 @@ const FlagDE = () => (
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isLangOpen, setIsLangOpen] = useState(false);
 
   const currentLang = i18n.language?.startsWith('es') ? 'es' : i18n.language?.startsWith('de') ? 'de' : 'en';
@@ -73,7 +75,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleProfile = () => {
-    window.location.href = langPath('/profile');
+    navigate(langPath('/profile'));
     setIsMenuOpen(false);
   };
 
@@ -162,7 +164,7 @@ const Navbar = () => {
                     </span>
                     <span className="user-name">
                       {profile?.role === 'admin' && <span className="gm-tag">[GM]</span>}
-                      {profile?.role === 'moderator' && <span className="gm-tag" style={{ background: 'rgba(59, 130, 246, 0.2)', color: '#60a5fa' }}>[MOD]</span>}
+                      {profile?.role === 'moderator' && <span className="mod-tag">[MOD]</span>}
                       {' '}{profile?.username || user?.user_metadata?.username || user?.email?.split('@')[0] || 'User'}
                     </span>
                     <span className="dropdown-arrow">▼</span>
@@ -173,13 +175,13 @@ const Navbar = () => {
                       {t('nav.myProfile')}
                     </button>
                     <div className="dropdown-divider"></div>
-                    <button onClick={() => { window.location.href = langPath('/support'); setIsMenuOpen(false); }} className="dropdown-item">
+                    <button onClick={() => { navigate(langPath('/support')); setIsMenuOpen(false); }} className="dropdown-item">
                       {t('nav.support')}
                     </button>
                     {(profile?.role === 'admin' || profile?.role === 'moderator') && (
                       <>
                         <div className="dropdown-divider"></div>
-                        <button onClick={() => { window.location.href = langPath('/admin'); setIsMenuOpen(false); }} className="dropdown-item">
+                        <button onClick={() => { navigate(langPath('/admin')); setIsMenuOpen(false); }} className="dropdown-item">
                           {t('nav.admin')}
                         </button>
                       </>

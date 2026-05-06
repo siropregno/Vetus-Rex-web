@@ -49,7 +49,7 @@ const Home = () => {
               {t('home.bannerText')}
             </p>
             <a
-              href="https://vetusrex.itch.io/game/download/eyJleHBpcmVzIjoxNzcyMDg5NDIxLCJpZCI6MzQwNDcxMX0%3d.48cEwzg6XEc5vxIIUdHVuHVkrfQ%3d"
+              href={import.meta.env.VITE_DOWNLOAD_URL}
               className="button-a home-banner-cta"
               target="_blank"
               rel="noopener noreferrer"

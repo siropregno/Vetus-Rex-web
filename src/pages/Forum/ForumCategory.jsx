@@ -119,7 +119,7 @@ const ForumCategory = () => {
         </div>
 
         {loading ? (
-          <div className="forum-loading">
+          <div className="empty-state">
             <p>{t('forum.loading')}</p>
           </div>
         ) : error ? (
@@ -127,7 +127,7 @@ const ForumCategory = () => {
             <p>{error}</p>
           </div>
         ) : posts.length === 0 ? (
-          <div className="forum-empty">
+          <div className="empty-state">
             <p>{searchQuery ? t('forum.noPostsForSearch', { search: searchQuery }) : t('forum.noPosts')}</p>
           </div>
         ) : (

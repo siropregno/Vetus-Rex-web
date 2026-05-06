@@ -65,7 +65,7 @@ const Forum = () => {
         </div>
 
         {loading ? (
-          <div className="forum-loading">
+          <div className="empty-state">
             <p>{t('forum.loading')}</p>
           </div>
         ) : error ? (

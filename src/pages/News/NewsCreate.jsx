@@ -33,13 +33,13 @@ const NewsCreate = () => {
   useEffect(() => {
     if (!authLoading && user && profile && !isAdmin) {
       logger.nav('Non-admin redirected from news create/edit')
-      window.location.href = langPath('/news')
+      navigate(langPath('/news'))
     }
     if (!authLoading && !user) {
       logger.nav('Unauthenticated user redirected from news create/edit')
-      window.location.href = langPath('/news')
+      navigate(langPath('/news'))
     }
-  }, [authLoading, user, profile, isAdmin])
+  }, [authLoading, user, profile, isAdmin, navigate])
 
 
   useEffect(() => {
@@ -251,7 +251,7 @@ const NewsCreate = () => {
 
         <div className="form-group">
           <label>{t('newsCreate.contentLabel')}</label>
-          <NewsEditor content={content} onChange={setContent} />
+          <NewsEditor content={content} onChange={setContent} uploadImage={uploadNewsImage} />
         </div>
 
 

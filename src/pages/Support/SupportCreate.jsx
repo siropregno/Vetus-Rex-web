@@ -70,8 +70,7 @@ const SupportCreate = () => {
         <div className="support-form-group">
           <label>{t('support.subject')}</label>
           <input
-            className="support-filter-select"
-            style={{ width: '100%', padding: '0.6rem 0.75rem' }}
+            className="support-filter-select support-subject-input"
             type="text"
             value={subject}
             onChange={(e) => setSubject(e.target.value)}
@@ -117,19 +116,7 @@ const SupportCreate = () => {
         <div className="support-form-group">
           <label>{t('support.content')}</label>
           <textarea
-            className="support-reply-form"
-            style={{
-              width: '100%',
-              minHeight: '150px',
-              padding: 'var(--space-lg)',
-              background: 'var(--dark-grey)',
-              border: '1px solid var(--wht-10)',
-              borderRadius: 'var(--radius-md)',
-              color: 'var(--wht)',
-              fontSize: '0.9em',
-              resize: 'vertical',
-              fontFamily: 'var(--font-body)',
-            }}
+            className="support-content-textarea"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder={t('support.subjectPlaceholder')}

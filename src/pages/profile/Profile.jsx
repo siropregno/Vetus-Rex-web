@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { langPath } from '../../utils/helpers'
@@ -10,6 +11,7 @@ import './Profile.css'
 
 const Profile = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { user, loading } = useAuthContext()
   const [activeTab, setActiveTab] = useState('info')
 
@@ -19,9 +21,9 @@ const Profile = () => {
   useEffect(() => {
     if (!loading && !user) {
       logger.nav('User not authenticated, redirecting to home')
-      window.location.href = langPath('/')
+      navigate(langPath('/'))
     }
-  }, [loading, user])
+  }, [loading, user, navigate])
 
   const tabs = ['info', 'chars', 'options']
 

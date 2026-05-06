@@ -283,26 +283,24 @@ const AdminUserDetail = () => {
           </div>
         ) : (
           <div>
-            <div className="admin-inline-form" style={{ marginBottom: 8 }}>
+            <div className="admin-inline-form admin-ban-form">
               <input
                 type="number"
-                className="admin-inline-input"
+                className="admin-inline-input admin-input-days"
                 min="1"
                 max="365"
                 value={banDays}
                 onChange={(e) => setBanDays(parseInt(e.target.value) || 1)}
-                style={{ width: 80 }}
               />
-              <span className="admin-field-label" style={{ margin: 0 }}>
+              <span className="admin-field-label admin-field-label--inline">
                 {t('admin.days')}
               </span>
               <input
                 type="text"
-                className="admin-inline-input"
+                className="admin-inline-input admin-input-flex"
                 placeholder={t('admin.banReasonPlaceholder')}
                 value={banReason}
                 onChange={(e) => setBanReason(e.target.value)}
-                style={{ flex: 1, minWidth: 150 }}
               />
             </div>
             <div className="admin-actions">
