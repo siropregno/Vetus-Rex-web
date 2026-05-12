@@ -228,7 +228,11 @@
   "common": {
     "delete": "Löschen",
     "cancel": "Abbrechen",
-    "unknown": "Unbekannt"
+    "unknown": "Unbekannt",
+    "accountSuspended": "Dein Konto ist gesperrt",
+    "banExpires": "Läuft ab: {{date}}",
+    "banPermanent": "Dauerhaft",
+    "banReason": "Grund: {{reason}}"
   },
   "ranking": {
     "pageTitle": "Vetus Rex | Ranking",
@@ -369,8 +373,8 @@
     "imagesDesc": "Teile Screenshots und Kunstwerke",
     "tavern": "Taverne",
     "tavernDesc": "Off-Topic-Chat und Spaß",
-    "support": "Support",
-    "supportDesc": "Bugs melden und Hilfe erhalten"
+    "support": "Hilfe",
+    "supportDesc": "Frag andere Spieler um Hilfe im Spiel"
   },
   "forumRules": {
     "pageTitle": "Vetus Rex | Forumsregeln",
@@ -565,8 +569,5 @@
     "statusUpdateFailed": "Status konnte nicht aktualisiert werden.",
     "ticketBy": "von",
     "allPriorities": "Alle Prioritäten"
-  },
-  "common": {
-    "unknown": "Unbekannt"
   }
 }

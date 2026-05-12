@@ -5,6 +5,7 @@ import Modal from '../Modal/Modal'
 import logger from '../../utils/logger'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { isUserBanned, getBanExpiry, isBanPermanent } from '../../utils/helpers'
 import './Info.css'
 
 const Info = () => {
@@ -300,6 +301,19 @@ const Info = () => {
           <span className="value">{formatDate(profile?.created_at)}</span>
         </div>
       </div>
+
+      {isUserBanned(profile) && (
+        <div className="suspended-banner">
+          <p className="suspended-banner-title">{t('common.accountSuspended')}</p>
+          <p>{isBanPermanent(profile)
+            ? t('common.banExpires', { date: t('common.banPermanent') })
+            : t('common.banExpires', { date: getBanExpiry(profile)?.toLocaleDateString() })}
+          </p>
+          {profile?.ban_reason && (
+            <p>{t('common.banReason', { reason: profile.ban_reason })}</p>
+          )}
+        </div>
+      )}
 
 
       {showToast && (

@@ -73,6 +73,11 @@ export const getBanExpiry = (profile) => {
   return new Date(profile.banned_until)
 }
 
+export const isBanPermanent = (profile) => {
+  if (!profile?.banned_until) return false
+  return new Date(profile.banned_until).getFullYear() >= 9000
+}
+
 /**
  * Get display name for a profile
  */
@@ -99,7 +104,7 @@ export const FORUM_CATEGORIES = {
   general: { label: 'forumCategories.general', desc: 'forumCategories.generalDesc', color: '#3b82f6', icon: faComments },
   images: { label: 'forumCategories.images', desc: 'forumCategories.imagesDesc', color: '#8b5cf6', icon: faPalette },
   tavern: { label: 'forumCategories.tavern', desc: 'forumCategories.tavernDesc', color: '#f59e0b', icon: faMugHot },
-  support: { label: 'forumCategories.support', desc: 'forumCategories.supportDesc', color: '#ef4444', icon: faWrench },
+  support: { label: 'forumCategories.support', desc: 'forumCategories.supportDesc', color: '#ef4444', icon: faGamepad },
 }
 
 export const timeAgo = (dateString) => {

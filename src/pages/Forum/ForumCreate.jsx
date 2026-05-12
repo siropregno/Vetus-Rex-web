@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createForumPost, updateForumPost, getForumPostById, uploadForumImage } from '../../lib/database'
-import { FORUM_CATEGORIES, langPath, isUserBanned, getBanExpiry } from '../../utils/helpers'
+import { FORUM_CATEGORIES, langPath, isUserBanned, getBanExpiry, isBanPermanent } from '../../utils/helpers'
 import NewsEditor from '../../Components/NewsEditor/NewsEditor'
 import logger from '../../utils/logger'
 import './ForumCreate.css'
@@ -132,14 +132,22 @@ const ForumCreate = () => {
   if (!isAuthenticated) return null
 
   if (isBanned) {
+    const permanent = isBanPermanent(profile)
     return (
       <div className="forum-create-page">
         <button className="forum-detail-back" onClick={() => navigate(langPath('/forum'))}>
           {t('forumCreate.backToForum')}
         </button>
-        <p className="forum-banned-message">
-          {t('forumCreate.bannedMessage', { date: getBanExpiry(profile)?.toLocaleDateString() })}
-        </p>
+        <div className="suspended-banner">
+          <p>{t('common.accountSuspended')}</p>
+          <p>{permanent
+            ? t('common.banExpires', { date: t('common.banPermanent') })
+            : t('common.banExpires', { date: getBanExpiry(profile)?.toLocaleDateString() })}
+          </p>
+          {profile?.ban_reason && (
+            <p>{t('common.banReason', { reason: profile.ban_reason })}</p>
+          )}
+        </div>
       </div>
     )
   }

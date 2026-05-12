@@ -628,6 +628,25 @@ body.modal-open {
   font-size: 0.9rem;
 }
 
+
+.suspended-banner {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-xl);
+  height: 300px;
+  padding: var(--space-md) var(--space-lg);
+  color: var(--danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.suspended-banner-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
 @media (max-width: 1280px) {
     .content-zone {
         margin-top: 56px;

@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createTicket } from '../../lib/database'
-import { TICKET_TAGS, TICKET_PRIORITIES, langPath } from '../../utils/helpers'
+import { TICKET_TAGS, TICKET_PRIORITIES, langPath, isUserBanned, getBanExpiry, isBanPermanent } from '../../utils/helpers'
 import logger from '../../utils/logger'
 import './Support.css'
 
 const SupportCreate = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { user, isAuthenticated } = useAuthContext()
+  const { user, profile, isAuthenticated } = useAuthContext()
 
   const [subject, setSubject] = useState('')
   const [tag, setTag] = useState('')
@@ -53,6 +53,27 @@ const SupportCreate = () => {
         <div className="support-login-prompt">
           <p>{t('support.loginRequired')}</p>
           <Link to={langPath('/login')}>{t('nav.signIn')}</Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (isUserBanned(profile)) {
+    const permanent = isBanPermanent(profile)
+    return (
+      <div className="support-create-page">
+        <Link to={langPath('/support')} className="back-link">
+          {t('support.backToSupport')}
+        </Link>
+        <div className="suspended-banner">
+          <p>{t('common.accountSuspended')}</p>
+          <p>{permanent
+            ? t('common.banExpires', { date: t('common.banPermanent') })
+            : t('common.banExpires', { date: getBanExpiry(profile)?.toLocaleDateString() })}
+          </p>
+          {profile?.ban_reason && (
+            <p>{t('common.banReason', { reason: profile.ban_reason })}</p>
+          )}
         </div>
       </div>
     )

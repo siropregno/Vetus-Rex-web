@@ -20,7 +20,7 @@
 
 .forum-rule-card {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-lg);
   background: var(--dark-grey);
   border: 1px solid var(--wht-8);
@@ -31,6 +31,7 @@
 .forum-rule-icon {
   font-size: 1.8rem;
   flex-shrink: 0;
+  color: var(--accent);
 }
 
 .forum-rule-title {

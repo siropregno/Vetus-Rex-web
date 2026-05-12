@@ -9,7 +9,7 @@ import {
   getForumPostById, deleteForumPost,
   getCommentsByPostId, createComment, updateComment, deleteComment, tempBanUser
 } from '../../lib/database'
-import { formatDate, isProfileAdmin, isUserBanned, getBanExpiry, getAuthorName, FORUM_CATEGORIES, langPath, stripHtml } from '../../utils/helpers'
+import { formatDate, isProfileAdmin, isUserBanned, getBanExpiry, isBanPermanent, getAuthorName, FORUM_CATEGORIES, langPath, stripHtml } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
 import logger from '../../utils/logger'
 import './ForumDetail.css'
@@ -358,9 +358,16 @@ const ForumDetail = () => {
         <h3 className="forum-comments-title">{t('forum.commentsTitle')} ({comments.length})</h3>
 
         {isBanned ? (
-          <p className="forum-banned-message">
-            {t('forum.bannedMessage', { date: getBanExpiry(profile)?.toLocaleDateString() })}
-          </p>
+          <div className="suspended-banner">
+            <p className="suspended-banner-title">{t('common.accountSuspended')}</p>
+            <p>{isBanPermanent(profile)
+              ? t('common.banExpires', { date: t('common.banPermanent') })
+              : t('common.banExpires', { date: getBanExpiry(profile)?.toLocaleDateString() })}
+            </p>
+            {profile?.ban_reason && (
+              <p>{t('common.banReason', { reason: profile.ban_reason })}</p>
+            )}
+          </div>
         ) : isAuthenticated ? (
           <form className="forum-comment-form" onSubmit={handleSubmitComment}>
             {replyTo && (
