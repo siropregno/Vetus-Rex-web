@@ -336,11 +336,9 @@
     "ban30Days": "Ban 30 days",
     "banConfirmTitle": "Confirm Ban",
     "banConfirmMessage": "Ban {{username}} for {{days}} day(s)? The comment will be deleted.",
-    "banConfirm": "Ban",
-    "bannedMessage": "Your account is suspended until {{date}}. You cannot create posts or comments."
+    "banConfirm": "Ban"
   },
   "forumCreate": {
-    "bannedMessage": "Your account is suspended until {{date}}. You cannot create posts.",
     "pageTitle": "Vetus Rex | New Post",
     "editTitle": "Edit Post",
     "newTitle": "New Post",

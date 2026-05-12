@@ -336,11 +336,9 @@
     "ban30Days": "30 Tage sperren",
     "banConfirmTitle": "Sperre bestätigen",
     "banConfirmMessage": "{{username}} für {{days}} Tag(e) sperren? Der Kommentar wird gelöscht.",
-    "banConfirm": "Sperren",
-    "bannedMessage": "Dein Konto ist bis zum {{date}} gesperrt. Du kannst keine Beiträge oder Kommentare erstellen."
+    "banConfirm": "Sperren"
   },
   "forumCreate": {
-    "bannedMessage": "Dein Konto ist bis zum {{date}} gesperrt. Du kannst keine Beiträge erstellen.",
     "pageTitle": "Vetus Rex | Neuer Beitrag",
     "editTitle": "Beitrag bearbeiten",
     "newTitle": "Neuer Beitrag",

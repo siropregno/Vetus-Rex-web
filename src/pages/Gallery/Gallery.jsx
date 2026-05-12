@@ -106,7 +106,7 @@ const Gallery = () => {
         file: uploadFile,
         title: uploadTitle.trim(),
         description: uploadDesc.trim() || null,
-        authorId: profile.id
+        authorId: profile?.id
       })
 
       if (upErr) {

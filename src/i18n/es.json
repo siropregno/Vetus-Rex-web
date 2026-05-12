@@ -244,8 +244,7 @@
     "retry": "Reintentar",
     "noCharacters": "No se encontraron personajes.",
     "myCharacters": "Tus personajes",
-    "notListed": "No listado",
-    "nav": "Ranking"
+    "notListed": "No listado"
   },
   "rankingTags": {
     "gold": "Oro",
@@ -337,11 +336,9 @@
     "ban30Days": "Banear 30 días",
     "banConfirmTitle": "Confirmar Ban",
     "banConfirmMessage": "¿Banear a {{username}} por {{days}} día(s)? Se eliminará el comentario.",
-    "banConfirm": "Banear",
-    "bannedMessage": "Tu cuenta está suspendida hasta el {{date}}. No podés crear publicaciones ni comentarios."
+    "banConfirm": "Banear"
   },
   "forumCreate": {
-    "bannedMessage": "Tu cuenta está suspendida hasta el {{date}}. No podés crear publicaciones.",
     "pageTitle": "Vetus Rex | Nuevo Post",
     "editTitle": "Editar Publicación",
     "newTitle": "Nueva Publicación",

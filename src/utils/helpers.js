@@ -1,5 +1,5 @@
 import i18n from '../i18n/i18n'
-import { faShieldHalved, faComments, faPalette, faMugHot, faWrench, faBug, faLightbulb, faUserShield, faGamepad, faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import { faShieldHalved, faComments, faPalette, faMugHot, faBug, faLightbulb, faUserShield, faGamepad, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 export const SUPPORTED_LANGS = ['en', 'es', 'de']
 
