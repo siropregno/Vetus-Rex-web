@@ -43,17 +43,41 @@ function truncateText(text: string, maxLength = 150): string {
   return text.slice(0, maxLength).trimEnd() + "...";
 }
 
+const NEWS_LANGS = ["en", "es", "de"] as const;
+type NewsLang = (typeof NEWS_LANGS)[number];
+
+type I18nMap = Partial<Record<string, string>> | null | undefined;
+
+// Resolve a { en, es, de } map to a single string: requested lang → English →
+// first non-empty language → flat fallback → "". Mirrors getLocalizedNews on
+// the web side so emails match what the site renders.
+function pickLang(map: I18nMap, lang: string, flat: string): string {
+  if (map && typeof map === "object") {
+    if (map[lang]?.trim()) return map[lang] as string;
+    if (map.en?.trim()) return map.en as string;
+    for (const code of NEWS_LANGS) {
+      if (map[code]?.trim()) return map[code] as string;
+    }
+  }
+  return flat || "";
+}
+
+function normalizeLang(value: string | null | undefined): NewsLang {
+  const code = (value || "en").slice(0, 2).toLowerCase();
+  return (NEWS_LANGS as readonly string[]).includes(code) ? (code as NewsLang) : "en";
+}
+
 function buildEmailHtml(article: {
   id: string;
   title: string;
   tag: string;
   content: string;
   cover_image_url: string | null;
-}): string {
+}, lang: NewsLang): string {
   const tagColor = TAG_COLORS[article.tag] || "#ff7221";
   const tagLabel = TAG_LABELS[article.tag] || article.tag;
-  const articleUrl = `${SITE_URL}/en/news/${encodeURIComponent(article.id)}`;
-  const optionsUrl = `${SITE_URL}/en/profile`;
+  const articleUrl = `${SITE_URL}/${lang}/news/${encodeURIComponent(article.id)}`;
+  const optionsUrl = `${SITE_URL}/${lang}/profile`;
   const safeTitle = escapeHtml(article.title);
   const excerpt = escapeHtml(truncateText(stripHtml(article.content)));
   const safeCoverUrl = article.cover_image_url ? escapeHtml(article.cover_image_url) : null;
@@ -72,7 +96,7 @@ function buildEmailHtml(article: {
     : "";
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -226,25 +250,29 @@ Deno.serve(async (req) => {
 
     // Database webhook payload structure
     const record = payload.record;
-    if (!record || !record.id || !record.title) {
+    const hasTitle = record?.title || record?.title_i18n?.en || record?.title_i18n?.es || record?.title_i18n?.de;
+    if (!record || !record.id || !hasTitle) {
       return new Response("Invalid payload", { status: 400 });
     }
 
-    const article = {
-      id: record.id,
-      title: record.title,
-      tag: record.tag || "update",
-      content: record.content || "",
-      cover_image_url: record.cover_image_url || null,
+    const titleI18n: I18nMap = record.title_i18n || null;
+    const contentI18n: I18nMap = record.content_i18n || null;
+
+    // Base article fields shared across languages; title/content are resolved
+    // per subscriber language below.
+    const base = {
+      id: record.id as string,
+      tag: (record.tag || "update") as string,
+      cover_image_url: (record.cover_image_url || null) as string | null,
     };
 
     // Create admin client to query all profiles
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Get all users with email notifications enabled
+    // Get all users with email notifications enabled, plus their language.
     const { data: subscribers, error: dbError } = await supabase
       .from("profiles")
-      .select("email")
+      .select("email, preferred_language")
       .eq("email_notifications", true)
       .not("email", "is", null);
 
@@ -260,19 +288,35 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ sent: 0 }), { status: 200 });
     }
 
-    const emails = subscribers.map((s: { email: string }) => s.email);
-    const subject = `Vetus Rex — ${article.title}`;
-    const html = buildEmailHtml(article);
-
-    // Send in batches
-    let totalSent = 0;
-    for (let i = 0; i < emails.length; i += BATCH_SIZE) {
-      const batch = emails.slice(i, i + BATCH_SIZE);
-      await sendBatch(batch, subject, html);
-      totalSent += batch.length;
+    // Group subscriber emails by their resolved language so each group gets
+    // one localized email body / subject.
+    const byLang = new Map<NewsLang, string[]>();
+    for (const s of subscribers as { email: string; preferred_language?: string | null }[]) {
+      const lang = normalizeLang(s.preferred_language);
+      const list = byLang.get(lang) || [];
+      list.push(s.email);
+      byLang.set(lang, list);
     }
 
-    console.log(`Sent ${totalSent} notification emails for article: ${article.title}`);
+    // Send in batches, per language.
+    let totalSent = 0;
+    for (const [lang, emails] of byLang) {
+      const article = {
+        ...base,
+        title: pickLang(titleI18n, lang, record.title),
+        content: pickLang(contentI18n, lang, record.content || ""),
+      };
+      const subject = `Vetus Rex — ${article.title}`;
+      const html = buildEmailHtml(article, lang);
+
+      for (let i = 0; i < emails.length; i += BATCH_SIZE) {
+        const batch = emails.slice(i, i + BATCH_SIZE);
+        await sendBatch(batch, subject, html);
+        totalSent += batch.length;
+      }
+    }
+
+    console.log(`Sent ${totalSent} notification emails for article: ${pickLang(titleI18n, "en", record.title)}`);
 
     return new Response(JSON.stringify({ sent: totalSent }), {
       status: 200,

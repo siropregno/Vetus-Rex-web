@@ -1,21 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath } from '../../utils/helpers'
+import { stripHtml, truncateText, formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath, getLocalizedNews } from '../../utils/helpers'
 import './NewsCard.css'
 
 const NewsCard = ({ news }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const tag = NEWS_TAGS[news.tag]
-  const excerpt = truncateText(stripHtml(news.content), 150)
+  const { title, content } = getLocalizedNews(news, i18n.resolvedLanguage || i18n.language)
+  const excerpt = truncateText(stripHtml(content), 150)
 
   return (
     <article className="news-card">
       <Link to={langPath(`/news/${news.id}`)} className="news-card-link">
       <div className="news-card-image">
         {news.cover_image_url ? (
-          <img src={news.cover_image_url} alt={news.title} />
+          <img src={news.cover_image_url} alt={title} />
         ) : (
           <div className="news-card-placeholder">
             <span>📰</span>
@@ -32,7 +33,7 @@ const NewsCard = ({ news }) => {
       </div>
 
       <div className="news-card-body">
-        <h3 className="news-card-title">{news.title}</h3>
+        <h3 className="news-card-title">{title}</h3>
         <p className="news-card-excerpt">{excerpt}</p>
 
         <div className="news-card-meta">

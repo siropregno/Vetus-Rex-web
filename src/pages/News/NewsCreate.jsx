@@ -3,10 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { createNews, updateNews, getNewsById, uploadNewsImage, deleteNewsImage } from '../../lib/database'
-import { NEWS_TAGS, langPath } from '../../utils/helpers'
+import { NEWS_TAGS, NEWS_LANGS, langPath, getLang } from '../../utils/helpers'
 import NewsEditor from '../../Components/NewsEditor/NewsEditor'
 import logger from '../../utils/logger'
 import './NewsCreate.css'
+
+const emptyLangMap = () => NEWS_LANGS.reduce((acc, lang) => ({ ...acc, [lang]: '' }), {})
 
 const NewsCreate = () => {
   const { t } = useTranslation()
@@ -17,8 +19,10 @@ const NewsCreate = () => {
   const isEditMode = Boolean(id)
   const isAdmin = profile?.role === 'admin'
 
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  // One title + one content per language.
+  const [titles, setTitles] = useState(emptyLangMap)
+  const [contents, setContents] = useState(emptyLangMap)
+  const [activeLang, setActiveLang] = useState(() => (NEWS_LANGS.includes(getLang()) ? getLang() : 'en'))
   const [tag, setTag] = useState('update')
   const [coverImageUrl, setCoverImageUrl] = useState('')
   const [coverFile, setCoverFile] = useState(null)
@@ -55,8 +59,16 @@ const NewsCreate = () => {
           return
         }
 
-        setTitle(data.title)
-        setContent(data.content)
+        // Hydrate from i18n maps, falling back to the legacy flat columns
+        // (English) so a not-yet-translated legacy article opens cleanly.
+        const titleMap = emptyLangMap()
+        const contentMap = emptyLangMap()
+        for (const lang of NEWS_LANGS) {
+          titleMap[lang] = data.title_i18n?.[lang] ?? (lang === 'en' ? (data.title || '') : '')
+          contentMap[lang] = data.content_i18n?.[lang] ?? (lang === 'en' ? (data.content || '') : '')
+        }
+        setTitles(titleMap)
+        setContents(contentMap)
         setTag(data.tag)
         setCoverImageUrl(data.cover_image_url || '')
         setCoverPreview(data.cover_image_url || '')
@@ -84,17 +96,28 @@ const NewsCreate = () => {
     setCoverImageUrl('')
   }
 
+  const setTitleFor = (lang, value) => setTitles(prev => ({ ...prev, [lang]: value }))
+  const setContentFor = (lang, value) => setContents(prev => ({ ...prev, [lang]: value }))
+
+  // Return the first language that is missing a title or a body, or null.
+  const firstIncompleteLang = () => {
+    for (const lang of NEWS_LANGS) {
+      const hasTitle = titles[lang]?.trim()
+      const body = contents[lang]?.trim()
+      const hasBody = body && body !== '<p></p>'
+      if (!hasTitle || !hasBody) return lang
+    }
+    return null
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
 
-    if (!title.trim()) {
-      setError(t('newsCreate.titleRequired'))
-      return
-    }
-
-    if (!content.trim() || content === '<p></p>') {
-      setError(t('newsCreate.contentRequired'))
+    const incomplete = firstIncompleteLang()
+    if (incomplete) {
+      setActiveLang(incomplete)
+      setError(t('newsCreate.allLanguagesRequired', { lang: t(`newsCreate.langNames.${incomplete}`) }))
       return
     }
 
@@ -125,16 +148,23 @@ const NewsCreate = () => {
         finalCoverUrl = null
       }
 
+      const title_i18n = {}
+      const content_i18n = {}
+      for (const lang of NEWS_LANGS) {
+        title_i18n[lang] = titles[lang].trim()
+        content_i18n[lang] = contents[lang]
+      }
+
       if (isEditMode) {
         const { error: updateError } = await updateNews(id, {
-          title: title.trim(),
-          content,
+          title_i18n,
+          content_i18n,
           cover_image_url: finalCoverUrl || null,
           tag,
         })
 
         if (updateError) {
-          setError(t('newsCreate.updateFailed'))
+          setError(updateError.message || t('newsCreate.updateFailed'))
           setSubmitting(false)
           return
         }
@@ -143,15 +173,15 @@ const NewsCreate = () => {
         navigate(langPath(`/news/${id}`))
       } else {
         const { data: newArticle, error: createError } = await createNews({
-          title: title.trim(),
-          content,
+          title_i18n,
+          content_i18n,
           cover_image_url: finalCoverUrl || null,
           tag,
           author_id: user.id,
         })
 
         if (createError) {
-          setError(t('newsCreate.createFailed'))
+          setError(createError.message || t('newsCreate.createFailed'))
           setSubmitting(false)
           return
         }
@@ -178,6 +208,11 @@ const NewsCreate = () => {
 
   if (!isAdmin) return null
 
+  const isLangComplete = (lang) => {
+    const body = contents[lang]?.trim()
+    return Boolean(titles[lang]?.trim()) && Boolean(body) && body !== '<p></p>'
+  }
+
   return (
     <div className="news-create-page">
       <button className="news-detail-back" onClick={() => { navigate(isEditMode ? langPath(`/news/${id}`) : langPath('/news')) }}>
@@ -190,20 +225,6 @@ const NewsCreate = () => {
 
       <form className="news-create-form" onSubmit={handleSubmit}>
         {error && <div className="news-create-error">{error}</div>}
-
-
-        <div className="form-group">
-          <label htmlFor="news-title">{t('newsCreate.titleLabel')}</label>
-          <input
-            id="news-title"
-            type="text"
-            className="input-field"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder={t('newsCreate.titlePlaceholder')}
-            maxLength={200}
-          />
-        </div>
 
 
         <div className="form-group">
@@ -249,10 +270,58 @@ const NewsCreate = () => {
         </div>
 
 
-        <div className="form-group">
-          <label>{t('newsCreate.contentLabel')}</label>
-          <NewsEditor content={content} onChange={setContent} uploadImage={uploadNewsImage} />
+        {/* Language tabs — one title + body per language, all required. */}
+        <div className="news-lang-tabs" role="tablist">
+          {NEWS_LANGS.map(lang => (
+            <button
+              key={lang}
+              type="button"
+              role="tab"
+              aria-selected={activeLang === lang}
+              className={`news-lang-tab ${activeLang === lang ? 'active' : ''} ${isLangComplete(lang) ? 'complete' : 'incomplete'}`}
+              onClick={() => setActiveLang(lang)}
+            >
+              {t(`newsCreate.langNames.${lang}`)}
+              <span className="news-lang-tab-status" aria-hidden="true">
+                {isLangComplete(lang) ? '✓' : '•'}
+              </span>
+            </button>
+          ))}
         </div>
+
+        {NEWS_LANGS.map(lang => (
+          <div
+            key={lang}
+            className="news-lang-panel"
+            style={{ display: activeLang === lang ? 'block' : 'none' }}
+          >
+            <div className="form-group">
+              <label htmlFor={`news-title-${lang}`}>
+                {t('newsCreate.titleLabel')} — {t(`newsCreate.langNames.${lang}`)}
+              </label>
+              <input
+                id={`news-title-${lang}`}
+                type="text"
+                className="input-field"
+                value={titles[lang]}
+                onChange={(e) => setTitleFor(lang, e.target.value)}
+                placeholder={t('newsCreate.titlePlaceholder')}
+                maxLength={300}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>
+                {t('newsCreate.contentLabel')} — {t(`newsCreate.langNames.${lang}`)}
+              </label>
+              <NewsEditor
+                content={contents[lang]}
+                onChange={(html) => setContentFor(lang, html)}
+                uploadImage={uploadNewsImage}
+              />
+            </div>
+          </div>
+        ))}
 
 
         <div className="news-create-actions">

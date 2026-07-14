@@ -135,10 +135,11 @@
 }
 
 .editor-content .tiptap img.editor-image {
+  display: block;
   max-width: 100%;
   height: auto;
   border-radius: var(--radius-md);
-  margin: var(--space-lg) 0;
+  margin: var(--space-lg) auto;
 }
 
 .editor-content .tiptap strong {

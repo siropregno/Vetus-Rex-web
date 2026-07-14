@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpider } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getNewsById, deleteNews, deleteNewsImage } from '../../lib/database'
-import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath, stripHtml } from '../../utils/helpers'
+import { formatDate, isProfileAdmin, getAuthorName, NEWS_TAGS, langPath, stripHtml, getLocalizedNews } from '../../utils/helpers'
 import Modal from '../../Components/Modal/Modal'
 import logger from '../../utils/logger'
 import './NewsDetail.css'
 
 const NewsDetail = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
   const { profile } = useAuthContext()
@@ -27,10 +27,13 @@ const NewsDetail = () => {
   useEffect(() => { document.title = t('newsDetail.pageTitle') }, [t])
 
   useEffect(() => {
-    if (article?.title) {
-      document.title = `Vetus Rex | ${stripHtml(article.title).substring(0, 80)}`
+    if (article) {
+      const { title } = getLocalizedNews(article, i18n.resolvedLanguage || i18n.language)
+      if (title) {
+        document.title = `Vetus Rex | ${stripHtml(title).substring(0, 80)}`
+      }
     }
-  }, [article])
+  }, [article, i18n.resolvedLanguage, i18n.language])
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -104,7 +107,8 @@ const NewsDetail = () => {
   }
 
   const tag = NEWS_TAGS[article.tag]
-  const sanitizedContent = DOMPurify.sanitize(article.content)
+  const { title: localizedTitle, content: localizedContent } = getLocalizedNews(article, i18n.resolvedLanguage || i18n.language)
+  const sanitizedContent = DOMPurify.sanitize(localizedContent)
 
   return (
     <div className="news-detail-page">
@@ -114,7 +118,7 @@ const NewsDetail = () => {
 
       {article.cover_image_url && (
         <div className="news-detail-cover">
-          <img src={article.cover_image_url} alt={article.title} />
+          <img src={article.cover_image_url} alt={localizedTitle} />
         </div>
       )}
 
@@ -128,7 +132,7 @@ const NewsDetail = () => {
           </span>
         )}
 
-        <h2 className="news-detail-title">{article.title}</h2>
+        <h2 className="news-detail-title">{localizedTitle}</h2>
 
         <div className="news-detail-meta">
           <div className="news-detail-author">

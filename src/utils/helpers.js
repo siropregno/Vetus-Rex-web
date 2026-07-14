@@ -91,6 +91,47 @@ export const RANKING_TAGS = {
   experience: { label: 'rankingTags.experience', color: '#3b82f6' },
 }
 
+/**
+ * Languages an article is authored in. Mirrors SUPPORTED_LANGS but kept
+ * separate so the news schema and the site's UI languages can diverge later.
+ */
+export const NEWS_LANGS = ['en', 'es', 'de']
+
+/**
+ * Resolve the localized title + content for a news article.
+ *
+ * Articles store per-language text in `title_i18n` / `content_i18n` JSONB
+ * ({ en, es, de }). Legacy rows only had flat `title` / `content` (English);
+ * the DB migration backfills those into the `en` slot, but we keep the flat
+ * columns as a last-resort fallback so a half-migrated row never renders blank.
+ *
+ * Resolution order per field: requested lang → English → first non-empty
+ * language → legacy flat column → ''.
+ *
+ * @param {object} article  A news row from the DB.
+ * @param {string} lang     Target language code (defaults to current site lang).
+ * @returns {{ title: string, content: string }}
+ */
+export const getLocalizedNews = (article, lang = getLang()) => {
+  if (!article) return { title: '', content: '' }
+
+  const pick = (map, flat) => {
+    if (map && typeof map === 'object') {
+      if (map[lang]?.trim()) return map[lang]
+      if (map.en?.trim()) return map.en
+      for (const code of NEWS_LANGS) {
+        if (map[code]?.trim()) return map[code]
+      }
+    }
+    return flat || ''
+  }
+
+  return {
+    title: pick(article.title_i18n, article.title),
+    content: pick(article.content_i18n, article.content),
+  }
+}
+
 export const NEWS_TAGS = {
   update: { label: 'tags.update', color: '#3b82f6' },
   patch: { label: 'tags.patch', color: '#8b5cf6' },

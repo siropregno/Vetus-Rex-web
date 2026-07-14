@@ -2,6 +2,7 @@ import { supabase } from './supabase'
 import logger from '../utils/logger'
 import DOMPurify from 'dompurify'
 import { FORUM_CATEGORIES, NEWS_TAGS, TICKET_TAGS, TICKET_PRIORITIES, TICKET_STATUSES } from '../utils/helpers'
+import { validateNewsI18n, sanitizeI18nContent, MAX_NEWS_TITLE_LEN, MAX_NEWS_CONTENT_LEN } from './newsValidation'
 
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024 // 10MB
@@ -99,26 +100,24 @@ export const getNewsById = async (id) => {
 }
 
 
-export const createNews = async ({ title, content, cover_image_url, tag, author_id }) => {
-  if (!title?.trim() || !content?.trim() || !author_id) {
+export const createNews = async ({ title_i18n, content_i18n, cover_image_url, tag, author_id }) => {
+  if (!author_id) {
     return { data: null, error: { message: 'Missing required fields' } }
   }
-  if (title.length > 300) {
-    return { data: null, error: { message: 'Title too long (max 300 characters)' } }
-  }
-  if (content.length > 100000) {
-    return { data: null, error: { message: 'Content too long (max 100,000 characters)' } }
-  }
+  const titleErr = validateNewsI18n(title_i18n, { field: 'Title', maxLen: MAX_NEWS_TITLE_LEN })
+  if (titleErr) return { data: null, error: titleErr }
+  const contentErr = validateNewsI18n(content_i18n, { field: 'Content', maxLen: MAX_NEWS_CONTENT_LEN })
+  if (contentErr) return { data: null, error: contentErr }
   if (tag && !VALID_NEWS_TAGS.includes(tag)) {
     return { data: null, error: { message: 'Invalid tag' } }
   }
   try {
-    logger.db('Creating news article', { title, tag })
+    logger.db('Creating news article', { title: title_i18n.en, tag })
 
-    const sanitizedContent = DOMPurify.sanitize(content)
+    const sanitizedContent = sanitizeI18nContent(content_i18n)
     const { data, error } = await supabase
       .from('news')
-      .insert([{ title, content: sanitizedContent, cover_image_url, tag, author_id }])
+      .insert([{ title_i18n, content_i18n: sanitizedContent, cover_image_url, tag, author_id }])
       .select()
       .single()
 
@@ -140,16 +139,25 @@ export const updateNews = async (id, updates) => {
   if (!id || !updates) {
     return { data: null, error: { message: 'Missing required fields' } }
   }
-  try {
-    logger.db('Updating news article', { id, updates: Object.keys(updates) })
 
-    const sanitizedUpdates = updates.content
-      ? { ...updates, content: DOMPurify.sanitize(updates.content) }
-      : updates
+  const patch = { ...updates }
+
+  if (patch.title_i18n !== undefined) {
+    const titleErr = validateNewsI18n(patch.title_i18n, { field: 'Title', maxLen: MAX_NEWS_TITLE_LEN })
+    if (titleErr) return { data: null, error: titleErr }
+  }
+  if (patch.content_i18n !== undefined) {
+    const contentErr = validateNewsI18n(patch.content_i18n, { field: 'Content', maxLen: MAX_NEWS_CONTENT_LEN })
+    if (contentErr) return { data: null, error: contentErr }
+    patch.content_i18n = sanitizeI18nContent(patch.content_i18n)
+  }
+
+  try {
+    logger.db('Updating news article', { id, updates: Object.keys(patch) })
 
     const { data, error } = await supabase
       .from('news')
-      .update({ ...sanitizedUpdates, updated_at: new Date().toISOString() })
+      .update({ ...patch, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single()

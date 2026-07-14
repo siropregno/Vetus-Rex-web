@@ -205,7 +205,13 @@
     "articleNotFound": "Artículo no encontrado.",
     "editorPlaceholder": "Escribe tu artículo aquí...",
     "imageUrlPrompt": "URL de la imagen:",
-    "urlPrompt": "URL:"
+    "urlPrompt": "URL:",
+    "allLanguagesRequired": "Completa el título y el contenido en todos los idiomas. Falta: {{lang}}.",
+    "langNames": {
+      "en": "Inglés",
+      "es": "Español",
+      "de": "Alemán"
+    }
   },
   "notFound": {
     "pageTitle": "Vetus Rex | 404",
