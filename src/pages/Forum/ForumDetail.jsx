@@ -17,8 +17,6 @@ import ForumBreadcrumbs from '../../Components/ForumBreadcrumbs/ForumBreadcrumbs
 import logger from '../../utils/logger'
 import './ForumDetail.css'
 
-const STAFF_LABEL_KEYS = { gm: 'forum.rankGm', mod: 'forum.rankMod' }
-
 /**
  * Nivel de foro como una sola gema en rombo, tallada en facetas; su color marca el nivel.
  * El nombre del rango queda como texto accesible y tooltip.
@@ -42,21 +40,21 @@ const ForumGem = ({ messageCount, t }) => {
   )
 }
 
-/** Rango: el staff muestra su rol (GM / Moderador) además de su gema; el resto, solo la gema. */
-const ForumRankBadge = ({ profile, messageCount, t }) => {
+/** Tag del staff que ya usa el sitio ([GM] / [MOD]), a la izquierda del nombre. */
+const StaffTag = ({ profile }) => {
   const rank = getRankKey(profile)
-  return (
-    <>
-      {rank !== 'player' && (
-        <span className={`forum-rank forum-rank-${rank}`}>
-          <i className="forum-rank-gem" aria-hidden="true" />
-          {t(STAFF_LABEL_KEYS[rank])}
-        </span>
-      )}
-      <ForumGem messageCount={messageCount} t={t} />
-    </>
-  )
+  if (rank === 'gm') return <span className="gm-tag">[GM]</span>
+  if (rank === 'mod') return <span className="mod-tag">[MOD]</span>
+  return null
 }
+
+/** Nombre del autor con el tag del staff delante. */
+const AuthorName = ({ profile, className }) => (
+  <span className={className}>
+    <StaffTag profile={profile} />
+    <span>{getAuthorName(profile)}</span>
+  </span>
+)
 
 /** Columna del autor: avatar en medallón, nombre, rango y cantidad de mensajes. */
 const ForumAuthor = ({ profile, messageCount, t }) => {
@@ -68,8 +66,8 @@ const ForumAuthor = ({ profile, messageCount, t }) => {
           ? <img src={profile.avatar_url} alt="" />
           : (profile?.username?.charAt(0)?.toUpperCase() || '?')}
       </span>
-      <span className="forum-author-name">{getAuthorName(profile)}</span>
-      <ForumRankBadge profile={profile} messageCount={messageCount} t={t} />
+      <AuthorName profile={profile} className="forum-author-name" />
+      <ForumGem messageCount={messageCount} t={t} />
       {Number.isFinite(messageCount) && (
         <span className="forum-author-count">{t('forum.messageCount', { count: messageCount })}</span>
       )}
@@ -383,8 +381,8 @@ const ForumDetail = () => {
         </span>
         <div className="forum-reply-msg">
           <div className="forum-reply-head">
-            <span className="forum-reply-name">{getAuthorName(comment.profiles)}</span>
-            <ForumRankBadge profile={comment.profiles} messageCount={messageCounts[comment.author_id]} t={t} />
+            <AuthorName profile={comment.profiles} className="forum-reply-name" />
+            <ForumGem messageCount={messageCounts[comment.author_id]} t={t} />
             <span className="forum-post-date">{renderDate(comment, number)}</span>
           </div>
           {repliedTo && (

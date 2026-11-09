@@ -344,9 +344,6 @@
     "banConfirmMessage": "{{username}} für {{days}} Tag(e) sperren? Der Kommentar wird gelöscht.",
     "banConfirm": "Sperren",
     "breadcrumb": "Navigationspfad",
-    "rankGm": "GM",
-    "rankMod": "Moderator",
-    "rankPlayer": "Spieler",
     "postNumber": "Beitrag #{{number}}",
     "forumRank": {
       "newcomer": "Neuankömmling",

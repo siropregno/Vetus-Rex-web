@@ -113,43 +113,20 @@
   object-fit: cover;
 }
 
-.forum-author-name {
+.forum-author-name,
+.forum-reply-name {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 7px;
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--bone);
   overflow-wrap: anywhere;
 }
 
-/* Rango con gema: rol del staff o rango de foro por mensajes */
-.forum-rank {
-  --rank-color: var(--light-grey);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 3px 10px;
-  max-width: 100%;
-  white-space: nowrap;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  line-height: 1.3;
-  color: var(--rank-color);
-  background: color-mix(in srgb, var(--rank-color) 10%, var(--input-bg));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--rank-color) 35%, transparent);
-  border-radius: var(--radius-xs);
-}
 
-.forum-rank-gem {
-  width: 9px;
-  height: 9px;
-  flex: none;
-  border-radius: var(--radius-circle);
-  background: radial-gradient(circle at 35% 30%, #fff 0 12%, var(--rank-color) 45%, color-mix(in srgb, var(--rank-color) 40%, #000) 100%);
-  box-shadow: 0 0 0 1.5px #070605;
-}
-
-.forum-rank-gm { --rank-color: var(--accent); }
-.forum-rank-mod { --rank-color: #60a5fa; }
 /* --- Nivel de foro: una gema en rombo; el color marca el nivel (rareza RPG) --- */
 .forum-gem {
   --gem: #bdb3a1;
@@ -446,13 +423,7 @@
 }
 
 .forum-reply-name {
-  font-weight: 700;
-  color: var(--bone);
-}
-
-.forum-reply-head .forum-rank {
-  padding: 1px 8px;
-  font-size: 0.66rem;
+  font-size: 1rem;
 }
 
 .forum-reply-to {

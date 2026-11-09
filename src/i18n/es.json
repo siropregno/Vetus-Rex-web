@@ -344,9 +344,6 @@
     "banConfirmMessage": "¿Banear a {{username}} por {{days}} día(s)? Se eliminará el comentario.",
     "banConfirm": "Banear",
     "breadcrumb": "Ubicación",
-    "rankGm": "GM",
-    "rankMod": "Moderador",
-    "rankPlayer": "Jugador",
     "postNumber": "Mensaje #{{number}}",
     "forumRank": {
       "newcomer": "Recién llegado",

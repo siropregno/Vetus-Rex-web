@@ -344,9 +344,6 @@
     "banConfirmMessage": "Ban {{username}} for {{days}} day(s)? The comment will be deleted.",
     "banConfirm": "Ban",
     "breadcrumb": "Breadcrumb",
-    "rankGm": "GM",
-    "rankMod": "Moderator",
-    "rankPlayer": "Player",
     "postNumber": "Post #{{number}}",
     "forumRank": {
       "newcomer": "Newcomer",
