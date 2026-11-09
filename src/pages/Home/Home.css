@@ -55,13 +55,22 @@
 }
 
 .home-banner-title {
-  color: var(--wht);
   margin: 0;
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  line-height: 1.08;
+  text-wrap: balance;
+  background: var(--bronze-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 #140d07);
 }
 
 .home-banner-text {
-  color: var(--light-grey);
+  color: #c9c3b6;
   margin: 0;
+  font-size: 1rem;
+  line-height: var(--leading-relaxed);
 }
 
 .home-banner-cta {
@@ -85,21 +94,28 @@
 }
 
 .home-news-title {
-  color: var(--wht);
   margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  background: var(--bronze-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 #140d07);
 }
 
 .home-news-viewall {
   background: none;
   border: none;
   color: var(--accent);
+  font-family: var(--font-ui);
+  letter-spacing: 0.1em;
   cursor: pointer;
   padding: 0;
-  transition: opacity var(--transition-base);
+  transition: color var(--transition-base);
 }
 
 .home-news-viewall:hover {
-  opacity: 0.8;
+  color: var(--bone);
 }
 
 .home-news-grid {

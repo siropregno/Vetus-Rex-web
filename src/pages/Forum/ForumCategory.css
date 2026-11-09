@@ -7,15 +7,17 @@
 }
 
 .fc-back {
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: 0.9rem;
+  letter-spacing: 0.08em;
   color: var(--accent);
   text-decoration: none;
   white-space: nowrap;
+  transition: color var(--transition-base);
 }
 
 .fc-back:hover {
-  text-decoration: underline;
+  color: var(--bone);
 }
 
 .fc-toolbar-right {
@@ -26,44 +28,53 @@
 
 .fc-search {
   width: 240px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--wht-12);
-  background: var(--dark-grey);
-  color: var(--wht);
+  padding: 9px 14px;
+  border-radius: var(--radius-xs);
+  border: 0;
+  box-shadow: var(--slot-shadow);
+  background: var(--input-bg);
+  color: var(--input-text);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   outline: none;
-  transition: border-color var(--transition-base);
+  transition: box-shadow var(--transition-base);
 }
 
 .fc-search:focus {
-  border-color: var(--accent);
+  box-shadow: inset 0 2px 4px #000, 0 0 0 1px #000, 0 0 0 2px var(--bronze);
 }
 
 .fc-search::placeholder {
-  color: var(--wht-30);
+  color: var(--input-placeholder);
 }
 
+/* Ícono del encabezado en un medallón */
 .fc-header-icon {
+  --tag-color: var(--accent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
-  font-size: 1.2rem;
-  margin-right: var(--space-sm);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  font-size: 1rem;
+  margin-right: var(--space-md);
   vertical-align: middle;
+  color: var(--tag-color);
+  -webkit-text-fill-color: var(--tag-color);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: var(--medal-shadow);
+  filter: none;
 }
 
-/* Post list table */
+/* Lista de discusiones */
 .fc-post-list {
-    width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--wht-8);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
   overflow: hidden;
 }
 
@@ -72,35 +83,37 @@
   grid-template-columns: 1fr auto auto;
   gap: var(--space-xl);
   padding: var(--space-md) var(--space-lg);
-  background: var(--wht-6);
-  border-bottom: 1px solid var(--wht-8);
+  box-shadow: inset 0 -2px 0 #050403, inset 0 -3px 0 rgba(255, 255, 255, 0.05);
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.14em;
   color: var(--light-grey);
 }
 
 .fc-post-row {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: var(--space-xl);
   align-items: center;
   padding: var(--space-md) var(--space-lg);
-  background: var(--dark-grey);
-  border-bottom: 1px solid var(--wht-6);
   text-decoration: none;
   color: inherit;
   transition: background var(--transition-base);
 }
 
-.fc-post-row:last-child {
-  border-bottom: none;
+.fc-post-row + .fc-post-row::before {
+  content: "";
+  position: absolute;
+  left: var(--space-lg);
+  right: var(--space-lg);
+  top: -1px;
+  height: 2px;
+  background: var(--groove);
 }
 
 .fc-post-row:hover {
-  background: var(--wht-6);
+  background: var(--wht-3);
 }
 
 .fc-col-thread {
@@ -119,9 +132,9 @@
 
 .fc-thread-title {
   font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--wht);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bone);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -129,7 +142,7 @@
 
 .fc-thread-author {
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--light-grey);
 }
 
@@ -140,10 +153,10 @@
 }
 
 .fc-reply-count {
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--wht);
+  font-family: var(--font-ui);
+  font-size: 1.2rem;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
 }
 
 .fc-col-last {
@@ -156,8 +169,8 @@
 
 .fc-last-date {
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: var(--wht);
+  font-size: 0.9rem;
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -165,7 +178,7 @@
 
 .fc-last-author {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--light-grey);
   white-space: nowrap;
   overflow: hidden;

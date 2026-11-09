@@ -19,7 +19,7 @@ const ForumCard = ({ post }) => {
           {category && (
             <span
               className="forum-card-category"
-              style={{ backgroundColor: category.color }}
+              style={{ '--tag-color': category.color }}
             >
               <FontAwesomeIcon icon={category.icon} /> {t(`forumCategories.${post.category}`)}
             </span>

@@ -12,6 +12,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
+  padding: var(--space-2xl) clamp(var(--space-lg), 3vw, var(--space-2xl));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
 }
 
 
@@ -23,7 +27,7 @@
 .form-group select.input-field {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23929292' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c9a063' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   padding-right: 32px;
@@ -32,9 +36,10 @@
 
 .cover-preview {
   position: relative;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xs);
   overflow: hidden;
   max-height: 300px;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
 }
 
 .cover-preview img {
@@ -52,15 +57,18 @@
   color: var(--wht);
   border: none;
   padding: 6px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
+  box-shadow: inset 0 0 0 1px var(--slot-ring);
   cursor: pointer;
   font-size: 0.8rem;
   font-family: var(--font-ui);
-  transition: background var(--transition-base);
+  letter-spacing: 0.08em;
+  transition: background var(--transition-base), color var(--transition-base);
 }
 
 .cover-remove:hover {
   background: var(--danger);
+  color: #ffeee9;
 }
 
 .cover-upload {
@@ -75,56 +83,64 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: var(--space-md) 1.25rem;
-  background: var(--accent-6);
-  border: 1px dashed var(--accent-25);
-  border-radius: var(--radius-md);
+  justify-content: center;
+  width: 100%;
+  min-height: 120px;
+  padding: var(--space-lg) 1.25rem;
+  background: repeating-linear-gradient(45deg, #0a0907 0 10px, #0c0a08 10px 20px);
+  border: 0;
+  box-shadow: inset 0 2px 6px #000, 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
+  border-radius: var(--radius-xs);
   color: var(--light-grey);
   cursor: pointer;
   font-family: var(--font-ui);
-  font-size: 0.9rem;
-  transition: all var(--transition-base);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  transition: color var(--transition-base), box-shadow var(--transition-base);
 }
 
 .cover-upload-label:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-10);
+  color: var(--bone);
+  box-shadow: inset 0 2px 6px #000, 0 0 0 1px #000, 0 0 0 2px var(--bronze);
 }
 
 
+/* Pestañas de idioma talladas */
 .news-lang-tabs {
   display: flex;
-  gap: var(--space-sm);
+  gap: 0;
   flex-wrap: wrap;
-  border-bottom: 1px solid var(--accent-25);
-  padding-bottom: var(--space-sm);
+  align-self: flex-start;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
 }
 
 .news-lang-tab {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: var(--space-sm) 1rem;
-  background: var(--accent-6);
-  border: 1px solid var(--accent-25);
-  border-radius: var(--radius-md);
+  padding: var(--space-sm) 1.1rem;
+  background: var(--input-bg);
+  border: 0;
+  border-radius: 0;
   color: var(--light-grey);
   cursor: pointer;
   font-family: var(--font-ui);
   font-size: 0.9rem;
-  transition: all var(--transition-base);
+  letter-spacing: 0.1em;
+  transition: color var(--transition-base), background var(--transition-base);
+}
+
+.news-lang-tab + .news-lang-tab {
+  box-shadow: inset 2px 0 0 #050403, inset 3px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 .news-lang-tab:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  color: var(--bone);
 }
 
 .news-lang-tab.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--wht);
+  background: var(--panel-2);
+  color: var(--ember-hot);
 }
 
 .news-lang-tab-status {
@@ -133,15 +149,15 @@
 }
 
 .news-lang-tab.complete .news-lang-tab-status {
-  color: #10b981;
+  color: var(--success-text);
 }
 
 .news-lang-tab.active.complete .news-lang-tab-status {
-  color: var(--wht);
+  color: var(--success-text);
 }
 
 .news-lang-tab.incomplete .news-lang-tab-status {
-  color: var(--danger);
+  color: var(--error-text);
 }
 
 .news-lang-panel {
@@ -152,11 +168,12 @@
 
 
 .news-create-error {
-  background: rgba(209, 45, 45, 0.1);
-  border: 1px solid rgba(209, 45, 45, 0.3);
-  color: var(--danger);
+  background: var(--error-bg);
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--error-border);
+  color: var(--error-text);
   padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   font-size: 0.9rem;
 }
 

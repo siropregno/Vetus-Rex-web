@@ -1,15 +1,14 @@
 .forum-card {
-  background: var(--dark-grey);
-  border: 1px solid var(--wht-8);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
   overflow: hidden;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .forum-card:hover {
-  border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-accent);
+  box-shadow: var(--panel-bevel-lit), inset 0 0 0 1px var(--accent-25);
 }
 
 .forum-card-link {
@@ -29,27 +28,42 @@
   gap: var(--space-sm);
 }
 
+/* Categoría como gema */
 .forum-card-category {
+  --tag-color: var(--light-grey);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-family: var(--font-ui);
-  padding: var(--space-xs) var(--space-md);
+  padding: 3px 10px 3px 8px;
   border-radius: var(--radius-xs);
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--wht);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--tag-color);
+  background: color-mix(in srgb, var(--tag-color) 10%, var(--input-bg));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tag-color) 35%, transparent);
+}
+
+.forum-card-category::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: var(--radius-circle);
+  background: var(--tag-color);
+  box-shadow: 0 0 0 1.5px #070605;
 }
 
 .forum-card-date {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-family: var(--font-body);
   color: var(--light-grey);
 }
 
 .forum-card-title {
-  color: var(--wht);
+  color: var(--bone);
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -59,7 +73,7 @@
 .forum-card-excerpt {
   color: var(--light-grey);
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -67,19 +81,29 @@
 }
 
 .forum-card-footer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: var(--space-sm);
   padding-top: var(--space-md);
-  border-top: 1px solid var(--wht-6);
+}
+
+.forum-card-footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--groove);
 }
 
 .forum-card-author {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--light-grey);
   font-family: var(--font-body);
 }
@@ -89,24 +113,25 @@
   height: 24px;
   border-radius: var(--radius-circle);
   object-fit: cover;
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--medal-ring);
 }
 
 .forum-card-avatar-fallback {
   width: 24px;
   height: 24px;
   border-radius: var(--radius-circle);
-  background: var(--accent);
-  color: var(--wht);
-  font-family: var(--font-body);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--medal-ring);
+  color: var(--bronze);
+  font-family: var(--font-ui);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.85rem;
 }
 
 .forum-card-comments {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--light-grey);
   font-family: var(--font-body);
 }

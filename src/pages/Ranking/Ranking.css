@@ -4,8 +4,10 @@
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-lg);
-  border-radius: var(--radius-xl);
-  background-color: var(--blk);
+  border-radius: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
 }
 
 .ranking-item {
@@ -13,15 +15,15 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-xl);
-  background: var(--wht-05);
-  border: 1px solid var(--wht-08);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  background: var(--wht-3);
+  border: 1px solid var(--slot-ring);
+  border-radius: var(--radius-xs);
+  transition: background var(--transition-base), border-color var(--transition-base);
 }
 
 .ranking-item:hover {
-  background: var(--wht-08);
-  border-color: var(--wht-12);
+  background: var(--wht-6);
+  border-color: var(--medal-ring);
 }
 
 .ranking-item.top-1 {
@@ -61,7 +63,7 @@
 }
 
 .ranking-name {
-  color: var(--wht);
+  color: var(--bone);
 }
 
 .ranking-level {
@@ -94,7 +96,7 @@
 }
 
 .ranking-error p {
-  color: var(--danger);
+  color: var(--error-text);
 }
 
 @media (max-width: 600px) {
@@ -123,7 +125,7 @@
   align-items: center;
   gap: var(--space-md);
   padding-top: var(--space-lg);
-  border-top: 1px solid var(--wht-08);
+  border-top: 1px solid var(--slot-ring);
 }
 
 .my-chars-title {
@@ -138,8 +140,9 @@
 
 .my-chars-list {
     padding: var(--space-lg);
-    border-radius: var(--radius-xl);
-    background-color: var(--overlay-bg);
+    border-radius: var(--radius-xs);
+    background-color: var(--panel);
+    box-shadow: var(--panel-bevel);
   width: auto;
   display: flex;
   flex-direction: column;

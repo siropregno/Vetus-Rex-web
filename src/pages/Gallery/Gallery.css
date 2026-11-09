@@ -13,11 +13,11 @@
 }
 
 .gallery-error p {
-  color: var(--danger);
+  color: var(--error-text);
 }
 
 .gallery-empty-hint {
-  color: var(--wht-50);
+  color: var(--light-grey);
   font-style: italic;
   font-size: 0.9rem;
 }
@@ -27,18 +27,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--dark-grey);
-  border: 2px dashed var(--wht-12);
-  border-radius: var(--radius-lg);
+  background: repeating-linear-gradient(45deg, #0a0907 0 10px, #0c0a08 10px 20px);
+  border: 0;
+  box-shadow: inset 0 2px 6px #000, 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
   aspect-ratio: 16 / 10;
 }
 
 .gallery-create-card:hover {
-  border-color: var(--accent);
   transform: translateY(-3px);
-  box-shadow: var(--shadow-accent);
+  box-shadow: inset 0 2px 6px #000, 0 0 0 1px #000, 0 0 0 2px var(--bronze);
 }
 
 .gallery-create-card-content {
@@ -52,22 +52,24 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--wht-6);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: var(--medal-shadow);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: var(--wht-50);
-  transition: all var(--transition-base);
+  color: var(--accent);
+  transition: box-shadow var(--transition-base);
 }
 
 .gallery-create-card:hover .gallery-create-card-icon {
-  background: var(--accent);
-  color: var(--wht);
+  box-shadow: var(--medal-shadow-lit);
 }
 
 .gallery-create-card-label {
-  color: var(--wht-50);
+  color: var(--light-grey);
+  font-family: var(--font-ui);
+  letter-spacing: 0.08em;
   transition: color var(--transition-base);
 }
 
@@ -88,19 +90,21 @@
   min-width: 280px;
 }
 
+/* Obra enmarcada: doble filo oscuro, bronce al pasar el mouse */
 .gallery-item {
   position: relative;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xs);
   overflow: hidden;
   cursor: pointer;
   aspect-ratio: 16 / 10;
-  background: var(--dark-grey);
+  background: var(--slot-bg);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .gallery-item:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-accent);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--bronze), var(--shadow-md);
 }
 
 .gallery-item img {
@@ -121,19 +125,16 @@
   left: 0;
   right: 0;
   padding: var(--space-md) var(--space-lg);
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-  opacity: 0;
+  background: linear-gradient(transparent, rgba(5, 4, 3, 0.92));
+  opacity: 1;
   transition: opacity var(--transition-base);
 }
 
-.gallery-item:hover .gallery-item-overlay {
-  opacity: 1;
-}
-
 .gallery-item-title {
-  color: var(--wht);
+  color: var(--bone);
   font-family: var(--font-ui);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
 }
 
 .gallery-load-more {
@@ -174,7 +175,8 @@
   max-width: 100%;
   max-height: 75vh;
   object-fit: contain;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xs);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--bronze-dk);
 }
 
 .gallery-lightbox-close {
@@ -197,7 +199,7 @@
 
 .gallery-lightbox-info {
   text-align: center;
-  color: var(--wht);
+  color: var(--bone);
 }
 
 .gallery-lightbox-info h3 {
@@ -217,9 +219,10 @@
 
 /* Upload modal */
 .gallery-upload-modal {
-  background: var(--dark-grey);
-  border: 1px solid var(--wht-12);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  border: 0;
+  box-shadow: var(--panel-bevel), 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
+  border-radius: var(--radius-xs);
   padding: var(--space-xl);
   width: min(500px, 90vw);
   max-height: 90vh;
@@ -228,7 +231,7 @@
 
 .gallery-upload-modal h2 {
   font-family: var(--font-ui);
-  color: var(--wht);
+  color: var(--bone);
   margin: 0 0 var(--space-lg);
 }
 
@@ -238,12 +241,11 @@
 
 .gallery-upload-field label {
   display: block;
-  color: var(--wht-70);
+  color: var(--light-grey);
   font-family: var(--font-ui);
   font-size: 0.85rem;
   margin-bottom: var(--space-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
 }
 
 .gallery-upload-field input[type="file"] {
@@ -260,7 +262,8 @@
   max-width: 100%;
   max-height: 200px;
   object-fit: contain;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-xs);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
 }
 
 .gallery-upload-actions {

@@ -318,7 +318,7 @@ const ForumDetail = () => {
 
       <div className="forum-detail-header">
         {category && (
-          <span className="forum-detail-category" style={{ backgroundColor: category.color }}>
+          <span className="forum-detail-category" style={{ '--tag-color': category.color }}>
             <FontAwesomeIcon icon={category.icon} /> {t(`forumCategories.${post.category}`)}
           </span>
         )}

@@ -90,7 +90,7 @@ const ForumCategory = () => {
     <>
       <div className="content-header">
         <h1 className="content-header-title">
-          <span className="fc-header-icon" style={{ backgroundColor: category.color }}><FontAwesomeIcon icon={category.icon} /></span>
+          <span className="fc-header-icon" style={{ '--tag-color': category.color }}><FontAwesomeIcon icon={category.icon} /></span>
           {t(`forumCategories.${categoryKey}`)}
         </h1>
         <p className="content-header-subtitle">{t(`forumCategories.${categoryKey}Desc`)}</p>

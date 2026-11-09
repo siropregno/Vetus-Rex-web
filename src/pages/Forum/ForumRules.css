@@ -3,18 +3,20 @@
   text-decoration: none;
   font-family: var(--font-ui);
   font-size: 0.9rem;
-  transition: opacity var(--transition-base);
+  letter-spacing: 0.08em;
+  transition: color var(--transition-base);
 }
 
 .forum-rules-back:hover {
-  opacity: 0.8;
+  color: var(--bone);
 }
 
 .forum-rules-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-lg);
-  max-width: 720px;
+  gap: var(--space-md);
+  max-width: 760px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -22,36 +24,46 @@
   display: flex;
   align-items: center;
   gap: var(--space-lg);
-  background: var(--dark-grey);
-  border: 1px solid var(--wht-8);
-  border-radius: var(--radius-lg);
-  padding: var(--space-xl);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
+  border: 0;
+  border-radius: 0;
+  padding: var(--space-lg) var(--space-xl);
 }
 
+/* Ícono de la regla en un medallón */
 .forum-rule-icon {
-  font-size: 1.8rem;
+  box-sizing: content-box;
+  width: 1.2rem;
+  height: 1.2rem;
+  padding: 0.9rem;
+  border-radius: var(--radius-circle);
+  font-size: 1.2rem;
   flex-shrink: 0;
-  color: var(--accent);
+  color: var(--bronze);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: var(--medal-shadow);
 }
 
 .forum-rule-title {
-  color: var(--wht);
+  color: var(--bone);
   margin: 0 0 var(--space-xs) 0;
+  font-family: var(--font-ui);
+  font-weight: 400;
   font-size: 1.1rem;
+  letter-spacing: 0.05em;
 }
 
 .forum-rule-desc {
   color: var(--light-grey);
   margin: 0;
+  font-size: 0.95rem;
   line-height: 1.5;
 }
 
 @media (max-width: 768px) {
   .forum-rule-card {
     padding: var(--space-lg);
-  }
-
-  .forum-rule-icon {
-    font-size: 1.5rem;
   }
 }

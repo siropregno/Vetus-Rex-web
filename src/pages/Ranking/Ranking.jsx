@@ -63,7 +63,7 @@ const Ranking = () => {
             <button
               key={key}
               className={`tag-filter-btn ${activeTag === key ? 'active' : ''}`}
-              style={activeTag === key ? { backgroundColor: tag.color, borderColor: tag.color } : {}}
+              style={{ '--tag-color': tag.color }}
               onClick={() => setActiveTag(key)}
             >
               {t(tag.label)}
