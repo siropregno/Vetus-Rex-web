@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildNestedThread, getRankKey, getForumRank, FORUM_RANKS, FIRST_COMMENT_NUMBER } from './forumThread'
+import { buildNestedThread, getRankKey, getForumRank, getForumLevel, FORUM_RANKS, FIRST_COMMENT_NUMBER } from './forumThread'
 
 const c = (id, created_at, parent_comment_id = null) => ({ id, created_at, parent_comment_id })
 const t = (min) => `2026-03-22T10:${String(min).padStart(2, '0')}:00Z`
@@ -97,6 +97,27 @@ describe('getForumRank', () => {
     expect(FORUM_RANKS[0].min).toBe(0)
     for (let i = 1; i < FORUM_RANKS.length; i++) {
       expect(FORUM_RANKS[i].min).toBeGreaterThan(FORUM_RANKS[i - 1].min)
+    }
+  })
+})
+
+describe('getForumLevel (color de la gema)', () => {
+  it('un nivel por rango: 1 a 5 según los mismos umbrales', () => {
+    expect(FORUM_RANKS).toHaveLength(5)
+    expect(getForumLevel(0)).toBe(1)
+    expect(getForumLevel(9)).toBe(1)
+    expect(getForumLevel(10)).toBe(2)
+    expect(getForumLevel(50)).toBe(3)
+    expect(getForumLevel(150)).toBe(4)
+    expect(getForumLevel(400)).toBe(5)
+    expect(getForumLevel(99999)).toBe(5)
+  })
+
+  it('nunca da menos de 1 ni más que la cantidad de rangos', () => {
+    for (const n of [-1, NaN, undefined, 0, 1, 10, 1e9]) {
+      const level = getForumLevel(n)
+      expect(level).toBeGreaterThanOrEqual(1)
+      expect(level).toBeLessThanOrEqual(FORUM_RANKS.length)
     }
   })
 })

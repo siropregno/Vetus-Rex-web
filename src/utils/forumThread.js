@@ -84,6 +84,13 @@ export const FORUM_RANKS = [
 ]
 
 /**
+ * Nivel de foro (1 a FORUM_RANKS.length) para una cantidad de mensajes. Define el color de la gema.
+ * @param {number} messageCount
+ */
+export const getForumLevel = (messageCount) =>
+  FORUM_RANKS.findIndex(r => r.key === getForumRank(messageCount)) + 1
+
+/**
  * Rango de foro para una cantidad de mensajes. Valores inválidos o negativos cuentan como 0.
  * @param {number} messageCount
  * @returns {string} clave del rango

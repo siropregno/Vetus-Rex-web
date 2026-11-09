@@ -11,7 +11,7 @@ import {
   getForumMessageCounts
 } from '../../lib/database'
 import { formatDate, isUserBanned, getBanExpiry, isBanPermanent, getAuthorName, FORUM_CATEGORIES, langPath, stripHtml } from '../../utils/helpers'
-import { buildNestedThread, getRankKey, getForumRank } from '../../utils/forumThread'
+import { buildNestedThread, getRankKey, getForumRank, getForumLevel } from '../../utils/forumThread'
 import Modal from '../../Components/Modal/Modal'
 import ForumBreadcrumbs from '../../Components/ForumBreadcrumbs/ForumBreadcrumbs'
 import logger from '../../utils/logger'
@@ -19,31 +19,46 @@ import './ForumDetail.css'
 
 const STAFF_LABEL_KEYS = { gm: 'forum.rankGm', mod: 'forum.rankMod' }
 
-/** Insignia de rango: rol del staff (GM / Moderador) o rango de foro por mensajes. */
-const ForumRankBadge = ({ profile, messageCount, t }) => {
-  const rank = getRankKey(profile)
-  if (rank !== 'player') {
-    return (
-      <span className={`forum-rank forum-rank-${rank}`}>
-        <i className="forum-rank-gem" aria-hidden="true" />
-        {t(STAFF_LABEL_KEYS[rank])}
-      </span>
-    )
-  }
+/**
+ * Nivel de foro como una sola gema en rombo, tallada en facetas; su color marca el nivel.
+ * El nombre del rango queda como texto accesible y tooltip.
+ */
+const ForumGem = ({ messageCount, t }) => {
   if (!Number.isFinite(messageCount)) return null
-  const forumRank = getForumRank(messageCount)
+  const level = getForumLevel(messageCount)
+  const label = t(`forum.forumRank.${getForumRank(messageCount)}`)
   return (
-    <span className={`forum-rank forum-rank-${forumRank}`}>
-      <i className="forum-rank-gem" aria-hidden="true" />
-      {t(`forum.forumRank.${forumRank}`)}
+    <span className={`forum-gem forum-gem-level-${level}`} role="img" aria-label={label} title={label}>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path className="forum-gem-body" d="M12 1L23 12L12 23L1 12Z" />
+        <path d="M1 12L12 1V6.5L6.5 12Z" fill="#fff" fillOpacity=".45" />
+        <path d="M12 1L23 12H17.5L12 6.5Z" fill="#fff" fillOpacity=".15" />
+        <path d="M23 12L12 23V17.5L17.5 12Z" fill="#000" fillOpacity=".4" />
+        <path d="M1 12H6.5L12 17.5V23Z" fill="#000" fillOpacity=".18" />
+        <path d="M12 6.5L17.5 12L12 17.5L6.5 12Z" fill="#fff" fillOpacity=".1" />
+        <path d="M12 1L23 12L12 23L1 12Z" fill="none" stroke="#000" strokeOpacity=".6" strokeWidth=".8" />
+      </svg>
     </span>
   )
 }
 
-/**
- * Columna del autor: avatar en medallón, nombre y rango con gema.
- * El staff muestra su rol (GM / Moderador); el resto, su rango de foro según la cantidad de mensajes.
- */
+/** Rango: el staff muestra su rol (GM / Moderador) además de su gema; el resto, solo la gema. */
+const ForumRankBadge = ({ profile, messageCount, t }) => {
+  const rank = getRankKey(profile)
+  return (
+    <>
+      {rank !== 'player' && (
+        <span className={`forum-rank forum-rank-${rank}`}>
+          <i className="forum-rank-gem" aria-hidden="true" />
+          {t(STAFF_LABEL_KEYS[rank])}
+        </span>
+      )}
+      <ForumGem messageCount={messageCount} t={t} />
+    </>
+  )
+}
+
+/** Columna del autor: avatar en medallón, nombre, rango y cantidad de mensajes. */
 const ForumAuthor = ({ profile, messageCount, t }) => {
   const isGm = getRankKey(profile) === 'gm'
   return (

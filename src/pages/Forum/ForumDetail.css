@@ -150,11 +150,35 @@
 
 .forum-rank-gm { --rank-color: var(--accent); }
 .forum-rank-mod { --rank-color: #60a5fa; }
-.forum-rank-newcomer { --rank-color: #b7aa92; }
-.forum-rank-adventurer { --rank-color: var(--bone); }
-.forum-rank-veteran { --rank-color: var(--bronze); }
-.forum-rank-champion { --rank-color: #a46cff; }
-.forum-rank-legend { --rank-color: var(--medal-gold); }
+/* --- Nivel de foro: una gema en rombo; el color marca el nivel (rareza RPG) --- */
+.forum-gem {
+  --gem: #bdb3a1;
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  flex: none;
+}
+
+.forum-gem svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.forum-gem-body {
+  fill: var(--gem);
+}
+
+.forum-gem-level-1 { --gem: #bdb3a1; }
+.forum-gem-level-2 { --gem: #4fbf6a; }
+.forum-gem-level-3 { --gem: #4f8ef7; }
+.forum-gem-level-4 { --gem: #a46cff; }
+.forum-gem-level-5 { --gem: var(--accent); }
+
+.forum-reply-head .forum-gem {
+  width: 15px;
+  height: 15px;
+}
 
 .forum-author-count {
   color: var(--light-grey);
