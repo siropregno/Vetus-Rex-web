@@ -5,6 +5,7 @@ import DOMPurify from 'dompurify'
 import { getLatestNews } from '../../lib/database'
 import NewsCard from '../../Components/NewsCard/NewsCard'
 import Separator from '../../Components/Separator/Separator'
+import Embers from '../../Components/Embers/Embers'
 import { faCrosshairs, faEarthAmericas, faGift } from '@fortawesome/free-solid-svg-icons'
 import { langPath } from '../../utils/helpers'
 import logger from '../../utils/logger'
@@ -42,6 +43,7 @@ const Home = () => {
       <section className="home-banner">
         <div className="home-banner-bg" style={{ backgroundImage: `url(${bannerImage})` }} />
         <div className="home-banner-overlay" />
+        <Embers />
         <div className="home-banner-inner">
           <div className="home-banner-content">
             <h1 className="home-banner-title" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(t('home.bannerTitle').replace('<accent>', '<span class="color-acc">').replace('</accent>', '</span>')) }} />
