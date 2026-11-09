@@ -118,6 +118,19 @@
     --ribbon: polygon(0 0, 100% 0, calc(100% - 11px) 50%, 100% 100%, 0 100%, 11px 50%);
     --ribbon-sm: polygon(0 0, 100% 0, calc(100% - 8px) 50%, 100% 100%, 0 100%, 8px 50%);
 
+    /* Botones "cápsula de medallón": aro de bronce dorado, filete oscuro y cara con relieve */
+    --gold-ring: linear-gradient(180deg, #f1d58c 0%, #c9a063 35%, #8a6332 65%, #c9a063 100%);
+    --gold-ring-hover: linear-gradient(180deg, #fbe6ad 0%, #dcb57a 35%, #a07a42 65%, #dcb57a 100%);
+    --gold-lo: #6d5030;
+    --face-dark: radial-gradient(ellipse 120% 140% at 50% 0%, #3a3328 0%, #1c1914 55%, #0c0a08 100%);
+    --face-ember: radial-gradient(ellipse 120% 140% at 50% 0%, #ffa25a 0%, #e8601a 50%, #8f3209 100%);
+    --face-blood: radial-gradient(ellipse 120% 140% at 50% 0%, #d8503f 0%, #a51a1a 50%, #5c0b0b 100%);
+    --face-discord: radial-gradient(ellipse 120% 140% at 50% 0%, #8a93ff 0%, #5865f2 50%, #2f3aa6 100%);
+    --btn-rings: 0 0 0 2px #090706, 0 0 0 3px var(--gold-lo);
+    --btn-relief: inset 0 2px 0 rgba(255, 220, 170, 0.28), inset 0 -3px 6px rgba(0, 0, 0, 0.6);
+    --btn-shadow: var(--btn-rings), var(--btn-relief), 0 4px 10px rgba(0, 0, 0, 0.5);
+    --btn-shadow-pressed: var(--btn-rings), inset 0 3px 6px rgba(0, 0, 0, 0.65);
+
     --transition-fast: 0.15s ease;
     --transition-base: 0.2s ease;
     --transition-slow: 0.3s ease;
@@ -393,65 +406,83 @@ body.modal-open {
     background-color: var(--input-selection);
 }
 
-/* ---------- Botones de cinta ---------- */
+/* ---------- Botones "cápsula de medallón" ----------
+   Mismo efecto que los medallones del sitio: aro de bronce dorado (borde con degradé),
+   filete oscuro y un segundo aro fino por fuera, y cara con relieve (luz arriba, sombra abajo).
+   El color de la cara sale de --face. */
 
 .button-a,
 .button-a-round,
 .button-b,
 .button-danger,
 .button-discord {
+    --face: var(--face-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
     gap: var(--space-sm);
     color: var(--bone);
-    border: none;
     min-height: 40px;
-    padding: var(--space-sm) calc(var(--space-lg) + 14px);
+    padding: var(--space-sm) calc(var(--space-lg) + 10px);
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: var(--face) padding-box, var(--gold-ring) border-box;
+    box-shadow: var(--btn-shadow);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
     cursor: pointer;
     transition: filter var(--transition-fast), transform 80ms;
     text-decoration: none;
     font-family: var(--font-ui);
     letter-spacing: 0.1em;
-    clip-path: var(--ribbon);
 }
 
 .button-a:hover,
+.button-a-round:hover,
 .button-b:hover,
 .button-danger:hover,
-.button-discord:hover { filter: brightness(1.12); }
+.button-discord:hover {
+    background: var(--face) padding-box, var(--gold-ring-hover) border-box;
+    filter: brightness(1.08);
+}
 
 .button-a:active,
+.button-a-round:active,
 .button-b:active,
 .button-danger:active,
-.button-discord:active,
-.button-a-round:active { transform: translateY(1px); }
+.button-discord:active {
+    transform: translateY(1px);
+    box-shadow: var(--btn-shadow-pressed);
+}
 
 .button-a:disabled,
+.button-a-round:disabled,
 .button-b:disabled,
 .button-danger:disabled,
-.button-discord:disabled,
-.button-a-round:disabled { opacity: 0.55; cursor: not-allowed; filter: none; transform: none; }
+.button-discord:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: none;
+    transform: none;
+    box-shadow: var(--btn-shadow);
+}
 
-.button-a { background: var(--accent); color: #fff7ea; }
+.button-a { --face: var(--face-ember); color: #fff7ea; }
 
+/* Botón redondo de ícono: el medallón completo */
 .button-a-round {
-    background: var(--accent);
+    --face: var(--face-ember);
     color: #fff7ea;
     padding: var(--space-lg);
     min-height: 0;
-    clip-path: none;
     border-radius: var(--radius-circle);
-    box-shadow: 0 0 0 2px #090706, 0 0 0 3px var(--bronze-dk);
 }
-.button-a-round:hover { filter: brightness(1.1); }
 
-.button-b { background: var(--bronze-dk); }
+.button-b { --face: var(--face-dark); color: var(--bone); }
 
-.button-danger { background: var(--danger); color: #ffeee9; }
+.button-danger { --face: var(--face-blood); color: #ffeee9; }
 
-.button-discord { background: var(--discord); color: #fff; font-size: 20px; }
+.button-discord { --face: var(--face-discord); color: #fff; font-size: 20px; }
 
 /* ---------- Footer ---------- */
 
