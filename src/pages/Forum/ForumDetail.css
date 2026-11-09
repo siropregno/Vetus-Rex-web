@@ -1,11 +1,36 @@
 .forum-detail-page {
   width: 100%;
   max-width: var(--container-lg);
-  margin: 0 auto;
-  padding: var(--space-2xl) var(--space-lg);
+  margin: 0 auto auto;
+  padding: var(--space-3xl) var(--space-lg) var(--space-2xl);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: 0;
+}
+
+/* Panel del post: encabezado, contenido y acciones comparten el mismo fondo tallado */
+.forum-detail-header,
+.forum-detail-content,
+.forum-detail-actions {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.18)), var(--panel);
+  padding-inline: clamp(var(--space-lg), 3vw, var(--space-2xl));
+}
+
+.forum-detail-header {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-2xl);
+  padding-bottom: var(--space-lg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  clip-path: polygon(0 7px, 6px 0, 31% 0, 33% 3px, 36% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* El último bloque del panel lleva el borde astillado de abajo */
+.forum-detail-content:last-child,
+.forum-detail-content:not(:has(+ .forum-detail-actions)),
+.forum-detail-actions {
+  padding-bottom: var(--space-xl);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.55);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 9px), calc(100% - 7px) 100%, 71% 100%, 68% calc(100% - 4px), 65% 100%, 0 100%);
 }
 
 .forum-detail-back {
@@ -118,8 +143,8 @@
 .forum-detail-content::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: clamp(var(--space-lg), 3vw, var(--space-2xl));
+  right: clamp(var(--space-lg), 3vw, var(--space-2xl));
   top: 0;
   height: 2px;
   background: var(--groove);
@@ -205,24 +230,13 @@
   position: relative;
   display: flex;
   gap: var(--space-lg);
-  padding-top: var(--space-xl);
-}
-
-.forum-detail-actions::before,
-.forum-comments-section::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 2px;
-  background: var(--groove);
+  padding-top: var(--space-sm);
 }
 
 /* Comentarios */
 .forum-comments-section {
   position: relative;
-  padding-top: var(--space-xl);
+  margin-top: var(--space-2xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
@@ -314,7 +328,10 @@
 .forum-comments-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
 }
 
 .forum-no-comments {
@@ -324,14 +341,30 @@
 }
 
 .forum-comment {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.2)), var(--panel);
-  box-shadow: var(--panel-bevel);
+  position: relative;
+  background: transparent;
+  box-shadow: none;
   border: 0;
-  border-radius: var(--radius-xs);
-  padding: var(--space-lg);
+  border-radius: 0;
+  padding: var(--space-lg) var(--space-xl);
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+}
+
+.forum-comment + .forum-comment::before {
+  content: "";
+  position: absolute;
+  left: var(--space-lg);
+  right: var(--space-lg);
+  top: -1px;
+  height: 2px;
+  background: var(--groove);
+}
+
+/* Las respuestas van dentro del comentario: sin padding lateral propio */
+.forum-comment .forum-comment-reply {
+  padding: var(--space-md) 0 0;
 }
 
 /* Respuesta: sangría con un surco vertical que la une al comentario */

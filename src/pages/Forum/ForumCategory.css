@@ -80,9 +80,9 @@
 
 .fc-post-header {
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1fr) 100px minmax(0, 0.55fr);
   gap: var(--space-xl);
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
   box-shadow: inset 0 -2px 0 #050403, inset 0 -3px 0 rgba(255, 255, 255, 0.05);
   font-family: var(--font-ui);
   font-size: 0.75rem;
@@ -93,10 +93,10 @@
 .fc-post-row {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: minmax(0, 1fr) 100px minmax(0, 0.55fr);
   gap: var(--space-xl);
   align-items: center;
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
   text-decoration: none;
   color: inherit;
   transition: background var(--transition-base);
@@ -119,8 +119,21 @@
 .fc-col-thread {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   min-width: 0;
+}
+
+/* Medallón decorativo junto a cada discusión (solo en las filas, no en el encabezado) */
+.fc-post-row .fc-col-thread::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: var(--radius-circle);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 3h12v8H7l-3 3v-3H2z' fill='%23c9a063'/%3E%3C/svg%3E") center / 14px 14px no-repeat,
+    radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: 0 0 0 2px #090706, 0 0 0 3px var(--medal-ring), inset 0 2px 0 rgba(255, 170, 100, 0.28);
 }
 
 .fc-thread-info {
@@ -149,7 +162,7 @@
 .fc-col-replies {
   display: flex;
   justify-content: center;
-  min-width: 80px;
+  text-align: center;
 }
 
 .fc-reply-count {
@@ -163,8 +176,7 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 200px;
-  max-width: 280px;
+  min-width: 0;
 }
 
 .fc-last-date {
@@ -212,7 +224,7 @@
   }
 
   .fc-post-row {
-    grid-template-columns: 1fr 50px;
+    grid-template-columns: minmax(0, 1fr) 50px;
     padding: var(--space-md);
   }
 
