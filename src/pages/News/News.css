@@ -11,27 +11,33 @@
   max-width: 100%;
 }
 
+/* Filtro por etiqueta: botones tallados; el activo toma el color de su etiqueta */
 .tag-filter-btn {
-  padding: 6px 16px;
-  border-radius: 20px;
-  border: 1px solid var(--wht-12);
-  background: transparent;
-  color: var(--wht);
+  --tag-color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-xs);
+  border: 0;
+  background: var(--input-bg);
+  box-shadow: inset 0 0 0 1px var(--slot-ring);
+  color: var(--light-grey);
   font-family: var(--font-ui);
   font-size: 0.85rem;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: color var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
 }
 
 .tag-filter-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  color: var(--bone);
 }
 
 .tag-filter-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--wht);
+  color: var(--tag-color);
+  background: color-mix(in srgb, var(--tag-color) 10%, var(--input-bg));
+  box-shadow: inset 0 0 0 1px var(--tag-color);
 }
 
 
@@ -62,18 +68,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--dark-grey);
-  border: 2px dashed var(--wht-12);
-  border-radius: var(--radius-lg);
+  background: repeating-linear-gradient(45deg, #0a0907 0 10px, #0c0a08 10px 20px);
+  box-shadow: inset 0 2px 6px #000, 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
+  border: 0;
+  border-radius: var(--radius-xs);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
   min-height: 240px;
 }
 
 .news-create-card:hover {
-  border-color: var(--accent);
   transform: translateY(-3px);
-  box-shadow: var(--shadow-accent);
+  box-shadow: inset 0 2px 6px #000, 0 0 0 1px #000, 0 0 0 2px var(--bronze);
 }
 
 .news-create-card-content {
@@ -87,22 +93,24 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: var(--wht-6);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: var(--medal-shadow);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  color: var(--wht-50);
-  transition: all var(--transition-base);
+  color: var(--accent);
+  transition: box-shadow var(--transition-base);
 }
 
 .news-create-card:hover .news-create-card-icon {
-  background: var(--accent);
-  color: var(--wht);
+  box-shadow: var(--medal-shadow-lit);
 }
 
 .news-create-card-label {
-  color: var(--wht-50);
+  color: var(--light-grey);
+  font-family: var(--font-ui);
+  letter-spacing: 0.08em;
   transition: color var(--transition-base);
 }
 

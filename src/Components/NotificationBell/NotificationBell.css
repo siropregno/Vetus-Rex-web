@@ -5,7 +5,7 @@
 .notification-bell-btn {
   background: none;
   border: none;
-  color: var(--wht);
+  color: var(--bone);
   cursor: pointer;
   font-size: 1.1rem;
   padding: var(--space-sm);
@@ -21,8 +21,8 @@
   position: absolute;
   top: 0;
   right: -2px;
-  background: var(--danger);
-  color: var(--wht);
+  background: var(--accent);
+  color: #1a0d05;
   font-size: 0.6rem;
   font-weight: 700;
   min-width: 16px;
@@ -41,10 +41,10 @@
   right: 0;
   width: 340px;
   max-height: 420px;
-  background: var(--dark-grey);
-  border: 1px solid var(--wht-12);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  background: var(--dropdown-bg);
+  border: 0;
+  border-radius: var(--radius-xs);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--slot-ring), 0 16px 30px rgba(0, 0, 0, 0.7);
   z-index: 1000;
   overflow: hidden;
   display: flex;
@@ -56,10 +56,12 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid var(--wht-8);
+  border-bottom: 0;
+  box-shadow: inset 0 -2px 0 #050403, inset 0 -3px 0 rgba(255, 255, 255, 0.05);
   font-family: var(--font-ui);
-  font-size: 0.9rem;
-  color: var(--wht);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--bone);
 }
 
 .notification-mark-all {
@@ -73,7 +75,7 @@
 }
 
 .notification-mark-all:hover {
-  opacity: 0.8;
+  color: var(--bone);
 }
 
 .notification-dropdown-list {
@@ -96,14 +98,14 @@
   width: 100%;
   background: none;
   border: none;
-  border-bottom: 1px solid var(--wht-6);
+  border-bottom: 1px solid var(--wht-3);
   cursor: pointer;
   text-align: left;
   transition: background var(--transition-base);
 }
 
 .notification-item:hover {
-  background: var(--wht-6);
+  background: var(--panel-2);
 }
 
 .notification-item.unread {
@@ -120,13 +122,14 @@
   border-radius: var(--radius-circle);
   overflow: hidden;
   flex-shrink: 0;
-  background: var(--accent);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: 0 0 0 2px #090706, 0 0 0 3px var(--medal-ring);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--wht);
-  font-weight: 600;
-  font-size: 0.85rem;
+  color: var(--bronze);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
 }
 
 .notification-item-avatar img {
@@ -142,7 +145,7 @@
 
 .notification-item-text {
   margin: 0;
-  color: var(--wht);
+  color: var(--text);
   font-size: 0.85rem;
   line-height: 1.3;
   display: -webkit-box;
@@ -182,7 +185,7 @@
 }
 
 .notification-item-delete:hover {
-  color: var(--danger);
+  color: var(--error-text);
 }
 
 @media (max-width: 768px) {

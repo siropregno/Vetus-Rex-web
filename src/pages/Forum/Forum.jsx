@@ -88,7 +88,7 @@ const Forum = () => {
                   className="forum-category-row"
                 >
                   <div className="forum-col-category">
-                    <span className="forum-category-icon" style={{ backgroundColor: cat.color }}>
+                    <span className="forum-category-icon" style={{ '--tag-color': cat.color }}>
                       <FontAwesomeIcon icon={cat.icon} />
                     </span>
                     <div className="forum-category-info">

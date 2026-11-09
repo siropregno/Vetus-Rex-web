@@ -1,12 +1,14 @@
 .register-card {
   width: 100%;
   max-width: var(--container-xs);
-  border-radius: var(--radius-xl);
+  border-radius: 0;
   padding: 2.5rem;
   position: relative;
   z-index: 1;
-  background: var(--dark-grey);
-  border: 1px solid var(--wht-6);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
+  border: 0;
 }
 
 
@@ -16,16 +18,17 @@
 }
 
 .register-title {
-  color: var(--wht);
   margin: 0 0 var(--space-sm) 0;
-  background: linear-gradient(135deg, var(--wht), var(--wht-80));
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  background: var(--bronze-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 2px 0 #140d07);
 }
 
 .register-subtitle {
-  color: var(--wht-70);
+  color: var(--light-grey);
   margin: 0;
 }
 

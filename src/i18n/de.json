@@ -342,7 +342,19 @@
     "ban30Days": "30 Tage sperren",
     "banConfirmTitle": "Sperre bestätigen",
     "banConfirmMessage": "{{username}} für {{days}} Tag(e) sperren? Der Kommentar wird gelöscht.",
-    "banConfirm": "Sperren"
+    "banConfirm": "Sperren",
+    "breadcrumb": "Navigationspfad",
+    "postNumber": "Beitrag #{{number}}",
+    "forumRank": {
+      "newcomer": "Neuankömmling",
+      "adventurer": "Abenteurer",
+      "veteran": "Veteran",
+      "champion": "Champion",
+      "legend": "Legende des Alten Königs"
+    },
+    "messageCount": "Beiträge: {{count}}",
+    "showReplies": "Antworten anzeigen ({{count}})",
+    "hideReplies": "Antworten ausblenden"
   },
   "forumCreate": {
     "pageTitle": "Vetus Rex | Neuer Beitrag",

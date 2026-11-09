@@ -189,7 +189,7 @@ const ForumCreate = () => {
                 key={key}
                 type="button"
                 className={`tag-filter-btn ${category === key ? 'active' : ''}`}
-                style={category === key ? { backgroundColor: cat.color, borderColor: cat.color } : {}}
+                style={{ '--tag-color': cat.color }}
                 onClick={() => setCategory(key)}
               >
                 <FontAwesomeIcon icon={cat.icon} /> {t(`forumCategories.${key}`)}

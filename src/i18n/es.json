@@ -342,7 +342,19 @@
     "ban30Days": "Banear 30 días",
     "banConfirmTitle": "Confirmar Ban",
     "banConfirmMessage": "¿Banear a {{username}} por {{days}} día(s)? Se eliminará el comentario.",
-    "banConfirm": "Banear"
+    "banConfirm": "Banear",
+    "breadcrumb": "Ubicación",
+    "postNumber": "Mensaje #{{number}}",
+    "forumRank": {
+      "newcomer": "Recién llegado",
+      "adventurer": "Aventurero",
+      "veteran": "Veterano",
+      "champion": "Campeón",
+      "legend": "Leyenda del Viejo Rey"
+    },
+    "messageCount": "Mensajes: {{count}}",
+    "showReplies": "Ver respuestas ({{count}})",
+    "hideReplies": "Ocultar respuestas"
   },
   "forumCreate": {
     "pageTitle": "Vetus Rex | Nuevo Post",

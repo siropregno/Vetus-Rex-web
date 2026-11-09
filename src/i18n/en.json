@@ -342,7 +342,19 @@
     "ban30Days": "Ban 30 days",
     "banConfirmTitle": "Confirm Ban",
     "banConfirmMessage": "Ban {{username}} for {{days}} day(s)? The comment will be deleted.",
-    "banConfirm": "Ban"
+    "banConfirm": "Ban",
+    "breadcrumb": "Breadcrumb",
+    "postNumber": "Post #{{number}}",
+    "forumRank": {
+      "newcomer": "Newcomer",
+      "adventurer": "Adventurer",
+      "veteran": "Veteran",
+      "champion": "Champion",
+      "legend": "Legend of the Old King"
+    },
+    "messageCount": "Posts: {{count}}",
+    "showReplies": "Show replies ({{count}})",
+    "hideReplies": "Hide replies"
   },
   "forumCreate": {
     "pageTitle": "Vetus Rex | New Post",

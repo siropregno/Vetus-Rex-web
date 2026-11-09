@@ -752,6 +752,46 @@ export const getCommentsByPostId = async (postId) => {
   }
 }
 
+/**
+ * Cantidad de mensajes (posts + comentarios) de cada autor, para el rango de foro.
+ * Solo lectura: dos conteos por autor con head:true (no trae filas).
+ * @param {string[]} authorIds
+ * @returns {Promise<{data: Record<string, number>, error: object|null}>} los autores cuyo conteo falló no aparecen en data
+ */
+export const getForumMessageCounts = async (authorIds) => {
+  const ids = [...new Set((authorIds || []).filter(Boolean))]
+  if (ids.length === 0) return { data: {}, error: null }
+  try {
+    logger.db('Counting forum messages', { authors: ids.length })
+    const countFor = async (table, authorId) => {
+      const { count, error } = await supabase
+        .from(table)
+        .select('id', { count: 'exact', head: true })
+        .eq('author_id', authorId)
+      if (error) throw error
+      return count || 0
+    }
+    const results = await Promise.allSettled(ids.map(async (authorId) => {
+      const [posts, comments] = await Promise.all([
+        countFor('forum_posts', authorId),
+        countFor('forum_comments', authorId),
+      ])
+      return [authorId, posts + comments]
+    }))
+    const data = {}
+    let firstError = null
+    for (const r of results) {
+      if (r.status === 'fulfilled') data[r.value[0]] = r.value[1]
+      else firstError = firstError || r.reason
+    }
+    if (firstError) logger.error('Error counting some forum messages:', firstError)
+    return { data, error: firstError }
+  } catch (error) {
+    logger.error('Unexpected error counting forum messages:', error)
+    return { data: {}, error }
+  }
+}
+
 export const createComment = async ({ post_id, parent_comment_id, content, author_id }) => {
   if (!post_id || !content?.trim() || !author_id) {
     return { data: null, error: { message: 'Missing required fields' } }

@@ -1,8 +1,10 @@
+/* Editor tallado: barra de herramientas sobre una ranura oscura */
 .news-editor {
-  border: 1px solid var(--accent-15);
-  border-radius: var(--radius-md);
+  border: 0;
+  border-radius: var(--radius-xs);
   overflow: hidden;
-  background: var(--accent-5);
+  background: var(--input-bg);
+  box-shadow: 0 0 0 1px #000, 0 0 0 2px var(--slot-ring);
 }
 
 
@@ -10,9 +12,10 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 8px 12px;
-  background: var(--accent-6);
-  border-bottom: 1px solid var(--accent-15);
+  padding: 6px 8px;
+  background: #12100c;
+  border-bottom: 0;
+  box-shadow: inset 0 -2px 0 #050403;
   flex-wrap: wrap;
 }
 
@@ -24,7 +27,7 @@
 .toolbar-separator {
   width: 1px;
   height: 24px;
-  background: var(--wht-10);
+  background: var(--slot-ring);
   margin: 0 4px;
 }
 
@@ -32,7 +35,7 @@
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-xs);
-  color: var(--wht);
+  color: var(--light-grey);
   padding: 4px 8px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -45,13 +48,14 @@
 }
 
 .toolbar-btn:hover {
-  background: var(--accent-15);
-  border-color: var(--accent-25);
+  background: var(--panel-2);
+  color: var(--bone);
 }
 
 .toolbar-btn.active {
-  background: var(--accent);
-  color: var(--wht);
+  background: var(--panel-2);
+  color: var(--accent);
+  border-color: var(--bronze-dk);
 }
 
 
@@ -93,12 +97,12 @@
 
 .editor-content .tiptap h2 {
   margin: 1.5rem 0 0.75rem;
-  color: var(--wht);
+  color: var(--bone);
 }
 
 .editor-content .tiptap h3 {
   margin: 1.25rem 0 0.5rem;
-  color: var(--wht);
+  color: var(--bone);
 }
 
 .editor-content .tiptap p {
@@ -116,16 +120,18 @@
 }
 
 .editor-content .tiptap blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
   margin: var(--space-lg) 0;
   color: var(--light-grey);
   font-style: italic;
+  background: #0c0a08;
+  box-shadow: inset 0 0 0 1px var(--slot-ring);
 }
 
 .editor-content .tiptap hr {
   border: none;
-  border-top: 1px solid var(--wht-10);
+  height: 2px;
+  background: var(--groove);
   margin: var(--space-xl) 0;
 }
 

@@ -25,7 +25,7 @@ const NewsCard = ({ news }) => {
         {tag && (
           <span
             className="news-card-tag"
-            style={{ backgroundColor: tag.color }}
+            style={{ '--tag-color': tag.color }}
           >
             {t(tag.label)}
           </span>

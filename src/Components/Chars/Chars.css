@@ -48,16 +48,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--dark-grey);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
+  border: 0;
+  border-radius: 0;
   padding: var(--space-xl);
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
 .character-card:hover {
-  border-color: var(--accent);
   transform: translateY(-2px);
+  box-shadow: var(--panel-bevel-lit), inset 0 0 0 1px var(--accent-25);
 }
 
 .character-info {
@@ -66,7 +68,9 @@
 
 .character-info h3 {
   margin: 0;
-  color: var(--wht);
+  color: var(--bone);
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
 }
 
 .character-level {
@@ -82,10 +86,10 @@
 
 .delete-btn {
   background: none;
-  border: 1px solid var(--dark-grey);
-  border-radius: var(--radius-sm);
+  border: 0;
+  border-radius: var(--radius-xs);
   padding: var(--space-sm);
-  color: var(--wht);
+  color: var(--light-grey);
   cursor: pointer;
   transition: all var(--transition-base);
   display: flex;

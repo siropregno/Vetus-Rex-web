@@ -12,6 +12,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
+  padding: var(--space-2xl) clamp(var(--space-lg), 3vw, var(--space-2xl));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
 }
 
 .forum-create-form .form-group label {
@@ -25,11 +29,12 @@
 }
 
 .forum-create-error {
-  background: rgba(209, 45, 45, 0.1);
-  border: 1px solid rgba(209, 45, 45, 0.3);
-  color: var(--danger);
+  background: var(--error-bg);
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--error-border);
+  color: var(--error-text);
   padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
   font-size: 0.9rem;
 }
 

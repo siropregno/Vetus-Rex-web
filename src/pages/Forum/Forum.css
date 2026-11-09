@@ -1,3 +1,12 @@
+/* Ancho de lectura común a las páginas del foro, como en el preview */
+.forum-toolbar,
+.forum-category-list,
+.fc-toolbar,
+.fc-post-list {
+  width: 100%;
+  max-width: 1100px;
+}
+
 .forum-toolbar {
   display: flex;
   align-items: center;
@@ -22,51 +31,59 @@
   white-space: nowrap;
 }
 
-/* Category list table */
+/* Tabla de categorías: panel tallado con filas separadas por surcos */
 .forum-category-list {
-    width: 100%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  border: 1px solid var(--wht-8);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(0, 0, 0, 0.25)), var(--panel);
+  box-shadow: var(--panel-bevel);
+  clip-path: var(--chipped);
   overflow: hidden;
 }
 
 .forum-category-header {
   display: grid;
-  grid-template-columns: 1fr 80px 250px;
+  grid-template-columns: minmax(0, 1fr) 90px minmax(0, 0.8fr);
   gap: var(--space-xl);
   padding: var(--space-md) var(--space-lg);
-  background: var(--wht-6);
-  border-bottom: 1px solid var(--wht-8);
+  box-shadow: inset 0 -2px 0 #050403, inset 0 -3px 0 rgba(255, 255, 255, 0.05);
   font-family: var(--font-ui);
   font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.14em;
   color: var(--light-grey);
+  padding-inline: var(--space-xl);
+}
+
+.forum-category-header > :nth-child(2) {
+  text-align: center;
 }
 
 .forum-category-row {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 80px 250px;
+  grid-template-columns: minmax(0, 1fr) 90px minmax(0, 0.8fr);
   gap: var(--space-xl);
   align-items: center;
-  padding: var(--space-lg);
-  background: var(--dark-grey);
-  border-bottom: 1px solid var(--wht-6);
+  padding: var(--space-lg) var(--space-xl);
   text-decoration: none;
   color: inherit;
   transition: background var(--transition-base);
 }
 
-.forum-category-row:last-child {
-  border-bottom: none;
+.forum-category-row + .forum-category-row::before {
+  content: "";
+  position: absolute;
+  left: var(--space-lg);
+  right: var(--space-lg);
+  top: -1px;
+  height: 2px;
+  background: var(--groove);
 }
 
 .forum-category-row:hover {
-  background: var(--wht-6);
+  background: var(--wht-3);
 }
 
 .forum-col-category {
@@ -76,15 +93,20 @@
   min-width: 0;
 }
 
+/* Ícono de categoría en un medallón; el ícono toma el color de la categoría */
 .forum-category-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-full);
+  --tag-color: var(--accent);
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-circle);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   flex-shrink: 0;
+  color: var(--tag-color);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: var(--medal-shadow);
 }
 
 .forum-category-info {
@@ -96,14 +118,14 @@
 
 .forum-category-name {
   font-family: var(--font-ui);
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--wht);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--bone);
 }
 
 .forum-category-desc {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--light-grey);
   white-space: nowrap;
   overflow: hidden;
@@ -120,17 +142,15 @@
 
 .forum-stat-number {
   font-family: var(--font-ui);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--wht);
+  font-size: 1.3rem;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
 }
 
 .forum-stat-label {
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--light-grey);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
 }
 
 .forum-col-last {
@@ -143,8 +163,9 @@
 
 .forum-last-title {
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: var(--wht);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -152,7 +173,7 @@
 
 .forum-last-meta {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   color: var(--light-grey);
   white-space: nowrap;
   overflow: hidden;
@@ -171,7 +192,7 @@
 }
 
 .forum-error p {
-  color: var(--danger);
+  color: var(--error-text);
 }
 
 @media (max-width: 768px) {
