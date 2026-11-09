@@ -49,18 +49,20 @@
   color: var(--input-placeholder);
 }
 
-/* Botón de cinta */
+/* Botón cápsula de medallón */
 .support-new-btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
   min-height: 38px;
-  padding: 0.5rem 1.6rem;
-  background: var(--accent);
+  padding: 0.5rem 1.4rem;
   color: #fff7ea;
-  border: none;
-  border-radius: 0;
-  clip-path: var(--ribbon);
+  --face: var(--face-ember);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--face) padding-box, var(--gold-ring) border-box;
+  box-shadow: var(--btn-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
   font-family: var(--font-ui);
   letter-spacing: 0.1em;
   cursor: pointer;
@@ -325,19 +327,24 @@
 
 .support-form-actions button {
   min-height: 40px;
-  padding: 0.6rem 1.8rem;
-  border: none;
-  border-radius: 0;
+  padding: 0.55rem 1.6rem;
+  --face: var(--face-dark);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--face) padding-box, var(--gold-ring) border-box;
+  box-shadow: var(--btn-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
   cursor: pointer;
   font-family: var(--font-ui);
   letter-spacing: 0.1em;
-  clip-path: var(--ribbon);
   transition: filter var(--transition-fast), color var(--transition-base);
 }
 
 .support-form-actions .cancel-btn {
   background: transparent;
-  clip-path: none;
+  border: 0;
+  box-shadow: none;
+  text-shadow: none;
   padding-inline: 0.5rem;
   color: var(--accent);
 }
@@ -347,7 +354,7 @@
 }
 
 .support-form-actions .submit-btn {
-  background: var(--accent);
+  --face: var(--face-ember);
   color: #fff7ea;
 }
 
@@ -548,12 +555,14 @@
 
 .support-reply-btn {
   min-height: 38px;
-  padding: 0.5rem 1.6rem;
-  background: var(--accent);
+  padding: 0.5rem 1.4rem;
   color: #fff7ea;
-  border: none;
-  border-radius: 0;
-  clip-path: var(--ribbon);
+  --face: var(--face-ember);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--face) padding-box, var(--gold-ring) border-box;
+  box-shadow: var(--btn-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
   font-family: var(--font-ui);
   letter-spacing: 0.1em;
   cursor: pointer;
@@ -629,4 +638,19 @@
     margin-left: 0;
     width: 100%;
   }
+}
+
+/* Estados de los botones cápsula de soporte */
+.support-new-btn:hover,
+.support-form-actions .submit-btn:hover:not(:disabled),
+.support-reply-btn:hover:not(:disabled) {
+  background: var(--face) padding-box, var(--gold-ring-hover) border-box;
+  filter: brightness(1.08);
+}
+
+.support-new-btn:active,
+.support-form-actions .submit-btn:active:not(:disabled),
+.support-reply-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: var(--btn-shadow-pressed);
 }

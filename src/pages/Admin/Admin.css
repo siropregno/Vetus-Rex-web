@@ -524,21 +524,29 @@
   cursor: not-allowed;
 }
 
-/* Acción principal: cinta naranja */
+/* Acción principal: cápsula de medallón naranja */
 .admin-btn-primary {
-  background: var(--accent);
-  border-color: transparent;
   color: #fff7ea;
-  padding-inline: 22px;
-  clip-path: var(--ribbon-sm);
+  padding-inline: 20px;
+  --face: var(--face-ember);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--face) padding-box, var(--gold-ring) border-box;
+  box-shadow: var(--btn-shadow);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
   font-family: var(--font-ui);
   letter-spacing: 0.08em;
 }
 
 .admin-btn-primary:hover {
-  background: var(--accent);
+  background: var(--face) padding-box, var(--gold-ring-hover) border-box;
   border-color: transparent;
-  filter: brightness(1.12);
+  filter: brightness(1.08);
+}
+
+.admin-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: var(--btn-shadow-pressed);
 }
 
 .admin-btn-danger {
