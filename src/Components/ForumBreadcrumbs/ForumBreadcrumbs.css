@@ -1,0 +1,54 @@
+.forum-crumbs {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.forum-crumbs ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+}
+
+.forum-crumbs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-family: var(--font-ui);
+}
+
+.forum-crumbs a,
+.forum-crumbs span {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.forum-crumbs a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+.forum-crumbs a:hover {
+  color: var(--bone);
+}
+
+.forum-crumbs span {
+  color: var(--light-grey);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 40ch;
+}
+
+.forum-crumbs-sep {
+  color: var(--bronze-dk);
+  font-size: 0.65rem;
+}

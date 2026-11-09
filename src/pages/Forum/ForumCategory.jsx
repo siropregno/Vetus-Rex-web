@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { getAllForumPosts } from '../../lib/database'
 import { FORUM_CATEGORIES, langPath, formatDate, getAuthorName, isProfileAdmin } from '../../utils/helpers'
+import ForumBreadcrumbs from '../../Components/ForumBreadcrumbs/ForumBreadcrumbs'
 import logger from '../../utils/logger'
 import './ForumCategory.css'
 
@@ -98,7 +99,10 @@ const ForumCategory = () => {
 
       <div className="content-body">
         <div className="fc-toolbar">
-          <Link to={langPath('/forum')} className="fc-back">{t('forum.backToForum')}</Link>
+          <ForumBreadcrumbs items={[
+            { label: t('nav.forum'), to: langPath('/forum') },
+            { label: t(`forumCategories.${categoryKey}`) },
+          ]} />
           <div className="fc-toolbar-right">
             <input
               type="text"

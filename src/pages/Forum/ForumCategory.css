@@ -232,3 +232,10 @@
     display: none;
   }
 }
+
+/* Migas de pan dentro de la barra de herramientas */
+.fc-toolbar .forum-crumbs {
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 0;
+}
