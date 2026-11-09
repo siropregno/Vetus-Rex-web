@@ -344,8 +344,6 @@
     "banConfirmMessage": "{{username}} für {{days}} Tag(e) sperren? Der Kommentar wird gelöscht.",
     "banConfirm": "Sperren",
     "breadcrumb": "Navigationspfad",
-    "quote": "Zitieren",
-    "quoteWrote": "{{username}} schrieb:",
     "rankGm": "GM",
     "rankMod": "Moderator",
     "rankPlayer": "Spieler",
@@ -357,7 +355,9 @@
       "champion": "Champion",
       "legend": "Legende des Alten Königs"
     },
-    "messageCount": "Beiträge: {{count}}"
+    "messageCount": "Beiträge: {{count}}",
+    "showReplies": "Antworten anzeigen ({{count}})",
+    "hideReplies": "Antworten ausblenden"
   },
   "forumCreate": {
     "pageTitle": "Vetus Rex | Neuer Beitrag",

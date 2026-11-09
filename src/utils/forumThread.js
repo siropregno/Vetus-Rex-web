@@ -1,43 +1,64 @@
-// Lógica pura del hilo del foro (formato clásico): comentarios en orden, numerados y con cita.
-// Sin dependencias de React ni de Supabase, para poder testearla.
-
-import { stripHtml } from './helpers'
+// Lógica pura del hilo del foro: comentarios numerados, con las respuestas agrupadas debajo
+// del comentario raíz al que pertenecen. Sin dependencias de React ni de Supabase, para poder testearla.
 
 /** El post original es el mensaje #1; los comentarios siguen desde el #2. */
 export const FIRST_COMMENT_NUMBER = 2
 
-/**
- * Convierte la lista de comentarios en un hilo plano, en orden cronológico.
- * Cada entrada lleva su número de mensaje y, si respondía a otro comentario, ese comentario como cita.
- * @param {Array<{id: string, created_at: string, parent_comment_id?: string|null}>} comments
- * @returns {Array<{comment: object, number: number, quoted: object|null}>}
- */
-export const buildThread = (comments) => {
-  if (!Array.isArray(comments)) return []
-  const byId = new Map(comments.map(c => [c.id, c]))
-  return [...comments]
-    .sort((a, b) => {
-      const diff = new Date(a.created_at) - new Date(b.created_at)
-      return diff !== 0 ? diff : String(a.id).localeCompare(String(b.id))
-    })
-    .map((comment, index) => ({
-      comment,
-      number: FIRST_COMMENT_NUMBER + index,
-      quoted: comment.parent_comment_id ? byId.get(comment.parent_comment_id) || null : null,
-    }))
+const byDate = (a, b) => {
+  const diff = new Date(a.created_at) - new Date(b.created_at)
+  return diff !== 0 ? diff : String(a.id).localeCompare(String(b.id))
 }
 
 /**
- * Texto corto para mostrar dentro de una cita: sin HTML, espacios colapsados y recortado en palabra.
- * @param {string} html
- * @param {number} max cantidad máxima de caracteres (sin contar los puntos suspensivos)
+ * Agrupa los comentarios en hilos de un nivel: cada comentario raíz con sus respuestas debajo.
+ * - La numeración es cronológica sobre todos los comentarios (#2, #3, …), para que cada mensaje
+ *   tenga un número fijo aunque esté dentro de un hilo.
+ * - Una respuesta a otra respuesta se muestra en el hilo de su raíz; `replyTo` indica a quién respondía.
+ * - Si el comentario padre ya no existe, la respuesta pasa a mostrarse como raíz (no se pierde).
+ * @param {Array<{id: string, created_at: string, parent_comment_id?: string|null}>} comments
+ * @returns {Array<{comment: object, number: number, replies: Array<{comment: object, number: number, replyTo: object|null}>}>}
  */
-export const quoteSnippet = (html, max = 180) => {
-  const text = stripHtml(html || '').replace(/\s+/g, ' ').trim()
-  if (text.length <= max) return text
-  const cut = text.slice(0, max)
-  const lastSpace = cut.lastIndexOf(' ')
-  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).trimEnd()}…`
+export const buildNestedThread = (comments) => {
+  if (!Array.isArray(comments)) return []
+  const sorted = [...comments].sort(byDate)
+  const byId = new Map(sorted.map(c => [c.id, c]))
+  const numberOf = new Map(sorted.map((c, i) => [c.id, FIRST_COMMENT_NUMBER + i]))
+
+  // Un comentario solo cuenta como padre si existe y es anterior a su respuesta.
+  // Así cada paso retrocede en el tiempo: la subida siempre termina, incluso con datos corruptos (ciclos).
+  const validParent = (comment) => {
+    const parent = comment.parent_comment_id ? byId.get(comment.parent_comment_id) : null
+    return parent && byDate(parent, comment) < 0 ? parent : null
+  }
+
+  const rootOf = (comment) => {
+    let current = comment
+    let parent = validParent(current)
+    while (parent) {
+      current = parent
+      parent = validParent(current)
+    }
+    return current
+  }
+
+  const threads = new Map()
+  for (const comment of sorted) {
+    const root = rootOf(comment)
+    if (root.id === comment.id) {
+      threads.set(comment.id, { comment, number: numberOf.get(comment.id), replies: [] })
+    }
+  }
+  for (const comment of sorted) {
+    const root = rootOf(comment)
+    if (root.id === comment.id) continue
+    const parent = validParent(comment)
+    threads.get(root.id).replies.push({
+      comment,
+      number: numberOf.get(comment.id),
+      replyTo: parent && parent.id !== root.id ? parent : null,
+    })
+  }
+  return [...threads.values()]
 }
 
 /**

@@ -259,32 +259,6 @@
   margin: var(--space-md) 0;
 }
 
-/* Cita del mensaje al que responde */
-.forum-quote {
-  margin: 0;
-  padding: var(--space-sm) var(--space-lg) var(--space-md);
-  background: var(--input-bg);
-  box-shadow: inset 0 0 0 1px var(--slot-ring);
-  max-width: 72ch;
-}
-
-.forum-quote cite {
-  display: block;
-  margin-bottom: 4px;
-  font-style: normal;
-  font-family: var(--font-ui);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  color: var(--bronze);
-}
-
-.forum-quote p {
-  margin: 0;
-  color: var(--light-grey);
-  font-size: 0.92rem;
-  line-height: 1.5;
-}
-
 /* Acciones: texto en mayúsculas pequeñas, como en la muestra */
 .forum-post-actions {
   display: flex;
@@ -328,6 +302,159 @@
 
 .forum-action.danger:hover {
   color: var(--error-text);
+}
+
+
+/* --- Respuestas: debajo del comentario, dentro de su tarjeta, desplegables --- */
+.forum-post-author {
+  grid-row: 1 / span 2;
+}
+
+.forum-replies {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(var(--space-lg), 3vw, var(--space-2xl)) var(--space-lg);
+}
+
+.forum-replies-toggle {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--bronze);
+  transition: color var(--transition-base);
+}
+
+.forum-replies-toggle svg {
+  font-size: 0.7em;
+}
+
+.forum-replies-toggle:hover {
+  color: var(--bone);
+}
+
+.forum-replies-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-xs);
+  padding-left: var(--space-lg);
+}
+
+/* Surco vertical que une las respuestas con el comentario */
+.forum-replies-list::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 2px;
+  background: linear-gradient(90deg, #050403 50%, rgba(255, 255, 255, 0.06) 50%);
+}
+
+.forum-reply {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  scroll-margin-top: 100px;
+}
+
+.forum-reply + .forum-reply::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--groove);
+}
+
+.forum-reply:target .forum-reply-msg {
+  box-shadow: -10px 0 0 -8px var(--bronze-dk);
+}
+
+.forum-reply-avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: var(--radius-circle);
+  font-family: var(--font-ui);
+  font-size: 1.1rem;
+  color: var(--bronze);
+  background: radial-gradient(circle at 50% 30%, #2c271f, #13110e 62%, #070605);
+  box-shadow: 0 0 0 2px #090706, 0 0 0 3px var(--medal-ring), inset 0 2px 0 rgba(255, 170, 100, 0.28);
+}
+
+.forum-reply-avatar.is-staff {
+  box-shadow: 0 0 0 2px #090706, 0 0 0 3px var(--bronze), inset 0 2px 0 rgba(255, 200, 130, 0.45);
+}
+
+.forum-reply-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.forum-reply-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.forum-reply-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+}
+
+.forum-reply-name {
+  font-weight: 700;
+  color: var(--bone);
+}
+
+.forum-reply-head .forum-rank {
+  padding: 1px 8px;
+  font-size: 0.66rem;
+}
+
+.forum-reply-to {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--light-grey);
+}
+
+.forum-reply-to svg {
+  font-size: 0.75em;
+  color: var(--bronze-dk);
+}
+
+.forum-reply .forum-post-body {
+  font-size: 0.95rem;
+}
+
+.forum-reply .forum-post-body p {
+  font-size: 0.95rem;
+}
+
+.forum-reply .forum-post-actions {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 /* --- Comentarios --- */
@@ -550,6 +677,15 @@
 
   .forum-post-msg {
     padding: var(--space-lg);
+  }
+
+  .forum-post-author {
+    grid-row: auto;
+  }
+
+  .forum-replies {
+    grid-column: 1;
+    padding: 0 var(--space-lg) var(--space-md);
   }
 
   .forum-comment-form {

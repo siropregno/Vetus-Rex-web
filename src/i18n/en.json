@@ -344,8 +344,6 @@
     "banConfirmMessage": "Ban {{username}} for {{days}} day(s)? The comment will be deleted.",
     "banConfirm": "Ban",
     "breadcrumb": "Breadcrumb",
-    "quote": "Quote",
-    "quoteWrote": "{{username}} wrote:",
     "rankGm": "GM",
     "rankMod": "Moderator",
     "rankPlayer": "Player",
@@ -357,7 +355,9 @@
       "champion": "Champion",
       "legend": "Legend of the Old King"
     },
-    "messageCount": "Posts: {{count}}"
+    "messageCount": "Posts: {{count}}",
+    "showReplies": "Show replies ({{count}})",
+    "hideReplies": "Hide replies"
   },
   "forumCreate": {
     "pageTitle": "Vetus Rex | New Post",

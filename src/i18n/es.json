@@ -344,8 +344,6 @@
     "banConfirmMessage": "¿Banear a {{username}} por {{days}} día(s)? Se eliminará el comentario.",
     "banConfirm": "Banear",
     "breadcrumb": "Ubicación",
-    "quote": "Citar",
-    "quoteWrote": "{{username}} escribió:",
     "rankGm": "GM",
     "rankMod": "Moderador",
     "rankPlayer": "Jugador",
@@ -357,7 +355,9 @@
       "champion": "Campeón",
       "legend": "Leyenda del Viejo Rey"
     },
-    "messageCount": "Mensajes: {{count}}"
+    "messageCount": "Mensajes: {{count}}",
+    "showReplies": "Ver respuestas ({{count}})",
+    "hideReplies": "Ocultar respuestas"
   },
   "forumCreate": {
     "pageTitle": "Vetus Rex | Nuevo Post",

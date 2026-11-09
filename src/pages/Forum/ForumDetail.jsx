@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import DOMPurify from 'dompurify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpider, faPen, faTrash, faReply, faGavel, faQuoteLeft } from '@fortawesome/free-solid-svg-icons'
+import { faSpider, faPen, faTrash, faReply, faGavel, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import {
   getForumPostById, deleteForumPost,
@@ -11,7 +11,7 @@ import {
   getForumMessageCounts
 } from '../../lib/database'
 import { formatDate, isUserBanned, getBanExpiry, isBanPermanent, getAuthorName, FORUM_CATEGORIES, langPath, stripHtml } from '../../utils/helpers'
-import { buildThread, quoteSnippet, getRankKey, getForumRank } from '../../utils/forumThread'
+import { buildNestedThread, getRankKey, getForumRank } from '../../utils/forumThread'
 import Modal from '../../Components/Modal/Modal'
 import ForumBreadcrumbs from '../../Components/ForumBreadcrumbs/ForumBreadcrumbs'
 import logger from '../../utils/logger'
@@ -19,35 +19,45 @@ import './ForumDetail.css'
 
 const STAFF_LABEL_KEYS = { gm: 'forum.rankGm', mod: 'forum.rankMod' }
 
+/** Insignia de rango: rol del staff (GM / Moderador) o rango de foro por mensajes. */
+const ForumRankBadge = ({ profile, messageCount, t }) => {
+  const rank = getRankKey(profile)
+  if (rank !== 'player') {
+    return (
+      <span className={`forum-rank forum-rank-${rank}`}>
+        <i className="forum-rank-gem" aria-hidden="true" />
+        {t(STAFF_LABEL_KEYS[rank])}
+      </span>
+    )
+  }
+  if (!Number.isFinite(messageCount)) return null
+  const forumRank = getForumRank(messageCount)
+  return (
+    <span className={`forum-rank forum-rank-${forumRank}`}>
+      <i className="forum-rank-gem" aria-hidden="true" />
+      {t(`forum.forumRank.${forumRank}`)}
+    </span>
+  )
+}
+
 /**
  * Columna del autor: avatar en medallón, nombre y rango con gema.
  * El staff muestra su rol (GM / Moderador); el resto, su rango de foro según la cantidad de mensajes.
  */
 const ForumAuthor = ({ profile, messageCount, t }) => {
-  const rank = getRankKey(profile)
-  const isStaff = rank !== 'player'
-  const hasCount = Number.isFinite(messageCount)
-  const forumRank = getForumRank(messageCount)
+  const isGm = getRankKey(profile) === 'gm'
   return (
     <div className="forum-post-author">
-      <span className={`forum-author-avatar${rank === 'gm' ? ' is-staff' : ''}`}>
+      <span className={`forum-author-avatar${isGm ? ' is-staff' : ''}`}>
         {profile?.avatar_url
           ? <img src={profile.avatar_url} alt="" />
           : (profile?.username?.charAt(0)?.toUpperCase() || '?')}
       </span>
       <span className="forum-author-name">{getAuthorName(profile)}</span>
-      {isStaff ? (
-        <span className={`forum-rank forum-rank-${rank}`}>
-          <i className="forum-rank-gem" aria-hidden="true" />
-          {t(STAFF_LABEL_KEYS[rank])}
-        </span>
-      ) : hasCount && (
-        <span className={`forum-rank forum-rank-${forumRank}`}>
-          <i className="forum-rank-gem" aria-hidden="true" />
-          {t(`forum.forumRank.${forumRank}`)}
-        </span>
+      <ForumRankBadge profile={profile} messageCount={messageCount} t={t} />
+      {Number.isFinite(messageCount) && (
+        <span className="forum-author-count">{t('forum.messageCount', { count: messageCount })}</span>
       )}
-      {hasCount && <span className="forum-author-count">{t('forum.messageCount', { count: messageCount })}</span>}
     </div>
   )
 }
@@ -74,6 +84,7 @@ const ForumDetail = () => {
   const [editText, setEditText] = useState('')
   const [moderateTarget, setModerateTarget] = useState(null)
   const [messageCounts, setMessageCounts] = useState({})
+  const [collapsed, setCollapsed] = useState({})
 
   const isAuthor = user && post?.author_id === user.id
   const isAdmin = profile?.role === 'admin'
@@ -274,82 +285,136 @@ const ForumDetail = () => {
 
   const category = FORUM_CATEGORIES[post.category]
   const sanitizedContent = DOMPurify.sanitize(post.content)
-  const thread = buildThread(comments)
+  const thread = buildNestedThread(comments)
 
-  const renderComment = ({ comment, number, quoted }) => {
-    const isCommentAuthor = user && comment.author_id === user.id
+  /** Cuerpo del mensaje o, si se está editando, el formulario de edición. */
+  const renderBody = (comment) => (
+    editingComment === comment.id ? (
+      <div className="forum-comment-edit">
+        <textarea
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+          className="forum-comment-textarea"
+          maxLength={10000}
+        />
+        <div className="forum-comment-edit-actions">
+          <button className="button-a btn-sm" onClick={() => handleEditComment(comment.id)}>
+            {t('forum.saveEdit')}
+          </button>
+          <button className="button-b btn-sm" onClick={() => setEditingComment(null)}>
+            {t('forum.cancelEdit')}
+          </button>
+        </div>
+      </div>
+    ) : (
+      <div
+        className="forum-post-body forum-comment-body"
+        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }}
+      />
+    )
+  )
+
+  /** Fecha, marca de editado y número de mensaje con enlace permanente. */
+  const renderDate = (comment, number) => {
     const isEdited = comment.updated_at && comment.updated_at !== comment.created_at
+    return (
+      <>
+        <span>{formatDate(comment.created_at)}</span>
+        {isEdited && <span className="forum-post-edited">{t('forum.edited')}</span>}
+        <span aria-hidden="true">·</span>
+        <a href={`#post-${number}`} className="forum-post-number" title={t('forum.postNumber', { number })}>#{number}</a>
+      </>
+    )
+  }
+
+  /** Acciones de un comentario: responder (lo deja como padre), editar/borrar propio, moderar. */
+  const renderActions = (comment) => {
+    const isCommentAuthor = user && comment.author_id === user.id
+    return (
+      <div className="forum-post-actions">
+        {canComment && (
+          <button className="forum-action" onClick={() => focusReply(comment)}>
+            <FontAwesomeIcon icon={faReply} />{t('forum.reply')}
+          </button>
+        )}
+        {isCommentAuthor && (
+          <>
+            <button className="forum-action" onClick={() => { setEditingComment(comment.id); setEditText(comment.content) }}>
+              <FontAwesomeIcon icon={faPen} />{t('forum.editComment')}
+            </button>
+            <button className="forum-action danger" onClick={() => handleDeleteComment(comment.id)}>
+              <FontAwesomeIcon icon={faTrash} />{t('forum.deleteComment')}
+            </button>
+          </>
+        )}
+        {isAdmin && !isCommentAuthor && (
+          <button className="forum-action danger" onClick={() => setModerateTarget(comment)}>
+            <FontAwesomeIcon icon={faGavel} />{t('forum.moderate')}
+          </button>
+        )}
+      </div>
+    )
+  }
+
+  /** Respuesta compacta dentro del hilo de su comentario. */
+  const renderReply = ({ comment, number, replyTo: repliedTo }) => {
+    const rank = getRankKey(comment.profiles)
+    return (
+      <div key={comment.id} id={`post-${number}`} className={`forum-reply${rank === 'gm' ? ' is-staff' : ''}`}>
+        <span className={`forum-reply-avatar${rank === 'gm' ? ' is-staff' : ''}`}>
+          {comment.profiles?.avatar_url
+            ? <img src={comment.profiles.avatar_url} alt="" />
+            : (comment.profiles?.username?.charAt(0)?.toUpperCase() || '?')}
+        </span>
+        <div className="forum-reply-msg">
+          <div className="forum-reply-head">
+            <span className="forum-reply-name">{getAuthorName(comment.profiles)}</span>
+            <ForumRankBadge profile={comment.profiles} messageCount={messageCounts[comment.author_id]} t={t} />
+            <span className="forum-post-date">{renderDate(comment, number)}</span>
+          </div>
+          {repliedTo && (
+            <span className="forum-reply-to">
+              <FontAwesomeIcon icon={faReply} />{t('forum.replyTo', { username: getAuthorName(repliedTo.profiles) })}
+            </span>
+          )}
+          {renderBody(comment)}
+          {renderActions(comment)}
+        </div>
+      </div>
+    )
+  }
+
+  /** Comentario raíz como tarjeta, con sus respuestas desplegables debajo. */
+  const renderComment = ({ comment, number, replies }) => {
+    const isCollapsed = collapsed[comment.id] === true
     return (
       <article key={comment.id} id={`post-${number}`} className={`forum-post${getRankKey(comment.profiles) === 'gm' ? ' is-staff' : ''}`}>
         <ForumAuthor profile={comment.profiles} messageCount={messageCounts[comment.author_id]} t={t} />
 
         <div className="forum-post-msg">
-          <div className="forum-post-date">
-            <span>{formatDate(comment.created_at)}</span>
-            {isEdited && <span className="forum-post-edited">{t('forum.edited')}</span>}
-            <span aria-hidden="true">·</span>
-            <a href={`#post-${number}`} className="forum-post-number" title={t('forum.postNumber', { number })}>#{number}</a>
-          </div>
-
-          {quoted && (
-            <blockquote className="forum-quote">
-              <cite>{t('forum.quoteWrote', { username: getAuthorName(quoted.profiles) })}</cite>
-              <p>{quoteSnippet(quoted.content)}</p>
-            </blockquote>
-          )}
-
-          {editingComment === comment.id ? (
-            <div className="forum-comment-edit">
-              <textarea
-                value={editText}
-                onChange={(e) => setEditText(e.target.value)}
-                className="forum-comment-textarea"
-                maxLength={10000}
-              />
-              <div className="forum-comment-edit-actions">
-                <button className="button-a btn-sm" onClick={() => handleEditComment(comment.id)}>
-                  {t('forum.saveEdit')}
-                </button>
-                <button className="button-b btn-sm" onClick={() => setEditingComment(null)}>
-                  {t('forum.cancelEdit')}
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div
-              className="forum-post-body forum-comment-body"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }}
-            />
-          )}
-
-          <div className="forum-post-actions">
-            {canComment && (
-              <>
-                <button className="forum-action" onClick={() => focusReply(null)}>
-                  <FontAwesomeIcon icon={faReply} />{t('forum.reply')}
-                </button>
-                <button className="forum-action" onClick={() => focusReply(comment)}>
-                  <FontAwesomeIcon icon={faQuoteLeft} />{t('forum.quote')}
-                </button>
-              </>
-            )}
-            {isCommentAuthor && (
-              <>
-                <button className="forum-action" onClick={() => { setEditingComment(comment.id); setEditText(comment.content) }}>
-                  <FontAwesomeIcon icon={faPen} />{t('forum.editComment')}
-                </button>
-                <button className="forum-action danger" onClick={() => handleDeleteComment(comment.id)}>
-                  <FontAwesomeIcon icon={faTrash} />{t('forum.deleteComment')}
-                </button>
-              </>
-            )}
-            {isAdmin && !isCommentAuthor && (
-              <button className="forum-action danger" onClick={() => setModerateTarget(comment)}>
-                <FontAwesomeIcon icon={faGavel} />{t('forum.moderate')}
-              </button>
-            )}
-          </div>
+          <div className="forum-post-date">{renderDate(comment, number)}</div>
+          {renderBody(comment)}
+          {renderActions(comment)}
         </div>
+
+        {replies.length > 0 && (
+          <div className="forum-replies">
+            <button
+              type="button"
+              className="forum-replies-toggle"
+              aria-expanded={!isCollapsed}
+              onClick={() => setCollapsed(prev => ({ ...prev, [comment.id]: !isCollapsed }))}
+            >
+              <FontAwesomeIcon icon={isCollapsed ? faChevronDown : faChevronUp} />
+              {isCollapsed ? t('forum.showReplies', { count: replies.length }) : t('forum.hideReplies')}
+            </button>
+            {!isCollapsed && (
+              <div className="forum-replies-list">
+                {replies.map(renderReply)}
+              </div>
+            )}
+          </div>
+        )}
       </article>
     )
   }

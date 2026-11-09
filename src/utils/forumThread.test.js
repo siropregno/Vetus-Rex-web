@@ -1,77 +1,64 @@
-// @vitest-environment jsdom
 import { describe, it, expect } from 'vitest'
-import { buildThread, quoteSnippet, getRankKey, getForumRank, FORUM_RANKS, FIRST_COMMENT_NUMBER } from './forumThread'
+import { buildNestedThread, getRankKey, getForumRank, FORUM_RANKS, FIRST_COMMENT_NUMBER } from './forumThread'
 
-const c = (id, created_at, parent_comment_id = null, content = `<p>${id}</p>`) =>
-  ({ id, created_at, parent_comment_id, content })
+const c = (id, created_at, parent_comment_id = null) => ({ id, created_at, parent_comment_id })
+const t = (min) => `2026-03-22T10:${String(min).padStart(2, '0')}:00Z`
 
-describe('buildThread', () => {
-  it('ordena por fecha y numera desde el #2 (el post es el #1)', () => {
-    const thread = buildThread([
-      c('b', '2026-03-22T10:05:00Z'),
-      c('a', '2026-03-22T10:00:00Z'),
-      c('c', '2026-03-22T10:10:00Z'),
+describe('buildNestedThread', () => {
+  it('agrupa las respuestas debajo de su comentario, en orden', () => {
+    const thread = buildNestedThread([
+      c('r2', t(7), 'a'),
+      c('a', t(0)),
+      c('b', t(5)),
+      c('r1', t(3), 'a'),
+    ])
+    expect(thread.map(e => e.comment.id)).toEqual(['a', 'b'])
+    expect(thread[0].replies.map(r => r.comment.id)).toEqual(['r1', 'r2'])
+    expect(thread[1].replies).toEqual([])
+  })
+
+  it('numera todos los mensajes en orden cronológico desde el #2 (el post es el #1)', () => {
+    const thread = buildNestedThread([
+      c('a', t(0)),
+      c('r1', t(3), 'a'),
+      c('b', t(5)),
+      c('r2', t(7), 'a'),
     ])
     expect(FIRST_COMMENT_NUMBER).toBe(2)
-    expect(thread.map(e => [e.comment.id, e.number])).toEqual([['a', 2], ['b', 3], ['c', 4]])
+    expect(thread[0].number).toBe(2)
+    expect(thread[0].replies.map(r => r.number)).toEqual([3, 5])
+    expect(thread[1].number).toBe(4)
   })
 
-  it('una respuesta lleva como cita el comentario al que responde', () => {
-    const thread = buildThread([
-      c('a', '2026-03-22T10:00:00Z'),
-      c('r', '2026-03-22T10:05:00Z', 'a'),
+  it('una respuesta a otra respuesta va en el hilo de la raíz y dice a quién respondía', () => {
+    const thread = buildNestedThread([
+      c('a', t(0)),
+      c('r1', t(3), 'a'),
+      c('r2', t(4), 'r1'),
     ])
-    expect(thread[0].quoted).toBeNull()
-    expect(thread[1].quoted.id).toBe('a')
+    expect(thread).toHaveLength(1)
+    expect(thread[0].replies.map(r => r.comment.id)).toEqual(['r1', 'r2'])
+    expect(thread[0].replies[0].replyTo).toBeNull()
+    expect(thread[0].replies[1].replyTo.id).toBe('r1')
   })
 
-  it('permite citar una respuesta (ya no hay límite de anidación)', () => {
-    const thread = buildThread([
-      c('a', '2026-03-22T10:00:00Z'),
-      c('r1', '2026-03-22T10:05:00Z', 'a'),
-      c('r2', '2026-03-22T10:06:00Z', 'r1'),
-    ])
-    expect(thread[2].quoted.id).toBe('r1')
+  it('si el padre ya no existe, la respuesta se muestra como raíz en vez de perderse', () => {
+    const thread = buildNestedThread([c('huerfana', t(2), 'borrado')])
+    expect(thread.map(e => e.comment.id)).toEqual(['huerfana'])
   })
 
-  it('si el comentario citado ya no está, se muestra sin cita en vez de romper', () => {
-    const thread = buildThread([c('r', '2026-03-22T10:05:00Z', 'borrado')])
-    expect(thread[0].quoted).toBeNull()
+  it('no se cuelga con un ciclo de padres y no pierde mensajes', () => {
+    const thread = buildNestedThread([c('x', t(0), 'y'), c('y', t(1), 'x')])
+    const ids = thread.flatMap(e => [e.comment.id, ...e.replies.map(r => r.comment.id)])
+    expect(ids.sort()).toEqual(['x', 'y'])
   })
 
-  it('desempata por id cuando dos comentarios tienen la misma fecha (orden estable)', () => {
-    const same = '2026-03-22T10:00:00Z'
-    const thread = buildThread([c('z', same), c('m', same)])
-    expect(thread.map(e => e.comment.id)).toEqual(['m', 'z'])
-  })
-
-  it('no modifica el arreglo original y tolera entradas inválidas', () => {
-    const input = [c('b', '2026-03-22T10:05:00Z'), c('a', '2026-03-22T10:00:00Z')]
-    buildThread(input)
-    expect(input.map(x => x.id)).toEqual(['b', 'a'])
-    expect(buildThread(null)).toEqual([])
-    expect(buildThread(undefined)).toEqual([])
-  })
-})
-
-describe('quoteSnippet', () => {
-  it('quita el HTML y colapsa espacios', () => {
-    expect(quoteSnippet('<p>Hola   <strong>pepe</strong></p>\n<p>chau</p>')).toBe('Hola pepe chau')
-  })
-
-  it('recorta en una palabra y agrega puntos suspensivos', () => {
-    const text = 'uno dos tres cuatro cinco seis siete ocho'
-    const out = quoteSnippet(text, 20)
-    expect(out.endsWith('…')).toBe(true)
-    expect(out.length).toBeLessThanOrEqual(21)
-    expect(text.startsWith(out.slice(0, -1))).toBe(true)
-    expect(out).not.toMatch(/\s…$/)
-  })
-
-  it('no recorta si entra completo y tolera vacío', () => {
-    expect(quoteSnippet('corto', 20)).toBe('corto')
-    expect(quoteSnippet('')).toBe('')
-    expect(quoteSnippet(null)).toBe('')
+  it('desempata por id con la misma fecha, no modifica la entrada y tolera vacíos', () => {
+    const input = [c('z', t(0)), c('m', t(0))]
+    expect(buildNestedThread(input).map(e => e.comment.id)).toEqual(['m', 'z'])
+    expect(input.map(x => x.id)).toEqual(['z', 'm'])
+    expect(buildNestedThread(null)).toEqual([])
+    expect(buildNestedThread(undefined)).toEqual([])
   })
 })
 
